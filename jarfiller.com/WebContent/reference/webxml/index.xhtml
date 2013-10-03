@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:page="http://tjansen.de/refPage" xmlns:i="http://tjansen.de/internal"><head><title>Web.xml for Servlet 3.0 Reference</title><meta http-equiv="X-UA-Compatible" content="chrome=1"/><meta http-equiv="content-language" content="en"/><link rel="shortcut icon" href="../../images/favicon.png" type="image/png"/><link rel="stylesheet" type="text/css" href="../../style/style.css"/><script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-6791190-2']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+})();
+</script><script type="text/javascript" src="../../js/all.js"/></head><body id="body"><div id="visibleContent"><div id="top"><a href="/"><img src="../../images/titlebar.png" alt="Jarfiller.com"/></a></div><div id="titleArea"><h1>Web.xml for Servlet 3.0 Reference</h1><p id="titleIntro">Reference for the web.xml deployment descriptor and WAR files, according to the servlet specification 3.0 (Java EE 6).</p></div><div id="main"><div id="bodycolumn"><div id="options">Options: <a href="#" onclick="return navToggle();">Table of Content</a>, <a href="skeletons.xhtml">Multi-Page Version</a></div><h2 id="sec_skeletons" class="sectionHead"><a name="skeletons">Skeletons</a></h2><div class="subSecRow1" id="sec_skeletons1"><div class="subSecHead" id="sechd_skeletons1"><a class="multipageHeadLink" href="skeletons.xhtml#skeletons1" name="skeletons1">Skeleton</a></div><div class="subSecContent" id="seccnt_skeletons1"><p class="subSecExplanation"> This is the smallest possible <span class="idf">web.xml</span>. The <em><a href="#" id="tl-d4436e742" class="tooltip" onclick="return tlClick('tl-d4436e742','pp-d4436e20');" onmouseover="return tlOver('tl-d4436e742','pp-d4436e20');" onmouseout="return tlOut('tl-d4436e742','pp-d4436e20');">version</a> attribute must be adjusted</em> to match a version supported by your container (<a href="#" id="tl-d4436e746" class="dottedTooltip" onclick="return tlClick('tl-d4436e746','pp-d4436e746');" onmouseover="return tlOver('tl-d4436e746','pp-d4436e746');" onmouseout="return tlOut('tl-d4436e746','pp-d4436e746');">more</a>). </p><pre class="subSecConfig"><span class="tag">&lt;<a href="#" id="tl-d4436e751" class="tooltip" onclick="return tlClick('tl-d4436e751','pp-d4436e55');" onmouseover="return tlOver('tl-d4436e751','pp-d4436e55');" onmouseout="return tlOut('tl-d4436e751','pp-d4436e55');">web-app</a> <a href="#" id="tl-d4436e753" class="tooltip" onclick="return tlClick('tl-d4436e753','pp-d4436e62');" onmouseover="return tlOver('tl-d4436e753','pp-d4436e62');" onmouseout="return tlOut('tl-d4436e753','pp-d4436e62');">xmlns</a>="http://java.sun.com/xml/ns/j2ee" <a href="#" id="tl-d4436e756" class="tooltip" onclick="return tlClick('tl-d4436e756','pp-d4436e20');" onmouseover="return tlOver('tl-d4436e756','pp-d4436e20');" onmouseout="return tlOut('tl-d4436e756','pp-d4436e20');">version</a>="<em>3.0</em>"&gt;</span>
+    <span class="cmt">&lt;!-- Put declarations here --&gt;</span>
+<span class="tag">&lt;/<a href="#" id="tl-d4436e766" class="tooltip" onclick="return tlClick('tl-d4436e766','pp-d4436e55');" onmouseover="return tlOver('tl-d4436e766','pp-d4436e55');" onmouseout="return tlOut('tl-d4436e766','pp-d4436e55');">web-app</a>&gt;</span></pre><p class="subSecExplanation">Inside the <span class="tag">&lt;<a href="#" id="tl-d4436e770" class="tooltip" onclick="return tlClick('tl-d4436e770','pp-d4436e55');" onmouseover="return tlOver('tl-d4436e770','pp-d4436e55');" onmouseout="return tlOut('tl-d4436e770','pp-d4436e55');">web-app</a>&gt;</span> element, the <em>declarations can have any order</em>. In elements containing text, <em>surrounding whitespace will be removed</em>.</p><p class="subSecExplanation">For editing with an XML-aware editor it is often better to declare the schema as well. Find complete snippets for version 3.0 next.</p></div></div><div id="colla_skeletons30" class="subSecRow2"><div class="subSecHead"><a class="multipageHeadLink" href="skeletons.xhtml#skeletons30" name="skeletons30">Skeleton for 3.0</a></div><div class="collapsedSubSecSummary"><div><a href="#" onclick="return showCollapsableSection('skeletons30');">Complete Web.xml Skeleton with Schema Declaration for Servlet 3.0</a></div></div></div><div class="subSecRow2" id="sec_skeletons30" style="display: none"><div class="subSecHead" id="sechd_skeletons30"><a class="multipageHeadLink" href="skeletons.xhtml#skeletons30" name="skeletons30">Skeleton for 3.0</a></div><div class="subSecContent" id="seccnt_skeletons30"><div class="subSecSummaryClick"><a href="#" onclick="return hideCollapsableSection('skeletons30');">Complete Web.xml Skeleton with Schema Declaration for Servlet 3.0</a></div><pre class="subSecConfig">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+<span class="tag">&lt;<a href="#" id="tl-d4436e796" class="tooltip" onclick="return tlClick('tl-d4436e796','pp-d4436e55');" onmouseover="return tlOver('tl-d4436e796','pp-d4436e55');" onmouseout="return tlOut('tl-d4436e796','pp-d4436e55');">web-app</a> <a href="#" id="tl-d4436e798" class="tooltip" onclick="return tlClick('tl-d4436e798','pp-d4436e62');" onmouseover="return tlOver('tl-d4436e798','pp-d4436e62');" onmouseout="return tlOut('tl-d4436e798','pp-d4436e62');">xmlns</a>="http://java.sun.com/xml/ns/j2ee"
+         <a href="#" id="tl-d4436e801" class="tooltip" onclick="return tlClick('tl-d4436e801','pp-d4436e64');" onmouseover="return tlOver('tl-d4436e801','pp-d4436e64');" onmouseout="return tlOut('tl-d4436e801','pp-d4436e64');">xmlns:xsi</a>="http://www.w3.org/2001/XMLSchema-instance"
+         <a href="#" id="tl-d4436e804" class="tooltip" onclick="return tlClick('tl-d4436e804','pp-d4436e69');" onmouseover="return tlOver('tl-d4436e804','pp-d4436e69');" onmouseout="return tlOut('tl-d4436e804','pp-d4436e69');">xsi:schemaLocation</a>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd"
+         <a href="#" id="tl-d4436e807" class="tooltip" onclick="return tlClick('tl-d4436e807','pp-d4436e20');" onmouseover="return tlOver('tl-d4436e807','pp-d4436e20');" onmouseout="return tlOut('tl-d4436e807','pp-d4436e20');">version</a>="3.0"&gt;</span>
+
+  <span class="cmt">&lt;!-- Put declarations here --&gt;</span>
+
+<span class="tag">&lt;/<a href="#" id="tl-d4436e814" class="tooltip" onclick="return tlClick('tl-d4436e814','pp-d4436e55');" onmouseover="return tlOver('tl-d4436e814','pp-d4436e55');" onmouseout="return tlOut('tl-d4436e814','pp-d4436e55');">web-app</a>&gt;</span></pre></div></div><h2 id="sec_elements" class="sectionHead"><a name="elements">Elements</a></h2><div class="subSecRow1" id="sec_descriptions"><div class="subSecHead" id="sechd_descriptions"><a class="multipageHeadLink" href="elements.xhtml#descriptions" name="descriptions">Descriptions</a></div><div class="subSecContent" id="seccnt_descriptions"><pre class="subSecConfig">
+TODO: Copy some parts from web.xml 2.x...
+TODO: Remove all JAX-RPC references from 2.x
+
+
+New Elements in 3.0:			
+filter/async-supported
+
+servlet/async-supported
+
+servlet/multipart-config
+
+session-config/cookie-config
+session-config/tracking-mode
+
+security-constraint/web-resource-collection/http-method-omission
+
+env-entry/mapped-name
+env-entry/injection-target
+env-entry/lookup-name
+
+ejb-ref/mapped-name
+ejb-ref/injection-target
+ejb-ref/lookup-name
+
+service-ref/mapped-name
+service-ref/injection-target
+service-ref/lookup-name
+
+resource-ref/mapped-name
+resource-ref/injection-target
+resource-ref/lookup-name
+
+resource-env-ref/mapped-name
+resource-env-ref/injection-target
+resource-env-ref/lookup-name
+
+message-destination-ref/mapped-name
+message-destination-ref/injection-target
+message-destination-ref/lookup-name
+
+persistence-context-ref
+
+persistence-unit-ref
+
+data-source
+
+post-construct
+
+pre-destroy
+
+
+			</pre></div></div></div><div id="sidecolumn">
+  	  	<div><h3>Useful Links</h3><div class="sidecolumnSubTitleLine"/>
+  			<a href="http://jcp.org/en/jsr/detail?id=315">Servlet 3.0 Specification / JSR</a><br/>
+  			<a href="http://jcp.org/aboutJava/communityprocess/mrel/jsr154/index.html">Servlet 2.5 Specification / JSR</a><br/>
+  			<br/>
+  			<a href="http://java.sun.com/javaee/6/docs/api/">JEE 6 API</a><br/>
+  		</div>
+  </div></div></div><div id="footer"><div id="footer-content"><div id="footer-left"><div class="footerLine"><a href="/">Home</a> - <a href="/about">About Jarfiller</a> - <a href="/imprint.xhtml">Imprint</a></div><div class="footerLine">Please send feedback and corrections to <a href="mailto:tim@tjansen.de">tim@<span style="display: none">got you</span>tjansen.de</a>.</div><div class="footerLine"><a href="http://www.twitter.com/timjansen">Follow</a> me on Twitter.</div><div class="copyrightLine">© 2010 Tim Jansen; content licensed under <a href="http://creativecommons.org/licenses/by/3.0/us/">cc-by</a>; example source code is public domain
+				</div></div><div id="footer-right"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="../../images/ext/cc-by-88x31.png"/></a></div></div></div><div id="navbar" onclick="return navToggle();" onmouseover="document.getElementById('navbar').className='mouseover';" onmouseout="document.getElementById('navbar').className='';"/><div id="navcontainer"><div id="navlinks"><div id="navclosebar"><a href="#" onclick="return navClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="navpositionbar" class="navpositionbar"/><h2 id="navtitle">Web.xml for Servlet 3.0 Reference</h2><a id="nav_skeletons" class="navseclink" href="#skeletons" onclick="if (event.button == 0) return goTo('#skeletons', true); else return true;">Skeletons</a><a id="nav_skeletons1" class="navsublink" href="#skeletons1" onclick="if (event.button == 0) return goTo('#skeletons1', true); else return true;">Skeleton</a><a id="nav_skeletons30" class="navsublink" href="#skeletons30" onclick="if (event.button == 0) return goTo('#skeletons30', true); else return true;">Complete Web.xml Skeleton with Schema Declaration for Servlet 3.0</a><a id="nav_elements" class="navseclink" href="#elements" onclick="if (event.button == 0) return goTo('#elements', true); else return true;">Elements</a><a id="nav_descriptions" class="navsublink" href="#descriptions" onclick="if (event.button == 0) return goTo('#descriptions', true); else return true;">Descriptions</a></div></div><div id="popups"><div id="pp-d4436e746" class="tooltip">The servlet specification requires a web container to support older servlet versions. So "2.4" or "2.5" will still work in 3.0, but you can't use newer servlet features.</div><div id="pp-d4436e20" class="tooltip">Declares the version of the Servlet Specification the descriptor uses, e.g. "2.4", "2.5" or "3.0". Newer versions are backward compatible, so "2.4" will work in 2.5 and 3.0 containers as well. Required.</div><div id="pp-d4436e55" class="tooltip"><span class="idf">web-app</span> is the root element for all web.xml deployment descriptors. Its <span class="idf">version</span> attribute is required for declaring the Servlet Specification version.</div><div id="pp-d4436e62" class="tooltip">The namespace of all standard web.xml elements is "http://java.sun.com/xml/ns/j2ee".</div><div id="pp-d4436e64" class="tooltip">Declares the XML Schema namespace with the prefix "xsi". Only needed for <span class="idf">schemaLocation</span>.</div><div id="pp-d4436e69" class="tooltip">Declares the location of the XML Schema, so editors and other XML processors can find it. Optional (but recommended). The attribute is not directly part of the Servlet Specification, but comes from the XML Schema Specification.</div><div id="ttCloseBar" class="closeBar"><a href="#" onclick="return tlClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="topicCloseBar" class="closeBar"><a href="#" onclick="return tpcClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div></div></body></html>

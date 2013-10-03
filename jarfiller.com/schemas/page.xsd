@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://tjansen.de/refPage" xmlns:tns="http://tjansen.de/refPage" elementFormDefault="qualified">
+
+	<complexType name="popup">
+		<complexContent>
+			<extension base="tns:markup">
+				<attribute name="name" type="string"/>
+				<attribute name="id" type="ID" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="shortcut">
+		<attribute name="name" type="string"/>
+		<attribute name="uri" type="string"/>
+	</complexType>
+	
+	<complexType name="topic">
+		<sequence>
+			<element name="keyword" type="string" maxOccurs="unbounded"/>
+			<element name="headline" type="string"/>
+			<element name="abbreviation" type="string" minOccurs="0"/>
+			<element name="description" type="tns:markup"/>
+			<element name="relatedGuides" type="tns:markup" minOccurs="0"/>
+			<element name="relatedReferences" type="tns:markup" minOccurs="0"/>
+			<element name="homepage" type="tns:markup" minOccurs="0"/>
+			<element name="wikipedia" type="tns:markup" minOccurs="0"/>
+			<element name="specification" type="tns:markup" minOccurs="0"/>
+			<element name="api" type="tns:markup" minOccurs="0"/>
+			<element name="jsr" type="tns:markup" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	
+    <element name="page">
+    	<complexType>
+   			<sequence>
+   				<element name="path" type="string" />
+   				<element name="root" minOccurs="0" type="string" />
+   				
+   				<element name="title" type="string" />
+   				<element name="titleIntro" minOccurs="0" type="tns:markup" />
+   				<element name="metaDescription" minOccurs="0" type="string" />
+   				<element name="metaKeywords" minOccurs="0" type="string" />
+				<element name="license" minOccurs="0" type="tns:licenseType"/>
+
+   				<element name="styleSheet" minOccurs="0" type="string" />
+   				<element name="embeddedStyle" minOccurs="0" type="string" />
+   				
+   				<element name="multipage" minOccurs="0"/>
+   				
+   				<element name="topicConfig" minOccurs="0">
+   					<complexType>
+   						<sequence>
+   							<choice maxOccurs="unbounded" minOccurs="0">
+   								<element name="topic" type="tns:topic"/>
+   								<any namespace="http://tjansen.de/refPageInclude" processContents="skip"/>
+   							</choice>
+   						</sequence>
+   					</complexType>
+   				</element>
+   				<element name="docConfig" minOccurs="0">
+   				   	<complexType>
+   						<sequence>
+	   						<choice  minOccurs="0" maxOccurs="unbounded">
+								<element name="popup" type="tns:popup"/>
+								<any namespace="http://tjansen.de/refPageInclude" processContents="skip"/>
+							</choice>
+					</sequence>
+   					</complexType>
+   				</element>
+   				<element name="javadocConfig" minOccurs="0">
+   				   	<complexType>
+   						<sequence>
+   							<element name="baseURL" type="string"/>
+   							<element name="defaultPackage" type="string" minOccurs="0"/>
+   							<element name="defaultAnnotationPackage" type="string" minOccurs="0"/>
+   							<element name="shortcuts" minOccurs="0">
+   								<complexType>
+   									<sequence>
+				   						<choice minOccurs="0" maxOccurs="unbounded">
+   											<element name="shortcut" type="tns:shortcut"/>
+	   										<any namespace="http://tjansen.de/refPageInclude" processContents="skip"/>
+   										</choice>
+   									</sequence>
+   								</complexType>
+   							</element>
+   						</sequence>
+   					</complexType>
+   				</element>
+   				<choice>
+	   				<element name="article">
+	   					<complexType>
+	   						<sequence>
+	   							<element name="body">
+	   								<complexType>
+	   									<choice minOccurs="0" maxOccurs="unbounded">
+				   							<element name="singleColumnSection" type="tns:singleColumnSection"/>
+				   							<element name="exampleWithResult" type="tns:exampleSection" />
+				   							<any namespace="http://tjansen.de/refPageInclude" processContents="skip"/>
+				   						</choice>
+   	   								</complexType>
+	   							</element>
+				   				<element name="sidebar">
+				   					<complexType>
+				   						<choice minOccurs="0" maxOccurs="unbounded">
+				   							<element name="htmlBox">
+				   								<complexType>
+				   									<sequence>
+				   										<element name="title" type="string" minOccurs="0"/>
+				   										<element name="html"/>
+				   									</sequence>
+				   								</complexType>
+				   							</element>
+				   							<element name="box">
+				   								<complexType>
+				   									<sequence>
+				   										<element name="title" type="string" minOccurs="0"/>
+				   										<element name="subTitleLine" type="string" minOccurs="0"/>
+				   										<element name="content" type="tns:markup"/>
+				   									</sequence>
+				   								</complexType>
+				   							</element>
+				   						</choice>
+				   					</complexType>
+				   				</element>
+	   						</sequence>
+	   					</complexType>
+	   				</element>
+	   				<element name="html">
+	   					<complexType>
+	   						<sequence>
+	   							<any namespace="http://www.w3.org/1999/xhtml" minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+	   						</sequence>
+	   					</complexType>
+	   				</element>
+   				</choice>
+   			</sequence>
+    	</complexType>
+    	
+		<unique name="anchorUniqueness">
+   			<selector xpath="tns:article/tns:body/tns:singleColumnSection|tns:article/tns:body/tns:singleColumnSection/tns:collapsedSubSection|tns:article/tns:body/tns:singleColumnSection/tns:subSection"/>
+   			<field    xpath="@anchor"/>
+		</unique>
+    </element>
+
+    <complexType name="section">
+    	<sequence>
+    		<element name="head" type="string" />
+    		<element name="intro" type="tns:markup" minOccurs="0" />
+    	</sequence>
+    	<attribute name="anchor" type="NMTOKEN" use="required"/>
+    	<attribute name="multipage" type="boolean" use="optional"/>
+    </complexType>
+
+    <complexType name="subSection">
+		<complexContent>
+			<extension base="tns:subSectionContent">
+		    	<attribute name="anchor" type="NMTOKEN" use="required"/>
+		    	<attribute name="id" type="ID" use="optional"/>
+			</extension>
+		</complexContent>
+    </complexType>
+
+	<complexType name="subSectionContent">
+		<sequence>
+    		<element name="head" minOccurs="0" type="string" />
+    		<element name="summary" minOccurs="0" type="string" />
+    		<element name="more" type="tns:markup" minOccurs="0" />
+
+    		<choice minOccurs="1" maxOccurs="unbounded">
+    			<element name="code" type="tns:code" />
+    			<element name="config" type="tns:markup" />
+    			<element name="explanation" type="tns:markup" />
+    			<element name="miniHeadline" type="tns:markup" />
+    			<element name="list" type="tns:list" />
+    			<element name="orderedList" type="tns:orderedList" />
+    			<element name="table" type="tns:table" />
+    			<element name="console" type="tns:markup" />
+    			<element name="svgImage" type="tns:svgImage" />
+    		</choice>
+    	</sequence>
+	</complexType>
+
+	<complexType name="collapsedSubSection">
+		<sequence>
+			<element name="head" type="string" minOccurs="0"/>
+			<element name="summary" type="string" />
+			<element name="content" type="tns:subSectionContent"/>
+		</sequence>
+		<attribute name="anchor" type="NMTOKEN" use="required"/>
+		<attribute name="id" type="ID" use="optional"/>
+	</complexType>
+
+    <complexType name="singleColumnSection">
+		<complexContent>
+			<extension base="tns:section">
+				<sequence>  			
+					<choice minOccurs="1" maxOccurs="unbounded" >
+						<element name="subSection" type="tns:subSection"/>
+						<element name="collapsedSubSection" type="tns:collapsedSubSection"/>
+						<any namespace="http://tjansen.de/refPageInclude" processContents="skip"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="exampleSection">
+		<complexContent>
+			<extension base="tns:section">
+				<choice minOccurs="0"
+						maxOccurs="unbounded">
+					<element name="explanation"
+						type="tns:markup" />
+					<element name="example">
+						<complexType>
+							<sequence>
+								<element
+									name="code" type="tns:code" />
+								<element
+									name="result">
+									<complexType>
+										<choice>
+											<element
+												name="code" type="tns:code" />
+											<element
+												name="image">
+												<complexType>
+													<attribute
+														name="src" type="string" />
+												</complexType>
+											</element>
+										</choice>
+									</complexType>
+								</element>
+								<element
+									name="source" type="string" minOccurs="0" />
+								<element
+									name="tryOut" type="string" minOccurs="0" />
+							</sequence>
+						</complexType>
+					</element>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="code">
+		<choice minOccurs="0" maxOccurs="unbounded">
+			<element name="line" type="tns:markup"/>
+			<element name="emptyLine"><complexType></complexType></element> 															
+		</choice>
+	</complexType>
+
+	<complexType name="list">
+ 		<annotation>
+ 			<documentation>Adds a list of bullet points</documentation>
+ 		</annotation>
+		<sequence>
+			<element name="li" minOccurs="1" maxOccurs="unbounded">
+				<complexType mixed="true">
+					<complexContent>
+						<extension base="tns:markup">
+							<choice  minOccurs="0" maxOccurs="unbounded">
+								<element name="list" type="tns:list"/>
+								<element name="orderedList" type="tns:list"/>
+							</choice>
+						</extension>
+					</complexContent>
+				</complexType>
+			</element>
+		</sequence>
+ 	</complexType>	
+
+	<complexType name="orderedList">
+		<annotation>
+			<documentation>Adds a list of ordered points</documentation>
+		</annotation>
+		<sequence>
+			<element name="li" minOccurs="1" maxOccurs="unbounded">
+				<complexType mixed="true">
+					<complexContent>
+						<extension base="tns:markup">
+							<choice  minOccurs="0" maxOccurs="unbounded">
+								<element name="list" type="tns:list"/>
+								<element name="orderedList" type="tns:list"/>
+							</choice>
+						</extension>
+					</complexContent>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="table">
+		<annotation>
+			<documentation>Adds a table</documentation>
+		</annotation>
+		<sequence>
+			<element name="head" minOccurs="0" maxOccurs="1">
+				<complexType>
+					<sequence>
+						<element name="cell" type="tns:markup" minOccurs="1"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="row" minOccurs="1" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="cell" type="tns:markup" minOccurs="1"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="svgImage">
+		<annotation><documentation>Allows adding SVG with PNG fallback.</documentation></annotation>
+		<attribute name="fileBase" type="string"/>
+		<attribute name="width" type="int"/>
+		<attribute name="height" type="int"/>
+		<attribute name="alt" type="string"/>
+   </complexType>
+
+    <complexType name="markup" mixed="true">
+    	<choice minOccurs="0" maxOccurs="unbounded">
+    		<element name="em" type="tns:markup">
+    			<annotation>
+    				<documentation>Emphasizes the included text (e.g. make it bold).</documentation>
+    			</annotation></element>
+    		<element name="idf" type="tns:markup">
+    			<annotation>
+    				<documentation>Marks the given text as identifier (e.g. make it italic).</documentation>
+    			</annotation></element>
+       		<element name="javadoc">
+                <annotation>
+                	<documentation>Links to Javadocs. If @to is set, the link goes to the URL in the @to attribute. 
+                	The URL may be either absolute (starting with http://) or relative (it will be appended to the Javadoc
+                	base URL defined in the header). 
+                	If there is no @to, it will try to get a link from the &lt;javadoc> configuration.</documentation>
+                </annotation>
+                <complexType>
+	    			<complexContent>
+	    				<extension base="tns:markup">
+	    					<attribute name="to" type="string"/>
+    						<attribute name="package" type="string"/>
+    					</extension>
+	    			</complexContent>
+	    		</complexType>
+    		</element>
+    		<element name="doc">
+                <annotation>
+                	<documentation>Links to Popup documentation, which must be configured in docConfig.</documentation>
+                </annotation>
+                <complexType>
+	    			<complexContent>
+	    				<extension base="tns:markup">
+	    					<attribute name="ref" type="string" use="optional"/>  <!-- type would be IDREF, but not possible with includes -->
+	    				</extension>
+	    			</complexContent>
+    			</complexType>
+    		</element>
+    		<element name="tag">
+                <annotation>
+                	<documentation>Like doc, but puts angular brackets around the word. Allows attributes in the tag, like this
+                			&lt;tag>name attr1="1" attr2="2"&lt;/tag></documentation>
+                </annotation>
+                <complexType>
+	    			<complexContent>
+	    				<extension base="tns:markup">
+	    					<attribute name="ref" type="string" use="optional"/> <!-- type would be IDREF, but not possible with includes -->
+	    					<attribute name="stand-alone" type="boolean" use="optional"/>
+	    				</extension>
+	    			</complexContent>
+    			</complexType>
+    		</element>
+    		<element name="ctag" type="tns:markup">
+    			<annotation>
+    				<documentation>Closes a tag (puts closing angular brackets around it)</documentation>
+    			</annotation></element>
+    		<element name="topic" type="string">
+    			<annotation>
+    				<documentation>Marks an word or phrase as 'topic', which may open a popup explaining the term.</documentation>
+    			</annotation></element>
+       		<element name="link">
+                <annotation>
+                	<documentation>Renders the text as a link to the given URL @to, or links to the anchor @anchor.</documentation>
+                </annotation>
+                <complexType>
+    			<complexContent>
+    				<extension base="tns:markup">
+    					<attribute name="to" type="string" use="optional"/>
+    					<attribute name="anchor" type="NMTOKEN" use="optional"/>
+    				</extension>
+    			</complexContent>
+    		</complexType>
+    		</element>
+    		<element name="cmt" type="tns:markup">
+    			<annotation>
+    				<documentation>declares a comment. Auto-indented. Does not need the '//'.</documentation>
+    			</annotation></element>
+    		<element name="plainCmt" type="tns:markup">
+    			<annotation>
+    				<documentation>declares a commend. No auto-indenting. Does not need the '//'.</documentation>
+    			</annotation></element>
+    		<element name="abstract" type="tns:markup">
+    			<annotation>
+    				<documentation>Marks an 'abstract' code segment that will not actually compile.</documentation>
+    			</annotation></element>
+    		<element name="strike" type="tns:markup">
+    			<annotation>
+    				<documentation>Strikes the text out.</documentation>
+    			</annotation></element>
+    		<element name="warn" type="tns:markup">
+    			<annotation>
+    				<documentation>Shows the text as a warning, e.g. in red.</documentation>
+    			</annotation></element>
+    		<element name="plainCode" type="tns:markup">
+    			<annotation>
+    				<documentation>Inserts a source code section.</documentation>
+    			</annotation></element>
+    		<element name="more">
+    			<annotation>
+    				<documentation>Creates a popup that contains the given additional text.</documentation>
+    			</annotation>
+    			<complexType>
+    				<complexContent>
+    					<extension base="tns:markup">
+		    				<attribute name="id" type="ID" use="optional"/>
+		    				<attribute name="ref" type="string" use="optional"/> <!-- type would be IDREF, but not possible with includes -->
+    					</extension>
+    				</complexContent>
+    			</complexType>
+    		</element>
+    		<element name="annotated">
+    			<annotation>
+    				<documentation>Creates a popup that contains the given additional text.</documentation>
+    			</annotation>
+    			<complexType>
+    				<choice>
+    					<sequence/>
+    					<sequence>
+	    					<element name="title" type="tns:markup">
+	    						<annotation>
+	    							<documentation>The title of the tooltip.</documentation>
+	    						</annotation></element>
+	    					<element name="explanation" type="tns:markup" minOccurs="0"/>
+    					</sequence>
+    				</choice>
+    				<attribute name="id" use="optional" type="ID"/>
+    				<attribute name="ref" use="optional" type="string"/> <!-- type would be IDREF, but not possible with includes -->
+    			</complexType>	
+    		</element>
+    		<element name="br">
+    			<annotation>
+    				<documentation>Adds a line break.</documentation>
+    			</annotation>
+    			<complexType></complexType>
+    		</element>
+    	</choice>
+    </complexType>
+
+    <simpleType name="licenseType">
+    	<restriction base="string">
+    		<enumeration value="cc-by-free-src"/>
+    	</restriction>
+    </simpleType>
+    
+    <element name="includables" >
+    	<complexType>
+        	<choice minOccurs="0" maxOccurs="unbounded">
+        		<element name="topic" type="tns:topic"/>
+				<element name="popup" type="tns:popup"/>
+				<element name="shortcut" type="tns:shortcut"/>
+				<element name="subSection" type="tns:subSection"/>
+				<element name="collapsedSubSection" type="tns:collapsedSubSection"/>
+				<element name="singleColumnSection" type="tns:singleColumnSection"/>
+				<element name="exampleWithResult" type="tns:exampleSection" />
+    			<any namespace="http://tjansen.de/refPageInclude" processContents="skip"/>
+    		</choice>
+    	</complexType>
+    </element>
+</schema>

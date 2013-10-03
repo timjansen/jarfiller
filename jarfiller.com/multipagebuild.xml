@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jf-multipage" default="build" basedir=".">
+
+	<target name="build">
+		<ant antfile="ant.xml" target="buildWithMultipage"/>
+	</target>
+</project>

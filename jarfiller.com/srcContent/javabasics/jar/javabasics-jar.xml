@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" 
+	xmlns:inc="http://tjansen.de/refPageInclude" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://tjansen.de/refPage ../../../schemas/page.xsd 
+	                    http://tjansen.de/refPageInclude ../../../schemas/include.xsd">
+	                    
+  <path>/javabasics/jar/</path>
+  <title>Java Basics: JAR Files</title>
+  <titleIntro>Learn how to create and use JAR files</titleIntro>
+  
+  <license>cc-by-free-src</license>
+  
+  <multipage/>
+  
+  <topicConfig>
+	<inc:includeContent file="../srcContent/shared/topics.inc.xml"/>
+  </topicConfig>
+  
+  <docConfig>
+  	<popup name="Manifest-Version">Every <idf>MANIFEST.MF</idf> file is required to start with the <idf>Manifest-Version</idf>. It describes 
+  	the file format version of the file. Currently it is always "1.0".</popup>
+  	<popup name="Main-Class"><idf>Main-Class</idf> specifies the name of the main class. A JAR file is only executable if it has
+  	this attribute.</popup>
+  	<popup name="Created-By"><idf>Created-By</idf> identifies the tool that created the file. Usually added by the <idf>jar</idf> tool.</popup>
+  	<popup name="Sealed"><idf>Sealed</idf> means that only this JAR is the only source for packages.
+  	This can be important for security-reasons (to prevent untrusted code from modifying the code in this JAR).
+  	Use the value <idf>true</idf> to seal, and <idf>false</idf> for unsealed packages.<br/>
+  	<idf>Sealed</idf> can either be used as a main attribute, or as a per-entry attribute
+  	to seal specific packages. If you have a <idf>Sealed</idf> main attribute, this is the default for all packages, but can be
+  	overridden by per-entry attributes.</popup>
+  	<popup name="Class-Path"><idf>Class-Path</idf> is a space-separated list of relative paths to additional JAR files and directories. They will be 
+  	automatically put into the class path. Directories must end with a slash ('/').
+  	A typical application is for executable JARs that need additional libraries to put them into the <idf>Class-Path</idf>.</popup>
+  	<popup name="Implementation-Title"><idf>Implementation-Title</idf> can be used to specify the name of the program or library.<br/>
+  	<idf>Implementation-Title</idf> can either be used in the main section, as the default for the whole JAR, or as
+  	per-entry attribute.</popup>
+  	<popup name="Implementation-Version"><idf>Implementation-Version</idf> can be used to specify the version of the program or library. 
+  	No special format is needed, any string is allowed.<br/>
+  	<idf>Implementation-Version</idf> can either be used in the main section, as the default for the whole JAR, or as
+  	per-entry attribute.</popup>
+  	<popup name="Implementation-Vendor"><idf>Implementation-Vendor</idf> can specify the vendor of the program or library.<br/>
+  	<idf>Implementation-Vendor</idf> can either be used in the main section, as the default for the whole JAR, or as
+  	per-entry attribute.</popup>
+  	<popup name="Name"><idf>Name</idf> specifies the relative path of the file the section applies to. It must be the first attribute
+  	of all sections except the main section.</popup>
+  	<popup name="Specification-Title"><idf>Specification-Title</idf> can be used to specify the name of the specification
+  	that is implemented by the code.<br/>
+  	<idf>Specification-Title</idf> can either be used in the main section, as the default for the whole JAR, or as
+  	per-entry attribute.</popup>
+  	<popup name="Specification-Version"><idf>Specification-Version</idf> can be used to specify the version of the specification
+  	implemented by the code. No special format is needed, any string is allowed.<br/>
+  	<idf>Specification-Version</idf> can either be used in the main section, as the default for the whole JAR, or as
+  	per-entry attribute.</popup>
+  	
+  	<popup name="destfile"><idf>destfile</idf> specifies the path of the JAR to create.</popup>
+  	<popup name="basedir"><idf>basedir</idf> specifies the root directory of the
+  	file to add to the JAR.</popup>
+  	<popup name="manifest"><idf>manifest</idf> specifies the path of a manifest to include.</popup>
+	<popup name="filesetmanifest"><idf>filesetmanifest</idf> defines what to do with the manifests
+	of extracted JARs. Valid options are "skip" (default), "merge" and "mergewithoutmain" 
+	(tries to merge manifests, but ignores <idf>Main-Class</idf> attributes).</popup>
+	<popup name="attribute"><idf>attribute</idf> specifies an attribute to appear in the
+	manifest.</popup>
+	<popup name="section"><idf>section</idf> defines a section containing per-entry 
+	attributes.</popup>
+	<popup id="doc-antjar"><idf>jar</idf> specifies the name of the JAR to sign.</popup>
+  	<popup name="keystore"><idf>keystore</idf> specifies the path of the keystore to use.</popup>
+  	<popup name="alias"><idf>alias</idf> contains the name of the key to use from the keystore.</popup>
+	<popup name="storepass"><idf>storepass</idf> is the password to use for the keystore. Obviously
+	you should be careful only to use development keys in your ant file, if any, but never
+	any production passwords.</popup>
+	<popup name="destDir"><idf>destDir</idf> specifies the destination directory for
+	signed JARs, if you don't want to modify the existing JARs. If you omit it, the
+	exististing JARs will be signed.</popup>
+	<popup name="lazy">If <idf>lazy</idf> is <idf>true</idf>, only files that are not already
+	signed will be signed.</popup>
+	<popup name="preservelastmodified">If <idf>preservelastmodified</idf> is <idf>true</idf>, 
+	the resulting signed JARs will have the same last-modified date as the 
+	unsigned JARs.</popup>
+  </docConfig> 
+  
+  <javadocConfig>
+	<baseURL>http://java.sun.com/javase/6/docs/api/</baseURL>
+	<defaultPackage>java.lang</defaultPackage>
+		<shortcuts>
+			<shortcut name="getClass" uri="http://java.sun.com/javase/6/docs/api/java/lang/Object.html#getClass()"/>
+			<shortcut name="getPackage" uri="http://java.sun.com/javase/6/docs/api/java/lang/Class.html#getPackage()"/>
+			<shortcut name="getImplementationTitle" uri="http://java.sun.com/javase/6/docs/api/java/lang/Package.html#getImplementationTitle()"/>
+			<shortcut name="getImplementationVersion" uri="http://java.sun.com/javase/6/docs/api/java/lang/Package.html#getImplementationVendor()"/>
+			<shortcut name="getImplementationVendor" uri="http://java.sun.com/javase/6/docs/api/java/lang/Package.html#getImplementationVersion()"/>
+		</shortcuts>
+  </javadocConfig>
+  
+  <article><body>
+
+	<singleColumnSection anchor="overview">
+	  	<head>Overview</head>
+		<subSection anchor="intro">
+			<head>Intro</head>
+			<explanation>
+			JAR files are Java's way of <em>distributing libraries and executable programs</em>. JAR is short for 
+			<idf>Java ARchive</idf>. JARs are just 
+			<em><link to="http://en.wikipedia.org/wiki/ZIP_(file_format)">ZIP files</link> with a .jar extension</em> and a 
+			special directory structure. They can contain the programs or library's classes as well as any other files they 
+			may need. A special file called <em><idf>/META-INF/MANIFEST.MF</idf></em> is often required to be in the archive 
+			and <em>contains information about the JAR content</em>, such as the name of the <annotated id="annotated-main-class"><title>main class</title>
+			<explanation>The main class is the class that will be executed when you execute a JAR. It is a class that contains
+			a <idf>main</idf> method.</explanation></annotated> and its dependencies.
+			</explanation>
+		</subSection>
+		<collapsedSubSection anchor="usecases">
+			<head>Use cases</head>
+			<summary>When to use JARs</summary>
+			<content>
+				<explanation>Use <idf>JARs</idf> when..</explanation>
+				<list>
+					<li>you want to bundle a Java application's files for distribution, or</li>
+					<li>you need to deploy your code at a place where you need it as a JAR, or</li>
+					<li>you need to <annotated><title>sign</title><explanation>A digital signature
+					uses cryptography to prove that you are the creator of the JAR. Don't worry if you don't
+					know how it works. All you need to know to sign a JAR will be shown later.</explanation></annotated> your code, for example to execute
+					it in a web browser or on a cell phone</li> 
+				</list>
+			</content>
+		</collapsedSubSection>
+		<subSection anchor="requirements">
+			<head>Requirements</head>
+			<explanation>Java supports JARs since version 1.1 (in other words, practically forever).</explanation>
+		</subSection>		
+	</singleColumnSection>
+	
+	<singleColumnSection anchor="creatingjars">
+		<head>Creating JARs</head>
+		<subSection anchor="structure">
+			<head>Structure</head>
+			<explanation>
+			JARs are just <em><link to="http://en.wikipedia.org/wiki/ZIP_(file_format)">ZIP files</link> with a .jar extension</em>
+			and a special directory structure. Meta information is in a directory called <em><idf>META-INF</idf></em>, with 
+			the <em>manifest file <idf>/META-INF/MANIFEST.MF</idf></em> being the most important file.
+			</explanation><explanation>
+			Beside <idf>META-INF</idf>, you <em>add any file</em> you want to the JAR file. <em>Classes</em> must
+			be put into the usual <annotated><title><em>Java directory structure</em></title>
+			<explanation>For example, if you have a class in a package "com.jarfiller.example", you must create 
+			"com/jarfiller/example" and put the class in there, otherwise it won't be found. 
+			Classes without packages must be put at the JAR's root.</explanation></annotated>.  <br/>
+			This is an example layout for a JAR file, with a manifest file and two classes "com.jarfiller.example.MainClass" 
+			and "com.jarfiller.example.Helper":</explanation>
+			<console>Content of jarfiller-example.jar
+			
+META-INF/                                  (directory)
+META-INF/MANIFEST.MF                       (Manifest file)
+com/                                       (directory)
+com/jarfiller/                             (directory)
+com/jarfiller/example/                     (directory)
+com/jarfiller/example/MainClass.class      (Java class)
+com/jarfiller/example/Helper.class         (Java class)
+</console>
+			
+		</subSection>
+		
+		<subSection anchor="manifest">
+			<head>Manifest</head>
+			<explanation>The manifest file (<idf>/META-INF/MANIFEST.MF</idf>) <em>describes the content</em> of the JAR file. It is
+			<em>not required</em>, but often automatically added by JAR tools.<br/>
+			The following manifest declares only a <annotated ref="annotated-main-class"/>:
+			</explanation>
+			<config><doc>Manifest-Version</doc>: 1.0
+<doc>Main-Class</doc>: com.jarfiller.example.MainClass
+</config>
+			<miniHeadline>Rules for Manifest Files</miniHeadline>
+			<list>
+				<li>a manifest contains <em>key/value pairs</em> (<em>called <idf>attributes</idf></em>), one per line</li>
+				<li>attribute syntax: attribute <em>name</em>, directly followed by a <em>colon</em> (':'), 
+				a <annotated><title><em>single space</em></title><explanation>There must be <em>exactly one</em> space between the colon and the value. No other spaces
+			 	are allowed in the line, unless they are part of the value. Spaces in front of the colon are not allowed (or, rather, they would be part of the
+				attribute name then).</explanation></annotated> and the <em>value</em></li>
+				<li>values may span several lines. Each <em>additional line must start with one space</em>.</li>
+				<li><em>no additional whitespace</em> allowed <more>The manifest file's syntax is very rigid. Unlike most other text formats,
+				it will not ignore additional whitespace, but rather handle it as part of the attribute name or value. This can cause errors
+				which are hard to find (because you can't easily see your mistake in the text editor), so be careful.</more></li>
+				<li><em>no empty lines</em> allowed in the main section (there can be 
+				<annotated><title>additional sections</title><explanation>Shown here are the <idf>main attributes</idf> of the manifest. 
+				The main attributes can be followed by <idf>per-entry attributes</idf>, which would then be separated by empty lines from each other. Usually you don't
+				need to worry about that. Per-entry attributes are practically only used for signed JARs, and their entries will be automatically generated by the 
+				<idf>jarsigner</idf> tool.</explanation></annotated>, separated by empty lines) </li>
+			</list>
+			<miniHeadline>Common Attributes</miniHeadline>
+	
+			<table>
+				<head><cell>Name</cell><cell>Description</cell><cell>Example</cell></head>
+				<row><cell>Manifest-Version</cell><cell>File format version of the manifest, always '1.0', required</cell><cell>1.0</cell></row>
+				<row><cell>Main-Class</cell><cell>Name of the class containing the <idf>main</idf> method in executable JARs</cell><cell>my.package.MainClass</cell></row>
+				<row><cell>Class-Path</cell><cell>Space-separated list of relative paths to JAR files and directories for the classpath</cell><cell>lib/util.jar lib/helper.jar drivers/</cell></row>
+				<row><cell>Sealed</cell><cell>if "true", then packages are <annotated><title>sealed</title><explanation>"Sealed" means that a package contained
+				in this JAR must not have any files in other parts of the classpath. This can be important for security-reasons, when untrusted code is loaded, or to guarantee the
+				consistency of a package.</explanation></annotated>. Otherwise "false".</cell><cell>true</cell></row>
+				<row><cell>Created-By</cell><cell>Creator of the JAR; automatically added by the <idf>jar</idf>  tool; not important</cell><cell>1.6.0_12 (Sun Microsystems Inc.)</cell></row>
+				<row><cell>Implementation-Title</cell><cell>Name of the program/library contained in the JAR</cell><cell>My Super App</cell></row>
+				<row><cell>Implementation-Version</cell><cell>Version of the program/library contained in the JAR</cell><cell>1.0d</cell></row>
+				<row><cell>Implementation-Vendor</cell><cell>Vendor of the program/library contained in the JAR</cell><cell>Super Soft Inc.</cell></row>
+				<row><cell>Specification-Title</cell><cell>Name of the specification the library implements <more>Some libraries don't have their own
+				API, but implement a API defined by someone else. Then they can specify the API's title, version and vendor here.</more></cell><cell>Super API</cell></row>
+				<row><cell>Specification-Version</cell><cell>Version of the specification</cell><cell>1.0</cell></row>
+				<row><cell>Specification-Vendor</cell><cell>Vendor of the specification</cell><cell>Super Group</cell></row>
+			</table>
+			<explanation>Beside those common attributes, there are many special purpose attributes. For example, if you package a Java Applet or a OSGi Bundle in a JAR, there are specific (and often required) 
+			attributes for them. For a simple library or executable JAR they are not needed though.
+			</explanation>
+			<miniHeadline>Example</miniHeadline>
+			<config><doc>Manifest-Version</doc>: 1.0
+<doc>Created-By</doc>: 1.6.0_12 (Sun Microsystems Inc.)
+<doc>Class-Path</doc>: lib/common.jar lib/helpers.jar lib/util-impl.jar stdlib/j2ee.jar stdlib/mail.jar
+ drivers/mysql-jdbc.jar drivers/jag-ext.jar extensions/
+<doc>Implementation-Title</doc>: Jarfiller Test App
+<doc>Implementation-Version</doc>: 0.1
+<doc>Implementation-Vendor</doc>: jarfiller.org
+</config>
+			<explanation></explanation>
+		</subSection>
+		
+		<subSection anchor="jartool">
+			<head>jar tool</head>
+			<explanation>
+			The JDK ships with a command line tool called <idf>jar</idf> to <em>create, view and unpack JAR files</em>. On Windows, use it like this:</explanation>
+			<console>C:\Users\tim><annotated><title>set PATH=c:\Program Files\Java\jdk1.6.0_13\bin;%PATH%</title>
+<explanation>
+This statement puts all executables, including the <idf>jar</idf> tool, of the JDK 
+into the <idf>PATH</idf>. This means that you can execute them from the command line without having to specify the full path, 
+no matter what your current directory is. Alternatively you can also edit the <idf>system environment variables</idf> and put the directory in
+there. Then the PATH is permanently changed (you need to restart your command line though). <br/>
+The equivalent for Unix/Linux systems would be:<br/>
+<plainCode>export PATH=/usr/java/bin:$PATH</plainCode><br/>
+<warn>Don't forget to adjust the directory - it needs to point to your JDK installation!</warn>
+</explanation></annotated>
+			
+C:\Users\tim>jar
+Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
+...
+			</console>
+			<explanation>To <em>create a JAR file</em> from your compiled classes, enter:</explanation>
+<console>C:\Users\tim>jar <annotated>
+<title>cvf</title>
+<explanation><idf>cvf</idf> stands for:<br/><idf>create</idf> - create a new JAR<br/><idf>verbose</idf> - prints more output<br/><idf>file</idf> - specify the JAR's file name<br/></explanation>
+</annotated> <annotated>
+<title>tmp/jarfiller-example.jar</title>
+<explanation>The name of the JAR to create. Required because of the 'f' in 'cvf'. Without the 'f', it would print the 
+file to the standard output, which is rarely what you want.</explanation>
+</annotated> <annotated>
+<title>-C workspace/JarTest/bin .</title>
+<explanation>With <idf>-C</idf> you can specify the directory where your files reside (here: <idf>workspace/JarTest/bin</idf>). This is important
+if you don't add files from your current directory, because then <idf>jar</idf> would not get the directory structure right.<br/>
+Following <idf>-c basedir</idf> is usually a list of files and directories to add. Here, we add the whole directory, represented by the single
+dot (".").</explanation>
+</annotated>
+<annotated>
+<title>added manifest</title>
+<explanation>As the <idf>jar</idf> tool did not find a manifest in the directory, it created one and added it.</explanation>
+</annotated>
+adding: com/(in = 0) (out= 0)(stored 0%)
+adding: com/jarfiller/(in = 0) (out= 0)(stored 0%)
+adding: com/jarfiller/example/(in = 0) (out= 0)(stored 0%)
+adding: com/jarfiller/example/Helper.class(in = 287) (out= 212)(deflated 26%)
+adding: com/jarfiller/example/MainClass.class(in = 569) (out= 351)(deflated 38%)
+</console>
+			<explanation>To <em>specify a manifest file</em>, either put it into the base directory (would be <idf>workspace/JarTest/bin/META-INF/MANIFEST.MF</idf>), 
+			or <em>use the 'm' parameter</em>:</explanation>
+			<console>C:\Users\tim>jar <annotated>
+<title>cvfm</title>
+<explanation><idf>cvfm</idf> stands for:<br/><idf>create</idf> - create a new JAR<br/><idf>verbose</idf> - prints more output<br/>
+<idf>file</idf> - specify the JAR's file name<br/><idf>manifest</idf> - specify the manifest<br/></explanation>
+</annotated> <annotated>
+<title>tmp/jarfiller-example.jar</title>
+<explanation>The name of the JAR to create. Required because of the 'f' in 'cvfm'. Without the 'f', it would print the 
+file to the standard output, which is rarely what you want.</explanation>
+</annotated> <annotated>
+<title>workspace/JarTest/manifest/MANIFEST.MF</title>
+<explanation>The path of the manifest file (required because of the the 'm' in 'cvfm').</explanation>
+</annotated> <annotated>
+<title>^</title>
+<explanation>The caret ('^') character at the end of the line means that it is continued in the next line.
+It is similar to the backslash ('\') in Unix-like shells.</explanation>
+</annotated>
+      <annotated>
+<title>-C workspace/JarTest/bin .</title>
+<explanation>With <idf>-C</idf> you can specify the directory where your files reside (here: <idf>workspace/JarTest/bin</idf>). This is important
+if you don't add files from your current directory, because then <idf>jar</idf> would not get the directory structure right.<br/>
+Following <idf>-c basedir</idf> is usually a list of files and directories to add. Here, we add the whole directory, represented by the single
+dot (".").</explanation>
+</annotated>
+<annotated>
+<title>added manifest</title>
+<explanation>This line means that <idf>jar</idf> added the manifest that you specified.</explanation>
+</annotated>
+adding: com/(in = 0) (out= 0)(stored 0%)
+adding: com/jarfiller/(in = 0) (out= 0)(stored 0%)
+adding: com/jarfiller/example/(in = 0) (out= 0)(stored 0%)
+adding: com/jarfiller/example/Helper.class(in = 287) (out= 212)(deflated 26%)
+adding: com/jarfiller/example/Helper.java(in = 56) (out= 58)(deflated -3%)
+adding: com/jarfiller/example/MainClass.class(in = 569) (out= 351)(deflated 38%)
+adding: com/jarfiller/example/MainClass.java(in = 147) (out= 127)(deflated 13%)
+</console>
+		</subSection>
+	</singleColumnSection>
+
+	<singleColumnSection anchor="howto" multipage="true">
+		<head>How to...</head>
+		<collapsedSubSection anchor="executables">
+			<head>Executable JARs</head>
+			<summary>How to Start an Executable JAR</summary>
+			<content>
+				<explanation>Usually the <em>.jar file extension is associated with the Java runtime</em>. That means that just by double-clicking an executable JAR
+				the application should start. Unfortunately executable JARs have the same extension as other JARs, such as libraries. So <em>you can't  
+				tell which JAR is executable</em>, unless you look at its <idf>MANIFEST.MF</idf> file.</explanation>
+				<explanation>On the command line, you start an executable JAR by <em>running <idf>java</idf> with the <idf>-jar</idf> option</em>:</explanation>
+				<console>C:\Users\tim\tmp>java <annotated><title>-jar</title><explanation>The <idf>-jar</idf> option starts an executable JAR. It requires the path to the JAR 
+				as argument.</explanation></annotated> <annotated><title>jarfiller-example.jar</title><explanation>The path to the JAR.</explanation></annotated>
+<br/></console>
+				
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="viewextract">
+			<head>View/Extract JARs</head>
+			<summary>How to View and Extract a JAR</summary>
+			<content>
+				<explanation>JARs are only ZIP files with a funny name, so you can <em>view and unpack them with any ZIP tool</em>. You may have to change its extension to '.zip' before,
+				if the tool does not recognize the JAR otherwise.<br/>
+				The <em><idf>jar</idf> tool</em> shipped with the JDK also allows you to view and extract them on the command line.
+				Use <em>the 't' command to view the content</em>:</explanation>
+<console>C:\Users\tim>jar <annotated>
+<title>tvf</title>
+<explanation><idf>tvf</idf> stands for:<br/><idf>table</idf> - list JAR content<br/><idf>verbose</idf> - prints creation date and size<br/>
+<idf>file</idf> - specify the JAR's file name<br/></explanation>
+</annotated> <annotated>
+<title>tmp/jarfiller-example.jar</title>
+<explanation>The name of the JAR to view. Required because of the 'f' in 'tvf'. Without the 'f', it would read the 
+file from the standard input, which is rarely what you want.</explanation>
+</annotated>
+     0 Wed Jan 20 21:34:06 CET 2010 META-INF/
+   116 Wed Jan 20 21:34:06 CET 2010 META-INF/MANIFEST.MF
+     0 Sat Jan 16 16:11:50 CET 2010 com/
+     0 Sat Jan 16 16:11:50 CET 2010 com/jarfiller/
+     0 Sun Jan 17 15:34:08 CET 2010 com/jarfiller/example/
+   287 Sun Jan 17 15:46:18 CET 2010 com/jarfiller/example/Helper.class
+    56 Sun Jan 17 15:46:18 CET 2010 com/jarfiller/example/Helper.java
+   569 Sat Jan 16 16:14:00 CET 2010 com/jarfiller/example/MainClass.class
+   147 Sat Jan 16 16:13:58 CET 2010 com/jarfiller/example/MainClass.java
+</console>
+				<explanation><em>Unpack</em> a JAR <em>with the 'x' command</em>:</explanation>
+<console>C:\Users\tim><annotated><title>cd tmp</title><explanation>Switch into the target directory: <idf>jar</idf> can only
+extract into the current directory.</explanation></annotated>
+
+C:\Users\tim\tmp>jar <annotated>
+<title>xvf</title>
+<explanation><idf>xvf</idf> stands for:<br/><idf>eXtract</idf> - extract JAR content<br/><idf>verbose</idf> - prints more output<br/>
+<idf>file</idf> - specify the JAR's file name<br/></explanation>
+</annotated> <annotated>
+<title>tmp/jarfiller-example.jar</title>
+<explanation>The name of the JAR to extract. Required because of the 'f' in 'xvf'. Without the 'f', it would read the 
+file from the standard input, which is rarely what you want.</explanation>
+</annotated>
+  created: META-INF/
+ inflated: META-INF/MANIFEST.MF
+  created: com/
+  created: com/jarfiller/
+  created: com/jarfiller/example/
+ inflated: com/jarfiller/example/Helper.class
+ inflated: com/jarfiller/example/Helper.java
+ inflated: com/jarfiller/example/MainClass.class
+ inflated: com/jarfiller/example/MainClass.java
+</console>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="libraries">
+			<head>Libraries</head>
+			<summary>How to Add Libraries to a JAR</summary>
+			<content>
+				<explanation>Most JARs, no matter whether they contain an executable program or a library, require other libraries to run. Those dependencies
+				are usually contained in JARs as well. So how can you make sure that your JAR has all required JARs in its 
+				<annotated><title>CLASSPATH</title><explanation>The classpath is a list of all JARs and directories containing code or other 
+				resources for the currently running program.</explanation></annotated>? There are three common solutions for executable JARs. 
+				</explanation>
+				<miniHeadline>Solution 1: Using the Class-Path Attribute</miniHeadline>
+				<explanation>
+					The <idf>Class-Path</idf> attribute of the manifest file allows you to state a list of JARs that the Java runtime should put into its
+					classpath. So basically <em>your program consists of several JARs</em>, one executable for the program itself and one JAR for each library.<br/>
+					This example shows a manifest file with several dependencies:
+				</explanation>
+					<config><doc>Manifest-Version</doc>: 1.0
+<doc>Main-Class</doc>: com.jarfiller.example.MainClass
+<doc>Class-Path</doc>: log4j.jar mail.jar
+</config>
+				<explanation>
+				Note that your IDE may be able to create such a manifest and package your libraries automatically. For example, <link to="http://www.eclipse.org">Eclipse</link>
+				can do this since version 3.5 (export your project as 'Runnable JAR file' and select the appropriate option).
+				</explanation>
+				<miniHeadline>Solution 2: Unpack Library JARs into a Single JAR</miniHeadline>
+				<explanation>A nifty solution to the problem is to <em>unpack all JARs</em> you depend on <em>and put them all into a single JAR</em>. 
+				This <em>works most of the time</em>, but with some JARs, such as <annotated><title>Service Providers</title><explanation>In Java, Service Providers are exchangeable
+				implementations for APIs that ship in JARs. They are needed, for example,
+				for alternative XML implementations or to connect to application servers via JNDI. This is a rather complicated topic and out of scope for this 
+				tutorial.</explanation></annotated>, it won't <more>In other words, you extract all your libraries' JARs into a single directory, then copy your program into that directory and create a new JAR with 
+				the directory's content. However, this will overwrite any manifest files your libraries may have. It may be possible to solve the problems by merging manifests manually, 
+				but it won't always work.</more>.
+				</explanation>
+				<explanation>There are several tools that allow you to do this to various extends (e.g. they may not merge the manifests of the JARs correctly).
+				Recent <link to="http://www.eclipse.org">Eclipse</link> versions can repack executable JARs. Just export the project into a 'Runnable JAR file'
+				and select the right option.<br/>
+				<link to="http://ant.apache.org">Ant</link> also allows you to unpack JARs into a single JAR using the <idf>jar</idf> task.</explanation>
+				<miniHeadline>Solution 3: Call <idf>java</idf> with all JARs in the CLASSPATH</miniHeadline>
+				<explanation>Another common solution is to write a script or batch file that puts all JARs into the classpath and then starts the application.
+				This also allows you to add other arguments to the Java runtime (such as an increased heap) and state the main class (so you don't need a special
+				manifest). Then you start the application like this:</explanation>
+<console>C:\Users\tim\tmp>java <annotated><title>-cp jarfiller-example.jar;log4j.jar;mail.jar</title>
+<explanation>The <idf>-cp</idf> option allows you to specify the program's classpath as semi-colon separated paths to JARs or directories.</explanation></annotated> <annotated><title>com.jarfiller.example.MainClass</title>
+<explanation>This argument is the main class to start, so you don't need to specify it in the JAR file.</explanation></annotated>
+<br/></console>
+				
+				<miniHeadline>Dependencies for Library</miniHeadline>
+				<explanation>Most libraries also depend on other libraries. Theoretically you could apply Solution 1 or Solution 2 to a library.
+				This would be rather unusual though. Common practice is to <em>state your dependencies somewhere in the documentation</em>
+				(or just have a directory containing dependencies) and let the library's user take care of putting them into the classpath. 
+				<em>Do not apply the solutions above to libraries</em>.<br/>
+				The main reason is that the you (or, rather, the library's user) needs to be sure to have every library only once in the classpath. With Solution 1,
+				two JARs could depend on the same library, but use different names for it, and you end up with including the library twice. With Solution 2,
+				several JARs could contain the same library. Both solutions get especially messy when different versions of the same library are involved.
+				</explanation>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="selfsigning">
+			<head>Self-Signing</head>
+			<summary>How to Create a (Self-)Signed Jar</summary>
+			<content>
+				<explanation>Some JARs need to be signed, for example a JAR containing a Java Applet that requires certain privileges. Signing means that a
+					<link to="http://en.wikipedia.org/wiki/Digital_signature">digital signature</link> is used to <em>authenticate the author of the JAR</em>. How exactly
+					digital signatures work is out of the scope of this document (read the <link to="http://en.wikipedia.org/wiki/Digital_signature">Wikipedia article</link>
+					as starting point), but what it effectively does is <em>let somebody certify your identity</em>. Idealy, but not necessarily, this somebody is a trusted 
+					<link to="http://en.wikipedia.org/wiki/Certificate_authority">certificate authority</link>.</explanation>
+
+				<explanation>A digital signature has two main components. The first one is your <em>private key</em> that represents you. And then you need a certificate 
+					by somebody who certifies that you are who you claim to be. In the simplest case, you can create the certificate yourself. This is called a 
+					<em>self-signed certificate</em>. Obviously it is not very trustworthy, because anybody can certificate himself to be anybody. But for testing
+					this is usually the easiest solution. Beside the lack of security, the major disadvantage of self-signed certificates is that the user will see a lot of warnings
+					when installing your software, and may even be unable to install it without having system administrator privileges.</explanation>
+
+				<explanation>If you want to <em>publish your software for the public, you should get a real certificate</em> from a trusted certificate authority. The next how-to 
+					will help you get this, but for now, I show you how to create a self-signed certificate.</explanation>
+				
+				<explanation>To sign a JAR, the first thing you need is the private key. Only you should own this key, as anybody who gets hold of it can
+					claim to be you. Java <em>stores keys in a file called keystore</em>. You must assign each key in the keystore a name, called "alias" by Java 
+					<more>The alias of a key is just a mechanism of the keystore to allow you to manage your keys. An alias is not part of the key itself.</more>. 
+					The main tool to manage keystores is a command line tool called 
+					<link to="http://java.sun.com/javase/6/docs/technotes/tools/solaris/keytool.html"><idf>keytool</idf></link> which ships with the JDK.</explanation>
+					
+				<explanation>This is how to create a new key, either adding it to an existing keystore or creating a new one. The key will automatically be self-signed:</explanation>
+	
+<console>C:\Users\tim\tmp>keytool <annotated><title>-genkey</title><explanation><idf>-genkey</idf> generates a key. <br/>Note that
+Java SE 6 renamed the command to <idf>-genkeypair</idf> (<idf>-genkey</idf> still works though). The reason for the new name is that <idf>-genkey</idf> actually creates a key pair
+(one public key and one private key), but these are only the internals of asymetric cryptography and you don't need to
+worry about them. There is only one thing to work with in the keytool, and that's the key.</explanation>
+</annotated> <annotated><title>-keyalg RSA</title><explanation>This specifies the key algorithm, called RSA. This is another
+cryptography detail which you shouldn't need to worry about. The reason why RSA is chosen here (and not DSA, the default)
+is that the big certificate authorities require RSA. For a self-signed key DSA would be fine.</explanation>
+</annotated> <annotated><title>-alias myFirstKey</title><explanation>This specifies the name (=alias) of the key in the keystore.
+You can chose any alias you want, as long as it does not exist yet.</explanation>
+</annotated> <annotated><title>-keystore myKeystore</title><explanation>This specifies the path to the keystore file. If there is no keystore file
+at this location, a new one will be created.</explanation></annotated> <annotated><title>-validity 360</title><explanation>Specifies how long
+your key will be valid in days. For a development key you should use a rather high value, to avoid having to change your key every
+few months. The default is 90 days.</explanation></annotated>
+<br/></console>
+				<explanation>The command will ask you a couple of questions. First you can protect your keystore with a password, if you create a new one. You should
+					do this if you plan to publish software with the keys in the keystore.  Then it will ask you for your name, organization and location. This information
+					is what will be shown to the user and possibly be certified by the certificate authority, so be careful to enter the right values.
+				</explanation>				
+
+				<explanation>
+					Now that you have a (self-signed) key, you can easily sign your JAR with the <idf>jarsigner</idf> tool:</explanation>
+
+<console>C:\Users\tim\tmp>jarsigner.exe <annotated><title>-keystore myKeystore</title><explanation>This specifies the path to the keystore file. </explanation>
+</annotated> <annotated><title>-verbose</title><explanation>Turns on some extra-output, so you can see what <idf>jarsigner</idf>
+is doing.</explanation>
+</annotated> <annotated><title>jarfiller-example.jar</title><explanation>The path to the JAR to sign. The existing JAR will be modified.</explanation>
+</annotated> <annotated><title>myKey</title><explanation>The alias of the key in the keystore. This must be the <idf>-alias</idf>
+you specified for the <idf>-genkey</idf> command.</explanation>
+</annotated>
+<br/></console>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="certification">
+			<head>Certification</head>
+			<summary>How to Sign a Jar with a Valid Certificate</summary>
+			<content><explanation>
+			If you want to publish your signed JARs, you probably need a 'real' certificate from a trusted
+			<link to="http://en.wikipedia.org/wiki/Certificate_authority">certificate authority</link> (CA) such
+			as <link to="http://www.verisign.com">VeriSign</link> or 
+			<link to="http://www.thawte.com">Thawte</link> <more id="more-cas">VeriSign and Thawte are probably the
+			best-known CAs, and thus most trusted. Unfortunately they are also among the most expensive ones.
+			You can get a list of all Java CAs by looking at Java's CA Keystore "jre\lib\security\cacerts" in the JDK 
+			directory. Use the command <idf>keytool -list -v -keystore jre\lib\security\cacerts</idf> and an empty password
+			to print the full list.</more>. Otherwise the user will see warnings or may even be unable to install the JAR, depending
+			on the JAR's purpose and the user's privileges.
+			</explanation><explanation>
+			The exact process of how to get the certificate depends on the certificate authority you decide for. So the first step is to find
+			a CA on the web. A few suggested CAs are <link to="http://www.verisign.com">VeriSign</link>, 
+			<link to="http://www.thawte.com">Thawte</link> and <link to="http://www.certum.eu">Certum</link> <more ref="more-cas"/>.
+			The product that you are looking for is called something like '<em>Code Signing Certificate for Java</em>'.  Be aware that certificates
+			cost roughly <em>between 100 USD/EUR and 500 USD/EUR per year</em>, depending on the CA.
+			</explanation><explanation>
+			Once you have decided for a CA, just follow their instructions. Usually, getting the certificate works like this:</explanation>
+			<list><li>You create a key (exactly as you would for a self-signed certificate, described in the previous how-to)</li>
+			<li>You use <idf>keytool</idf> to create a <annotated><title>CSR file</title><explanation><idf>Certificate Signing Request</idf> - a text file containing your
+			public key and all other information needed to sign your key. Create it with <idf>keytool</idf> like that:<br/>
+			<idf>keytool –certreq –file yourRequest.csr –keystore myKeystore -alias myKey</idf>
+			</explanation></annotated> and send this file to the CA</li>
+			<li>The CA somehow identifies you.  This step will either involve some paper work, or you may have to visit one of the CAs offices 
+			with an id card.</li>
+			<li>The CA sends you a certificate to import into your keystore <more>The certificate is just a simple file. The <idf>keytool</idf>
+			command to import it is:<br/>
+			<idf>keytool -import -trustcacerts -file theFile.crt -keystore myKeystore -alias myKey</idf></more>.</li>
+			</list>
+			<explanation>
+			Once you're done, you can sign JARs with the certiciate as you would sign with a self-signed certificate (see previous How-To).
+			</explanation>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="perentry">
+			<head>Per-Entry Attributes</head>
+			<summary>How to Specify Attributes For Single Packages (Per-Entry Attributes)</summary>
+			<content>
+				<explanation>Some attributes of the manifest can be set for individual files or packages using <em>using per-entry attributes</em>. 
+				They will then override the default set in the main attributes.<br/>
+				Per-entry attributes are <em>separated by an empty line</em> from the main attributes. Each section must start with 
+				a <doc>Name</doc> attribute, followed by the section's attributes. The sections are separated by newlines from
+				each other as well.</explanation>
+				<explanation>These are the most common per-entry attributes:</explanation>
+				<table>
+					<head><cell>Name</cell><cell>Description</cell><cell>Example</cell></head>
+					<row><cell>Name</cell><cell>Relative path of the file the section applies to</cell><cell>resources/image.png</cell></row>
+					<row><cell>Sealed</cell><cell>"true" to seal package, otherwise "false"</cell><cell>true</cell></row>
+					<row><cell>Implementation-Title</cell><cell>Implementation name of the package</cell><cell>My Super Lib</cell></row>
+					<row><cell>Implementation-Version</cell><cell>Version of the implementation</cell><cell>1.0d</cell></row>
+					<row><cell>Implementation-Vendor</cell><cell>Vendor of the implementation</cell><cell>Super Soft Inc.</cell></row>
+					<row><cell>Specification-Title</cell><cell>Name of the specification implemented</cell><cell>Super API</cell></row>
+					<row><cell>Specification-Version</cell><cell>Version of the specification</cell><cell>1.0</cell></row>
+					<row><cell>Specification-Vendor</cell><cell>Vendor of the specification</cell><cell>Super Group</cell></row>
+					<row><cell>Content-Type</cell><cell><link to="http://en.wikipedia.org/wiki/MIME">MIME type</link> of the file</cell><cell>image/png</cell></row>
+				</table>
+				<miniHeadline>Example with Per-Entry Attributes</miniHeadline>
+				<config><doc>Manifest-Version</doc>: 1.0
+<doc>Implementation-Vendor</doc>: jarfiller.org
+<doc>Sealed</doc>: false
+
+<doc>Name</doc>: com/jarfiller/xml/impl
+<doc>Sealed</doc>: true
+<doc>Implementation-Title</doc>: XML Api Implementation
+<doc>Implementation-Version</doc>: 1.2
+<doc>Specification-Title</doc>: Jarfiller XML API
+<doc>Specification-Version</doc>: 1.0
+
+<doc>Name</doc>: com/jarfiller/xml/backend
+<doc>Sealed</doc>: true
+<doc>Implementation-Title</doc>: XML Api Implementation Backend
+<doc>Implementation-Version</doc>: 1.2
+
+<doc>Name</doc>: com/jarfiller/helper
+<doc>Implementation-Title</doc>: Common Jarfiller Helper
+<doc>Implementation-Version</doc>: 2.2
+				</config>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="sealing">
+			<head>Sealing</head>
+			<summary>How to Seal Packages in a JAR</summary>
+			<content>
+				<explanation><idf>Sealing</idf> a package means that <em>the JAR is the only source for classes of the package</em>. A <javadoc>SecurityException</javadoc> will 
+				be thrown
+				if any other element of the	classpath tries to add additional classes to the package. The main reason for sealing a package is Java's security
+				system, which allows to require privileges for certain functions (such as file system access) in restricted environments
+				(such as Java Applets). Sealing prevents untrusted code from circumventing these security measures.<br/>
+				Another reason for sealing is preventing the user from accidentally loading two slightly different implementations for the same package, which
+				can cause errors.</explanation>
+				<explanation>
+					The simplest way to seal packages is two seal all packages contained in the JAR. Then you only need to add
+					the <doc>Sealed</doc> attribute to the main section of the manifest:
+				</explanation>
+				<config><doc>Manifest-Version</doc>: 1.0
+<doc>Sealed</doc>: true
+</config>
+				<explanation>Alternatively you can also seal parts of the content <em>using per-entry attributes</em>. You need a section for each package 
+				that you include, and can then turn sealing on or off for each section. The following example seals only two packages.</explanation>
+
+				<config><doc>Manifest-Version</doc>: 1.0
+<doc>Sealed</doc>: false
+
+<doc>Name</doc>: com/jarfiller/secure/main
+<doc>Sealed</doc>: true
+
+<doc>Name</doc>: com/jarfiller/secure/driver
+<doc>Sealed</doc>: true
+				</config>
+			</content>
+		</collapsedSubSection>
+		
+		
+		<collapsedSubSection anchor="jarmetadata">
+			<head>JAR Meta-Data</head>
+			<summary>How to Get Package Versioning Information</summary>
+			<content>
+				<explanation>If a JAR has an implementation title, version or vendor set in its manifest, you can
+					<em>retrieve this from the package</em>.
+				</explanation>
+				<explanation>For any <javadoc>Class</javadoc>, you can get its implementation data like this:
+				</explanation>
+				<code>
+				    <line><javadoc>Package</javadoc> p = <javadoc>getClass</javadoc>().<javadoc>getPackage</javadoc>();</line>
+				    <line>System.out.println("Title: "+p.<javadoc>getImplementationTitle</javadoc>());</line>
+				    <line>System.out.println("Version: "+p.<javadoc>getImplementationVersion</javadoc>());</line>
+				    <line>System.out.println("Vendor: "+p.<javadoc>getImplementationVendor</javadoc>());</line>
+				</code>
+				<explanation>
+					If a class did not come out of a JAR with those values set, the methods will return null.
+				</explanation>
+				<explanation>
+					Analog to this you can also get the specification values from the <javadoc>Package</javadoc>.<br/>
+				</explanation>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="eclipse">
+			<head>Eclipse</head>
+			<summary>How to Create JARs with Eclipse</summary>
+			<content>
+				<explanation><link to="http://www.eclipse.org">Eclipse</link> can create JARs using the '<em>Export</em>' function. As of version 3.5,
+				it supports two export destinations.<br/>
+				Plain JAR files can be created using the 'JAR file' export destination. It contains all the basic function provided by the <idf>JAR</idf>
+				tool, and also allows you to create a simple manifest with <doc>Main-Class</doc> and <doc>Sealed</doc> attributes.
+				</explanation>
+				<explanation>The '<em>Runnable JAR file</em>' export destination is a great way to create executable JARs. Eclipse 3.5 offers
+				three ways to handle library dependencies (see also 'How to Add Libraries to a JAR' above):</explanation>
+				<list><li><idf>Extract required libraries</idf> unpacks the library JARs and puts them into the JAR. This corresponds to solution 2 in the Libraries How-To. 
+				The result is a single JAR. Some libraries may not work when extracted with this method.</li>
+				<li><idf>Package required libraries</idf> puts the JARs unmodified into the executable, and adds some special startup code. It configures its
+				own class as <doc>Main-Class</doc> in the manifest, which will then install a special classloader for the included JARs and start
+				your own main class. This should work more reliable than the previous option (you still have to test it though).</li>
+				<li><idf>Copy required libraries into a sub-folder</idf> uses the <doc>Class-Path</doc> attribute as described in solution 1 of the Libraries How-To.
+				This will work best, but results in more than one JAR.</li></list>
+				<explanation>If your program does not depend on any libraries, chose the first option.</explanation>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="ant">
+			<head>Ant</head>
+			<summary>How to Create JARs with Ant</summary>
+			<content>
+				<explanation>
+				<link to="http://ant.apache.org">Ant</link> provides the tasks <idf>Jar</idf>, <idf>SignJar</idf> and <idf>Manifest</idf> to help you create
+				JAR files. Creating a JAR from the files in a directory is as easy as:
+				</explanation>
+				<config>&lt;jar <doc>destfile</doc>="${dist}/example.jar" <doc>basedir</doc>="${build}"/></config>
+				
+				<explanation>For more complex archives, filesets can be used and a manifest can
+				be specified:
+				</explanation>
+				<config>&lt;jar <doc>destfile</doc>="${dist}/example.jar" <doc>manifest</doc>="${src}/manifest/MANIFEST.MF">
+  &lt;fileset dir="${build}" excludes="**/test/*.class"/>
+  &lt;fileset dir="${src}/images"/>
+&lt;/jar></config>
+
+				<explanation>Ant is also able of extracting and adding other JARs. The <doc>filesetmanifest</doc>
+				attribute specifies what to do with their manifests (the default is to skip
+				them):</explanation>
+				<config>&lt;jar <doc>destfile</doc>="${dist}/example.jar" <doc>manifest</doc>="${src}/manifest/MANIFEST.MF"
+    <doc>filesetmanifest</doc>="mergewithoutmain">
+  &lt;fileset dir="${build}" excludes="**/test/*.class"/>
+  &lt;zipfileset src="${lib}/helper.jar"/>
+  &lt;zipfileset src="${lib}/util.jar"/>
+&lt;/jar></config>
+				<explanation>Instead of providing a manifest file, you can also use Ant to generate
+				one. You can either create a file with the <idf>Manifest</idf> task, 
+				or embed a manifest into your <idf>Jar</idf> trask:</explanation>
+				<config>&lt;jar <doc>destfile</doc>="${dist}/example.jar">
+  &lt;manifest>
+    &lt;<doc>attribute</doc> name="Main-Class" value="com.jarfiller.example.MainClass"/>
+    &lt;<doc>attribute</doc> name="Implementation-Title" value="Jarfiller Example"/>
+
+    &lt;<doc>section</doc> name="com/jarfiller/example">
+      &lt;<doc>attribute</doc> name="Sealed" value="true"/>
+    &lt;/section>
+    &lt;<doc>section</doc> name="com/jarfiller/helper">
+      &lt;<doc>attribute</doc> name="Sealed" value="true"/>
+    &lt;/section>
+  &lt;/manifest>
+  &lt;fileset dir="${build}" excludes="**/test/*.class"/>
+  &lt;fileset dir="${src}/images"/>
+&lt;/jar></config>
+
+				<explanation>To sign JARs with Ant, use the <idf>SignJar</idf> task:</explanation>
+				<config>&lt;signjar <doc ref="doc-antjar">jar</doc>="${dist}/example.jar" <doc>keystore</doc>="myKeystore" <doc>storepass</doc>="password" <doc>alias</doc>="myKey"/></config>
+
+				<explanation>It is also possible to sign several JARs in a single task,
+				and to create new JARs instead of modifying existing JARs:</explanation>
+				<config>&lt;signjar <doc>destDir</doc>="signed" <doc>lazy</doc>="true" <doc>preservelastmodified</doc>="true"
+      <doc>keystore</doc>="myKeystore" <doc>storepass</doc>="password" <doc>alias</doc>="myKey">
+  &lt;path>
+    &lt;fileset dir="${dist}" includes="**/*.jar" />
+  &lt;/path>
+&lt;/signjar></config>				
+			</content>
+		</collapsedSubSection>
+	</singleColumnSection>
+  </body>
+  <sidebar>
+  	  	<box>
+  		<title>Useful Links</title>
+  		<content>
+  			<link to="http://java.sun.com/javase/6/docs/technotes/guides/jar/index.html">Java Documentation</link><br/>
+  			<link to="http://java.sun.com/javase/6/docs/technotes/guides/jar/jar.html">JAR File Specification</link><br/>
+  			<link to="http://en.wikipedia.org/wiki/JAR_(file_format)">JAR on Wikipedia</link><br/>
+  		</content>
+  	</box>
+  </sidebar>
+  </article>
+</page>

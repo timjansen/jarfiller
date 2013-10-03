@@ -1,0 +1,1259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" 
+	xmlns:inc="http://tjansen.de/refPageInclude"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://tjansen.de/refPage ../../../schemas/page.xsd 
+	                    http://tjansen.de/refPageInclude ../../../schemas/include.xsd">
+	                    
+  <path>/reference/webxml2x/</path>
+  <title>Web.xml for Servlet 2.x Reference</title>
+
+  <titleIntro>Reference for the web.xml deployment descriptor, according to the servlet specifications
+  2.4 (J2EE 1.4) and 2.5 (Java EE 5).</titleIntro>
+  
+  <license>cc-by-free-src</license> 
+  
+  <multipage/>
+  
+  <docConfig>
+	<inc:includeContent file="../srcContent/shared/webxmldocs-2.4plus.inc.xml"/>
+  </docConfig> 
+  
+  <javadocConfig> 
+	<baseURL>http://java.sun.com/javaee/5/docs/api/</baseURL>
+	<defaultPackage>javax.servlet</defaultPackage>
+	<shortcuts>
+		<shortcut name="ConnectionFactory" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/ConnectionFactory.html"/>
+		<shortcut name="Queue" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Queue.html"/>
+		<shortcut name="DataSource" uri="http://java.sun.com/javase/6/docs/api/javax/sql/DataSource.html"/>
+	</shortcuts>
+  </javadocConfig>
+  
+  <article><body>
+
+	<singleColumnSection anchor="skeletons">
+	  	<head>Skeletons</head>
+		<subSection anchor="skeletons1">
+			<head>Skeleton</head>
+			<explanation>
+			This is the smallest possible <idf>web.xml</idf>: 
+			</explanation>
+			<config><tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee" <doc>version</doc>="<em>2.5</em>"</tag>
+    <cmt>Put declarations here</cmt>
+<ctag/></config>
+			<explanation>The <em><doc>version</doc> attribute must be adjusted</em> to match a
+			version supported by your container
+			<more>The servlet specification requires a web container to support older servlet versions. "2.4" is a safe value
+			that will work almost everywhere. There are very few new features for the deployment descriptor in 2.5 (see
+			<link anchor="diffs25">New Features in Servlet 2.5</link>).</more>.</explanation>
+			
+			<explanation>Inside the <tag>web-app</tag> element, the <em>declarations can have any order</em>. In elements containing text,
+<em>surrounding whitespace will be removed</em>.</explanation>
+
+			<explanation>For editing with an XML-aware editor it is often better to declare the schema as well. Find complete snippets for
+versions 2.4 and 2.5 next.</explanation>
+		</subSection>
+		
+		
+		<collapsedSubSection anchor="skeleton24">
+			<head>Skeleton for 2.4</head>
+			<summary>Complete Web.xml Skeleton with Schema Declaration for Servlet 2.4</summary>
+			<content>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+
+  <cmt>Put declarations here</cmt>
+
+<ctag/></config>
+			</content>
+		</collapsedSubSection>
+
+
+		<collapsedSubSection anchor="skeleton25">
+			<head>Skeleton for 2.5</head>
+			<summary>Complete Web.xml Skeleton with Schema Declaration for Servlet 2.5</summary>
+			<content>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd"
+         <doc>version</doc>="2.5"</tag>
+
+  <cmt>Put declarations here</cmt> 
+
+<ctag/></config>
+			</content>
+		</collapsedSubSection> 
+		
+		<inc:includeNode file="../srcContent/guide/servlet25/guide-servlet25.xml" ref="section-containerOverview"/>
+		
+	</singleColumnSection>
+
+	
+	
+	
+	<singleColumnSection anchor="settings">
+		<head>General Settings</head>
+	
+		<subSection anchor="descriptions">
+			<head>Descriptions</head>
+			<more>The <idf>web.xml</idf> schema allows you to add descriptions, display names and icons at the top-level as well
+			as in various elements. These texts are only used by tools to display them to the person deploying the application.
+			Descriptions are never required.</more>
+			<config><tag>description</tag>A simple web application<ctag/>
+
+<tag>display-name</tag>My first application<ctag/>
+
+<tag>icon</tag>
+    <tag>small-icon</tag>app-small.gif<ctag/>           <cmt>optional; GIF or JPEG</cmt>
+    <tag>large-icon</tag>app-large.gif<ctag/>           <cmt>optional; GIF or JPEG</cmt>
+<ctag/>
+			</config>
+		</subSection>
+		
+		
+		<collapsedSubSection anchor="descriptionexample">
+			<summary>Description Example</summary>
+			<content>
+				<explanation>This is a simple <idf>web.xml</idf> containing only name, description and icon. Such a descriptor can be used
+					for a WAR containing only JSPs or static content.
+				</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+
+    <tag>description</tag>A simple web application<ctag/>
+
+    <tag>display-name</tag>My first application<ctag/>
+
+    <tag>icon</tag>
+          <tag>small-icon</tag>my-app-small.gif<ctag/>
+          <tag>large-icon</tag>my-app-large.gif<ctag/>
+    <ctag/>
+<ctag/>
+				</config>
+			</content>
+		</collapsedSubSection>
+		
+		<subSection anchor="staticcontent">
+			<head>Static Content</head>
+			<more>These settings are for static files contained in the WAR. This includes all files
+			outside of <idf>WEB-INF</idf> or <idf>META-INF</idf> that do not have a 'special' extension
+			such as "*.jsp".</more>
+			<config><tag>mime-mapping</tag>                                     <cmt><em>set MIME type for file extension</em></cmt>
+    <tag>extension</tag>txt<ctag />
+    <tag>mime-type</tag>plain/text<ctag />
+<ctag />
+
+<tag>welcome-file-list</tag>                                 <cmt><em>configure default file names</em></cmt>
+    <tag>welcome-file</tag>index.jsp<ctag />
+    <tag>welcome-file</tag>index.html<ctag />         <cmt>more than one file name allowed</cmt>
+<ctag />
+
+<tag>error-page</tag>                                        <cmt><em>configure error page for HTTP codes</em></cmt>
+    <tag>error-code</tag>404<ctag />
+    <tag>error-page</tag>/error404.html<ctag />
+<ctag />
+
+<tag>error-page</tag>                                        <cmt><em>configure error page for exception</em></cmt>
+    <tag>exception-type</tag>java.lang.NullPointerException<ctag />
+    <tag>error-page</tag>/errorNPE.html<ctag />
+<ctag />
+		
+<tag>locale-encoding-mapping-list</tag>    <cmt>assign character sets to locales</cmt>
+    <tag>locale-encoding-mapping</tag>     <cmt>one per locale</cmt>
+        <tag>locale</tag>ja<ctag/>       
+        <tag>encoding</tag>Shift_JIS<ctag/>
+   <ctag/>
+<ctag/></config>
+		</subSection>
+
+		<collapsedSubSection anchor="configexample">
+			<summary>Configuration Example</summary>
+			<content>
+				<explanation>This is a <idf>web.xml</idf> with some random settings for static content.
+				</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+
+    <tag>mime-mapping</tag>
+        <tag>extension</tag>jnlp<ctag />
+        <tag>mime-type</tag>application/x-java-jnlp-file<ctag />
+    <ctag />
+    <tag>mime-mapping</tag>
+        <tag>extension</tag>xhtml<ctag />
+        <tag>mime-type</tag>application/xhtml+xml<ctag />
+    <ctag />
+
+    <tag>welcome-file-list</tag>
+        <tag>welcome-file</tag>index.jspx<ctag />
+        <tag>welcome-file</tag>index.jsp<ctag />
+        <tag>welcome-file</tag>index.xhtml<ctag />
+        <tag>welcome-file</tag>index.html<ctag />
+        <tag>welcome-file</tag>index.htm<ctag />
+        <tag>welcome-file</tag>default.htm<ctag />
+    <ctag />
+
+    <tag>error-page</tag>
+        <tag>error-code</tag>404<ctag />
+        <tag>error-page</tag>/error404.html<ctag />
+    <ctag />
+    <tag>error-page</tag>
+        <tag>error-code</tag>500<ctag />
+        <tag>error-page</tag>/generic-sorry.html<ctag />
+    <ctag />
+    <tag>error-page</tag>
+        <tag>exception-type</tag>java.lang.NullPointerException<ctag />
+        <tag>error-page</tag>/stupidbug.html<ctag />
+    <ctag />
+		
+    <tag>locale-encoding-mapping-list</tag>
+        <tag>locale-encoding-mapping</tag>
+            <tag>locale</tag>de<ctag/>       
+            <tag>encoding</tag>UTF-8<ctag/>
+        <ctag/>
+        <tag>locale-encoding-mapping</tag>
+            <tag>locale</tag>fr<ctag/>       
+            <tag>encoding</tag>UTF-8<ctag/>
+        <ctag/>
+        <tag>locale-encoding-mapping</tag>
+            <tag>locale</tag>es<ctag/>       
+            <tag>encoding</tag>UTF-8<ctag/>
+        <ctag/>
+    <ctag/>
+<ctag/>
+				</config>
+			</content>
+		</collapsedSubSection>
+		
+		
+		
+
+		<subSection anchor="appsettings">
+			<head>Application Settings</head>
+			<more>These settings allow you to configure the behaviour of code running in the web container.</more>
+			<config><tag>context-param</tag>        <cmt><em>for <idf><javadoc>ServletConfig</javadoc>.<javadoc to="javax/servlet/ServletConfig.html#getInitParameter(java.lang.String)">getInitParameter</javadoc></idf>. One per parameter.</em></cmt>
+    <tag>description</tag>the webmaster's name<ctag/>         <cmt>optional</cmt>
+    <tag>param-name</tag>myWebmastersName<ctag/>              <cmt>any unique name is allowed</cmt>
+    <tag>param-value</tag>Tom<ctag/>
+<ctag/>
+
+<tag>session-config</tag>                                   <cmt><em>configure sessions</em></cmt>
+    <tag>session-timeout</tag>5<ctag />           <cmt>optional; timeout in minutes</cmt>
+<ctag />
+
+<tag>jsp-config</tag>               <cmt><em>configuration for JSPs</em></cmt>
+    <tag>taglib</tag>               <cmt>repeat for each taglib</cmt>
+        <tag>taglib-uri</tag>http://taglibs.jarfiller.com/myLib<ctag />  
+        <tag>taglib-location</tag>/WEB-INF/jftaglib/jg.tld<ctag />  
+    <ctag /> 
+    
+    <tag>jsp-property-group</tag>                               <cmt><em>settings for a group of JSPs</em></cmt>
+        <tag ref="jsp-property-group-url-pattern">url-pattern</tag>*.jsp<ctag />               <cmt>for all *.jsp files</cmt>
+        <tag ref="jsp-property-group-url-pattern">url-pattern</tag>*.view<ctag />              <cmt>more than one pattern allowed</cmt>
+        <tag>el-ignored</tag>false<ctag />                 <cmt>optional</cmt>
+        <tag>page-encoding</tag>UTF-8<ctag />           <cmt>optional</cmt> 
+        <tag>scripting-invalid</tag>false<ctag />   <cmt>optional</cmt>
+        <tag>is-xml</tag>false<ctag />                         <cmt>optional</cmt>
+        <tag>include-prelude</tag>/WEB-INF/fragments/header.jspf<ctag />  <cmt>optional</cmt>
+        <tag>include-coda</tag>/WEB-INF/fragments/footer.jspf<ctag />        <cmt>optional</cmt>
+    <ctag />
+<ctag />
+
+<tag stand-alone="true">distributable</tag>         <cmt>set if <em>application is distributable</em></cmt>
+</config>
+		</subSection>
+
+
+		<collapsedSubSection anchor="appexample">
+			<summary>Configuration Example</summary>
+			<content>
+				<explanation>This is a <idf>web.xml</idf> with some random settings for dynamic content.
+				</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+
+    <tag>context-param</tag>
+        <tag>param-name</tag>appName<ctag/>
+        <tag>param-value</tag>Example.com<ctag/>
+    <ctag/>
+    <tag>context-param</tag>
+        <tag>param-name</tag>userThreshold<ctag/>
+        <tag>param-value</tag>20<ctag/>
+    <ctag/>
+
+    <tag>session-config</tag> 
+        <tag>session-timeout</tag>15<ctag />
+    <ctag />
+
+    <tag>jsp-config</tag>
+        <tag>taglib</tag> 
+            <tag>taglib-uri</tag>http://taglibs.jarfiller.com/popupLib<ctag />  
+            <tag>taglib-location</tag>/WEB-INF/popup.tld<ctag />  
+        <ctag /> 
+    
+        <tag>jsp-property-group</tag>
+            <tag ref="jsp-property-group-url-pattern">url-pattern</tag>*.jsp<ctag />
+            <tag>page-encoding</tag>UTF-8<ctag />
+            <tag>is-xml</tag>true<ctag /> 
+            <tag>include-coda</tag>/WEB-INF/fragments/footer.jspf<ctag />
+        <ctag />
+    <ctag />
+
+<ctag/>
+				</config>
+			</content>
+		</collapsedSubSection>
+
+
+	</singleColumnSection>
+
+	
+	<singleColumnSection anchor="servlets">
+		<head>Servlets</head>
+				
+		<subSection anchor="servlets1">
+			<head>Servlets</head>
+			
+			<more>Servlets are Java classes that will invoked when a client requests a resource and
+are responsible for creating the response.<br/>
+You need at least two elements to make a servlet work: one to declare the servlet class (<idf>&lt;servlet></idf>),
+and the second to configure the paths for which the servlet will be invoked (<idf>&lt;servlet-mapping></idf>).</more>
+
+			<config><tag>servlet</tag>                                   <cmt><em>declare a regular servlet</em></cmt>
+    <tag>description</tag>A Servlet Example<ctag />     <cmt>optional</cmt>
+    <tag>display-name</tag>Example Servlet<ctag />     <cmt>optional</cmt>
+    
+    <tag>servlet-name</tag>servlet1<ctag />
+    <tag>servlet-class</tag>com.jarfiller.MyServlet<ctag />
+    
+    <tag ref="doc-servlet-init-param">init-param</tag>                                     <cmt>optional, one per parameter</cmt>
+        <tag>param-name</tag>email<ctag />
+        <tag>param-value</tag>email<ctag />
+    <ctag />
+    
+    <tag>load-on-startup</tag>0<ctag />             <cmt>optional</cmt>
+    
+    <tag>run-as</tag>                                         <cmt>optional</cmt>
+        <tag>description</tag>EJB User<ctag />          <cmt>optional</cmt>
+        <tag ref="doc-run-as-role-name">role-name</tag>admin<ctag />
+    <ctag />
+    
+    <tag>security-role-ref</tag>                              <cmt>optional, one per role</cmt>
+        <tag>description</tag>EJB User<ctag />          <cmt>optional</cmt>
+        <tag ref="doc-security-role-ref-role-name">role-name</tag>su<ctag />
+        <tag ref="doc-security-role-ref-role-link">role-link</tag>SUPERUSER<ctag />             <cmt>optional</cmt>
+    <ctag />
+<ctag />
+
+<tag>servlet</tag>                                   <cmt><em>declare a JSP as servlet</em></cmt>
+    <tag>servlet-name</tag>servlet2<ctag />
+    <tag>servlet-class</tag>com.jarfiller.MyServlet<ctag />
+    
+    <cmt><abstract>...</abstract></cmt>
+<ctag />
+
+<tag>servlet-mapping</tag>                           <cmt><em>map servlet on URL</em></cmt>
+    <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag>servlet1<ctag />           <cmt>must match &lt;servlet>/&lt;servlet-name></cmt>
+    <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/my/servlet/*<ctag />        <cmt>see <link anchor="urlpatterns">URL Patterns</link></cmt>
+<ctag />
+</config>
+		</subSection>
+		
+		
+		<collapsedSubSection anchor="servletexamples">
+			<summary>Servlet Examples</summary>
+			<content>
+				<miniHeadline>Simple Servlet</miniHeadline>
+				<explanation>A very simple <idf>web.xml</idf>, declaring a single servlet that will be invoked
+				for all paths starting with "/genimages/".</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>servlet</tag>
+        <tag>description</tag>Servlet that generates images<ctag/>
+        <tag>servlet-name</tag><em>imageServlet</em><ctag/>
+        <tag>servlet-class</tag>com.jarfiller.example.ImageGeneratorServlet<ctag/>
+    <ctag/>
+    
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag><em>imageServlet</em><ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/genimages/*<ctag/>
+    <ctag/>
+<ctag/>
+				</config>
+
+				<miniHeadline>Servlet with several patterns</miniHeadline>
+				<explanation>A <idf>web.xml</idf> declaring a single servlet that will be invoked
+				for two paths, "/textimages/*" and "/numberimages/*".</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>servlet</tag>
+        <tag>description</tag>Servlet that generates images<ctag/>
+        <tag>servlet-name</tag><em>imageServlet</em><ctag/>
+        <tag>servlet-class</tag>com.jarfiller.example.ImageGeneratorServlet<ctag/>
+    <ctag/>
+    
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag><em>imageServlet</em><ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/textimages/*<ctag/>
+    <ctag/>
+
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag><em>imageServlet</em><ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/numberimages/*<ctag/>
+    <ctag/>
+<ctag/>
+				</config>
+				
+				<miniHeadline>Servlets with Initialization Parameters</miniHeadline>
+				<explanation>Configures two servlets that share the same class, but are configured differently using &lt;init-param>.</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>servlet</tag>
+        <tag>description</tag>Servlet that shows a wishlist<ctag/>
+        <tag>servlet-name</tag>wishlistServlet<ctag/>
+        <tag>servlet-class</tag><em>com.jarfiller.example.WishlistServlet</em><ctag/>
+        <tag ref="doc-servlet-init-param">init-param</tag>
+            <tag>param-name</tag>list-name<ctag/>
+            <tag>param-value</tag><em>Wishlist</em><ctag/>
+        <ctag/>
+    <ctag/>
+    
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag>wishlistServlet<ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/wishlist.do<ctag/>
+    <ctag/>
+    
+    <tag>servlet</tag>
+        <tag>description</tag>Wishlist Servlet re-configured for wedding registry<ctag/>
+        <tag>servlet-name</tag>wedRegServlet<ctag/>
+        <tag>servlet-class</tag><em>com.jarfiller.example.WishlistServlet</em><ctag/>
+        <tag ref="doc-servlet-init-param">init-param</tag>
+            <tag>param-name</tag>list-name<ctag/>
+            <tag>param-value</tag><em>Wedding Registry</em><ctag/>
+        <ctag/>
+        <tag ref="doc-servlet-init-param">init-param</tag>
+            <tag>param-name</tag>decoration<ctag/>
+            <tag>param-value</tag>kitschy<ctag/>
+        <ctag/>
+    <ctag/>
+    
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag>wedRegServlet<ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/wedding-registry.do<ctag/>
+    <ctag/>
+<ctag/>
+				</config>
+
+				<miniHeadline>JSP Defined as Servlet</miniHeadline>
+				<explanation>Defines a servlet that is implemented as JSP, instead of a regular Java class.</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>servlet</tag>
+        <tag>description</tag>Servlet to login<ctag/>
+        <tag>servlet-name</tag>loginServlet<ctag/>
+        <tag>jsp-file</tag><em>/WEB-INF/jsps/login.jsp</em><ctag/>
+    <ctag/>
+    
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag>loginServlet<ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/login.do<ctag/>
+    <ctag/>
+<ctag/>
+				</config>
+				
+				    <miniHeadline>Servlet with Security Role</miniHeadline>
+   					<explanation>This servlet uses the role called "Admin" to check permissions, so it is declared in the 
+ 						<tag>security-role-ref</tag>. However, the application's equivalent role is called "site-admin". 
+    					The <tag>security-role-ref</tag> definition maps between the servlet's name and the application's name.</explanation>
+    				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    
+    <tag>security-role</tag>
+        <tag>description</tag>The site-wide admin role<ctag/>
+        <tag>role-name</tag><em>site-admin</em><ctag/>
+    <ctag/>
+    
+    <tag>servlet</tag>
+        <tag>servlet-name</tag>adminServlet<ctag/>
+        <tag>servlet-class</tag>com.jarfiller.example.AdminServlet<ctag/>
+        
+        <tag>security-role-ref</tag>
+            <tag ref="doc-security-role-ref-role-name">role-name</tag>Admin<ctag/>             <cmt>the servlet's internal name</cmt>
+            <tag ref="doc-security-role-ref-role-link">role-link</tag><em>site-admin</em><ctag/> <cmt>the application's name</cmt>
+        <ctag/>
+    <ctag/>
+        
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag>adminServlet<ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/servlets/AdminServlet<ctag/>
+    <ctag/>
+<ctag/>
+				</config>
+			</content>
+		</collapsedSubSection>
+	</singleColumnSection>
+
+	<singleColumnSection anchor="filterandlistener">
+		<head>Filters and Listeners</head>
+		<subSection anchor="filters">
+			<head>Filters</head>
+			<more>Filters are Java classes that are able to modify a client's request and/or the server's response
+(which may be either a servlet's response or a static file served by the web container).<br/>
+You need at least two elements to install a filter: the first to declare the filter class (<idf>&lt;filter></idf>). And a second
+to map the class on servlets and/or paths for which it will be invoked (<idf>&lt;filter-mapping></idf>).</more>
+			<config><tag>filter</tag>                                                 <cmt><em>declares a <javadoc>Filter</javadoc></em></cmt>
+    <tag>description</tag>some request filter<ctag/>       <cmt>optional</cmt>
+    <tag ref="doc-filter-display-name">display-name</tag>my request filter<ctag/>       <cmt>optional</cmt>
+    <tag>filter-name</tag>filter1<ctag/> <cmt>name must be unique</cmt>
+    <tag>filter-class</tag>com.jarfiller.example.MyRequestFilter<ctag/>
+ 
+    <tag ref="doc-filter-init-param">init-param</tag>     <cmt>for <idf><javadoc>FilterConfig</javadoc>.<javadoc to="javax/servlet/FilterConfig.html#getInitParameter(java.lang.String)">getInitParameter</javadoc></idf>. One per parameter.</cmt>
+        <tag>description</tag>new background color<ctag/>     <cmt>optional</cmt>
+        <tag>param-name</tag>myColor<ctag/>                    <cmt>any unique name is allowed</cmt>
+        <tag>param-value</tag>green<ctag/>
+    <ctag/>
+<ctag/>
+
+
+<tag>filter-mapping</tag>                            <cmt><em>maps a &lt;filter> on a URL pattern</em></cmt>
+    <tag ref="doc-filter-mapping-name">filter-name</tag>filter1<ctag/>      <cmt>name must match &lt;filter>/&lt;filter-name></cmt>
+    <tag ref="doc-filter-mapping-url-pattern">url-pattern</tag>*.do<ctag/>         <cmt>see URL Patterns below for syntax </cmt>
+    
+    <tag>dispatcher</tag>REQUEST<ctag/>        <cmt>filter regular requests (default),</cmt>
+    <tag>dispatcher</tag>FORWARD<ctag/>        <cmt>filter forwards,</cmt>
+    <tag>dispatcher</tag>INCLUDE<ctag/>        <cmt>filter includes,</cmt>
+    <tag>dispatcher</tag>ERROR<ctag/>          <cmt>and filter errors</cmt>
+<ctag/>
+
+
+<tag>filter-mapping</tag>                                <cmt><em>maps a &lt;filter> on a servlet</em></cmt>
+    <tag ref="doc-filter-mapping-name">filter-name</tag>filter1<ctag/>          <cmt>must match &lt;filter>/&lt;filter-name></cmt>
+    <tag ref="doc-filter-mapping-servlet-name">servlet-name</tag>jfservlet1<ctag/>     <cmt>must match &lt;servlet>/&lt;servlet-name></cmt>
+    
+    <cmt>no dispatcher specified: REQUEST is default</cmt>
+    
+<ctag/></config>
+		</subSection>
+		
+		<collapsedSubSection anchor="filterexamples">
+			<summary>Filter Examples</summary>
+			<content>
+				<miniHeadline>Pattern-based Filter</miniHeadline>
+    			<explanation>The following <idf>web.xml</idf> contains a filter for 
+   				 PNG and GIF images.</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>filter</tag>
+        <tag>description</tag>Filter to put watermarks on images<ctag/>
+        <tag>filter-name</tag>watermarkFilter1<ctag/>
+        <tag>filter-class</tag>com.jarfiller.example.WatermarkFilter<ctag/>
+        
+        <tag ref="doc-filter-init-param">init-param</tag>
+            <tag>param-name</tag>baseDir<ctag/>
+            <tag>param-value</tag>/protectedImages<ctag/>
+        <ctag/>
+    <ctag/>
+    
+    <tag>filter-mapping</tag>
+        <tag>filter-name</tag>watermarkFilter1<ctag/>
+        <tag ref="doc-filter-mapping-url-pattern">url-pattern</tag>*.png<ctag/>
+        <tag>dispatcher</tag>REQUEST<ctag/>
+    <ctag/>
+    
+    <tag>filter-mapping</tag>
+        <tag>filter-name</tag>watermarkFilter1<ctag/>
+        <tag ref="doc-filter-mapping-url-pattern">url-pattern</tag>*.gif<ctag/>
+        <tag>dispatcher</tag>REQUEST<ctag/>
+    <ctag/>
+<ctag/>
+</config>
+   
+    
+    <miniHeadline>Servlet Filter</miniHeadline>
+    <explanation>This following <idf>web.xml</idf> contains a filter that processes the output of a
+    servlet.</explanation>
+	<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>servlet</tag>
+        <tag>description</tag>Servlet that shows a wishlist<ctag/>
+        <tag>servlet-name</tag><em>wishlistServlet</em><ctag/>
+        <tag>servlet-class</tag>com.jarfiller.example.WishlistServlet<ctag/>
+    <ctag/>
+    
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag>wishlistServlet<ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/wishlist.do<ctag/>
+    <ctag/>
+         
+    <tag>filter</tag>
+        <tag>description</tag>Filter to add footers<ctag/>
+        <tag>filter-name</tag>footerFilter<ctag/>
+        <tag>filter-class</tag>com.jarfiller.example.FooterFilter<ctag/>
+        
+        <tag ref="doc-filter-init-param">init-param</tag>
+            <tag>param-name</tag>includeFooter<ctag/>
+            <tag>param-value</tag>/WEB-INF/footers/customFooter.html<ctag/>
+        <ctag/>
+    <ctag/>
+    
+    <tag>filter-mapping</tag>
+        <tag>filter-name</tag>footerFilter<ctag/>
+        <tag ref="doc-filter-mapping-servlet-name">servlet-name</tag><em>wishlistServlet</em><ctag/>
+    <ctag/>
+<ctag/>
+</config>
+			</content>
+		</collapsedSubSection>
+		
+		<subSection anchor="listeners">
+			<head>Listeners</head>
+			<more>Listeners allow a web application to be <em>notified about various events</em> in the web container, such as a session timeout. To declare a
+listener, you only need a simple <idf>&lt;listener></idf> element that specifies its class.</more>
+			<config><tag>listener</tag>                                         <cmt><em>declares a listener</em></cmt>
+    <tag>description</tag>My first listener<ctag/>              <cmt>optional</cmt>
+    <tag ref="doc-listener-display-name">display-name</tag>Simple Listener Example<ctag/>      <cmt>optional</cmt>
+    <tag>listener-class</tag>com.jarfiller.example.MyListener<ctag/>
+<ctag/></config>
+		</subSection>
+		
+		<collapsedSubSection anchor="listenerexample">
+			<summary>Listener Example</summary>
+			<content>
+				<explanation>Setting up a listener is trivial:</explanation>
+    			<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>listener</tag>
+        <tag>description</tag>A listener for user sessions.<ctag/>
+        <tag>listener-class</tag>com.jarfiller.example.MySessionListener<ctag/>
+    <ctag/>
+<ctag/>
+</config>
+			</content>
+		</collapsedSubSection>
+		
+	</singleColumnSection>
+
+	<singleColumnSection anchor="security">
+		<head>Security</head>
+		<subSection anchor="security1">
+			<head>Security</head>
+			<more>Java Servlets offer a simple but powerful security mechanism. First you need to define
+			<idf>roles</idf> to represent users. The web container
+			is responsible for exact mapping between those roles and actual users.<br/>
+			There are two things you can do with roles. Using the <idf>&lt;security-constraint></idf>
+			element you can restrict which roles are allowed to access a page or a path. And you can 
+			give role definitions to servlets with <idf>&lt;security-role-ref></idf>, so that the 
+			servlet can check whether the user's role before she is allowed to do something.
+			</more>
+			<config><tag>security-role</tag>                                      <cmt><em>declares a role</em></cmt>
+    <tag>description</tag>administrator role<ctag />    <cmt>optional</cmt>
+    <tag>role-name</tag>admin<ctag />
+<ctag /> 
+
+<tag>security-constraint</tag>                       <cmt><em>specifies who can access resources</em></cmt>
+    <tag>web-resource-collection</tag>               <cmt>repeat for additional data</cmt>
+        <tag>web-resource-name</tag>User Preferences<ctag />
+        <tag>description</tag>Pref and settings for users...<ctag /> <cmt>optional</cmt>
+        <tag ref="doc-web-resource-collection-url-pattern">url-pattern</tag>/prefs/*<ctag />
+        <tag ref="doc-web-resource-collection-url-pattern">url-pattern</tag>/settings/*<ctag /> 
+        <tag>http-method</tag>GET<ctag />      <cmt>optional (default: all methods)</cmt>
+        <tag>http-method</tag>POST<ctag />
+    <ctag />
+    
+    <tag>auth-constraint</tag>                       <cmt>optional (default: allow all users)</cmt>
+        <tag ref="doc-auth-constraint-role-name">role-name</tag>admin<ctag />        <cmt>refers to <idf>&lt;security-role></idf>, "*" for all roles</cmt>
+        <tag ref="doc-auth-constraint-role-name">role-name</tag>registered<ctag />
+    <ctag /> 
+    
+    <tag>user-data-constraint</tag>                  <cmt>optional (default: SSL not required)</cmt>
+        <tag>transport-guarantee</tag>CONFIDENTIAL<ctag /> <cmt>"CONFIDENTIAL" means SSL</cmt>
+    <ctag />
+<ctag />
+
+<tag>login-config</tag>                              <cmt><em>configures login</em></cmt>
+    <tag>auth-method</tag>FORM<ctag />         <cmt>optional (main alternative: BASIC)</cmt>
+    
+    <tag>realm-name</tag>My Realm<ctag />       <cmt>optional, for BASIC only</cmt>
+    
+    <tag>form-login-config</tag>                     <cmt>optional, for FORM only</cmt>
+        <tag>form-login-page</tag>/login.jsp<ctag />
+        <tag>form-error-page</tag>/login-error.html<ctag />
+    <ctag />
+<ctag />
+</config>
+		</subSection>
+		
+		<collapsedSubSection anchor="securityexamples">
+			<summary>Security Examples</summary>
+			<content>
+				<miniHeadline>Servlet-implemented Security</miniHeadline>
+				<explanation>This <idf>web.xml</idf> defines several roles and a way to log them in, but it does not restrict access to 
+				content. The servlet can make use of them.
+				</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+
+    <tag>security-role</tag>
+        <tag>role-name</tag>plainUser<ctag />
+    <ctag />
+    <tag>security-role</tag>
+        <tag>role-name</tag>powerUser<ctag />
+    <ctag />
+    <tag>security-role</tag>
+        <tag>role-name</tag>root<ctag />
+    <ctag />
+    
+    <tag>login-config</tag>
+        <tag>auth-method</tag>FORM<ctag />
+    
+        <tag>form-login-config</tag>
+            <tag>form-login-page</tag>/login.xhtml<ctag />
+            <tag>form-error-page</tag>/loginFailed.xhtml<ctag />
+        <ctag />
+    <ctag />
+    
+    <tag>servlet</tag>
+        <tag>servlet-name</tag>adminServlet<ctag/>
+        <tag>servlet-class</tag>com.jarfiller.example.AdminServlet<ctag/>
+        
+        <tag>security-role-ref</tag>
+            <tag ref="doc-security-role-ref-role-name">role-name</tag>Admin<ctag/>
+            <tag ref="doc-security-role-ref-role-link">role-link</tag><em>root</em><ctag/>
+        <ctag/>
+    <ctag/>
+    
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag>adminServlet<ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/admin/*<ctag/>
+    <ctag/>
+    
+    <tag>servlet</tag>
+        <tag>servlet-name</tag>mainServlet<ctag/>
+        <tag>servlet-class</tag>com.jarfiller.example.MainServlet<ctag/>
+        
+        <tag>security-role-ref</tag>
+            <tag ref="doc-security-role-ref-role-name">role-name</tag>User<ctag/>
+            <tag ref="doc-security-role-ref-role-link">role-link</tag><em>plainUser</em><ctag/>
+        <ctag/>
+        <tag>security-role-ref</tag>
+            <tag ref="doc-security-role-ref-role-name">role-name</tag>Operator<ctag/>
+            <tag ref="doc-security-role-ref-role-link">role-link</tag><em>powerUser</em><ctag/>
+        <ctag/>
+        <tag>security-role-ref</tag>
+            <tag ref="doc-security-role-ref-role-name">role-name</tag>Admin<ctag/>
+            <tag ref="doc-security-role-ref-role-link">role-link</tag><em>root</em><ctag/>
+        <ctag/>
+    <ctag/>
+    
+    <tag>servlet-mapping</tag>
+        <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag>mainServlet<ctag/>
+        <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag>/<ctag/>
+    <ctag/>
+    
+<ctag/>
+				</config>
+				
+				<miniHeadline>Declarative Security</miniHeadline>
+				<explanation>This <idf>web.xml</idf> defines an area for administrators only, protected by HTTP Basic Authentication.
+				</explanation>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+
+    <tag>security-role</tag>
+        <tag>role-name</tag>admin<ctag />
+    <ctag />
+    <tag>security-role</tag>
+        <tag>role-name</tag>operator<ctag />
+    <ctag />
+    
+    <tag>login-config</tag>
+        <tag>auth-method</tag>BASIC<ctag />
+        <tag>realm-name</tag>JF Administration<ctag />
+    <ctag />
+    
+    <tag>security-constraint</tag>
+        <tag>web-resource-collection</tag>
+            <tag>web-resource-name</tag>Admin Areas<ctag />
+            <tag ref="doc-web-resource-collection-url-pattern">url-pattern</tag>/admin/*<ctag />
+            <tag ref="doc-web-resource-collection-url-pattern">url-pattern</tag>/control/*<ctag />
+        <ctag />
+        <tag>auth-constraint</tag>
+            <tag ref="doc-auth-constraint-role-name">role-name</tag>admin<ctag />
+        <ctag />
+        <tag>user-data-constraint</tag>
+            <tag>transport-guarantee</tag>CONFIDENTIAL<ctag />
+        <ctag />
+    <ctag />
+            
+    <tag>security-constraint</tag>
+        <tag>web-resource-collection</tag>
+            <tag>web-resource-name</tag>Statistics Area<ctag />
+            <tag ref="doc-web-resource-collection-url-pattern">url-pattern</tag>/statistics/*<ctag />
+        <ctag />
+        <tag>auth-constraint</tag>
+            <tag ref="doc-auth-constraint-role-name">role-name</tag>admin<ctag />
+            <tag ref="doc-auth-constraint-role-name">role-name</tag>operator<ctag />
+        <ctag />
+    <ctag />
+<ctag/>
+				</config>
+			</content>
+		</collapsedSubSection>
+	</singleColumnSection>
+	
+	<singleColumnSection anchor="resourcedecl">
+		<head>Resource Declarations</head>
+		<subSection anchor="simpleentries">
+			<head>Simple Entries</head>
+			<more><idf>&lt;env-entry></idf> allows configuring the application with simple parameters such as strings
+			and numbers. More complex types should be declared with <idf>&lt;resource-env-ref></idf> or one of the specialized
+			types.<br/>
+			Since Servlet 2.5 / JEE 5, resource reference declarations in <idf>web.xml</idf> are not used that often anymore,
+			since you can more easily do this with a <idf>@Resource</idf> annotation.</more>
+			<config><tag>env-entry</tag>                                                 <cmt><em>expect simple parameter</em></cmt>
+    	<tag>description</tag>Configure time zone<ctag />      <cmt>optional</cmt>
+    	<tag>env-entry-name</tag>param/timezone<ctag />
+    	<tag>env-entry-type</tag>java.lang.String<ctag />
+    	<tag>env-entry-value</tag>EST<ctag />              <cmt>optional</cmt>
+<ctag />
+</config>
+		</subSection>
+		<collapsedSubSection anchor="enventryexample">
+			<summary>Environment Entry Example</summary>
+			<content>
+				<explanation><idf>&lt;env-entry></idf> describes settings that a deployer can use to configure a 
+				web application in the web container. Here are some simple example entries:</explanation>
+    			<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>env-entry</tag>
+    	<tag>description</tag>Admin Name<ctag />
+    	<tag>env-entry-name</tag>param/adminName<ctag />
+    	<tag>env-entry-type</tag>java.lang.String<ctag />
+    	<tag>env-entry-value</tag>(unknown)<ctag />
+    <ctag />
+    <tag>env-entry</tag>
+    	<tag>description</tag>Set to "true" to run in development mode<ctag />
+    	<tag>env-entry-name</tag>param/developmentMode<ctag />
+    	<tag>env-entry-type</tag>java.lang.Boolean<ctag />
+    	<tag>env-entry-value</tag>false<ctag />
+    <ctag />
+    <tag>env-entry</tag>
+    	<tag>description</tag>Maximum login attempts before user will be locked out<ctag />
+    	<tag>env-entry-name</tag>param/maxLoginAttempts<ctag />
+    	<tag>env-entry-type</tag>java.lang.Integer<ctag />
+    	<tag>env-entry-value</tag>5<ctag />
+    <ctag />
+<ctag/>
+</config>
+			</content>
+		</collapsedSubSection>
+		
+		
+		<subSection anchor="resources">
+			<head>Resources</head>
+			<more><idf>&lt;resource-ref></idf> is probably the most important resource reference declaration, as it
+			declares a reference to a connection factory. This is needed for JDBC DataSources as well as well as JMS
+			ConnectionFactories.<br/>
+			<idf>&lt;resource-env-ref></idf> is a newer type of reference declaration designed for complex objects that are
+			not covered by <idf>&lt;resource-ref></idf>. Originally it had been introduced for JMS Queue objects, but they
+			have their own declaration <idf>&lt;message-destination-ref></idf> now.<br/>
+			Since Servlet 2.5 / JEE 5, resource reference declarations in <idf>web.xml</idf> are not used that often anymore,
+			since you can more easily do this with a <idf>@Resource</idf> annotation.</more>
+			<config><tag>resource-ref</tag>                   <cmt><em>expect reference to connection factory</em></cmt> 
+    <tag>description</tag>My DataSource<ctag />          <cmt>optional</cmt>
+    <tag>res-ref-name</tag>jdbc/MyDataSource<ctag />
+    <tag>res-type</tag>javax.sql.DataSource<ctag />
+    <tag>res-auth</tag>Container<ctag />                    <cmt><idf>Container</idf> or <idf>Application</idf></cmt>
+    <tag>res-sharing-scope</tag>Shareable<ctag />  <cmt>optional (default: <idf>Shareable</idf>)</cmt>
+<ctag />
+
+<tag>resource-env-ref</tag>               <cmt><em>expect reference to a complex object</em></cmt> 
+    <tag>description</tag>Configuration bean<ctag />     <cmt>optional</cmt>
+    <tag>resource-env-ref-name</tag>my/ConfigBean<ctag />
+    <tag>resource-env-ref-type</tag>com.jarfiller.beans.ConfigBean<ctag />
+<ctag />
+			</config>
+		</subSection>
+		<collapsedSubSection anchor="resourcerefexample">
+			<summary>Resource Reference Example</summary>
+			<content>
+				<explanation><idf>&lt;resource-ref></idf> is mostly used for JDBC <javadoc>DataSource</javadoc> or JMS <javadoc>ConnectionFactory</javadoc>
+				instances. It is not that important these days, but can be used for passing beans to the application (if the container supports this).</explanation>
+    			<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>resource-ref</tag>
+        <tag>res-ref-name</tag>jdbc/MyDataSource<ctag />
+        <tag>res-type</tag>javax.sql.DataSource<ctag />
+        <tag>res-auth</tag>Container<ctag />
+    <ctag />
+
+    <tag>resource-ref</tag>
+        <tag>res-ref-name</tag>jms/MyConnectionFactory<ctag />
+        <tag>res-type</tag>javax.jms.ConnectionFactory<ctag />
+        <tag>res-auth</tag>Container<ctag />
+    <ctag />
+    
+    <tag>resource-env-ref</tag> 
+        <tag>resource-env-ref-name</tag>my/ConfigBean<ctag />
+        <tag>resource-env-ref-type</tag>com.jarfiller.beans.ConfigBean<ctag />
+    <ctag />
+<ctag/>
+</config>
+			</content>
+		</collapsedSubSection>
+		
+		
+		<subSection anchor="ejbs">
+			<head>EJBs</head>
+			<more>These reference declarations allow you to get a reference to a EJB. It does not make much sense
+			to use them with EJB 3.0, since EJB 3.0 beans usually do not have a home interface. Use <idf>@EJB</idf> annotations in
+			the code instead.</more>
+			<config><tag>ejb-ref</tag>                        <cmt><em>expect reference to EJB via remote interface</em></cmt>
+    <tag>description</tag>Sets TimeManager EJB<ctag />                <cmt>optional</cmt>
+    <tag>ejb-ref-name</tag>ejb/TimeManagerRemote<ctag />
+    <tag>ejb-ref-type</tag>Session<ctag />
+    <tag>home</tag>com.jarfiller.tm.TimeManagerHome<ctag />
+    <tag>remote</tag>com.jarfiller.tm.TimeManagerRemote<ctag />
+    <tag>ejb-link</tag>TimeManager<ctag />                               <cmt>optional</cmt>
+<ctag />
+
+<tag>ejb-local-ref</tag>                 <cmt><em>expect reference to EJB via local interface</em></cmt>
+    <tag>description</tag>Sets TimeManager EJB<ctag />                <cmt>optional</cmt>
+    <tag>ejb-ref-name</tag>ejb/TimeManagerLocal<ctag />
+    <tag>ejb-ref-type</tag>Session<ctag />
+    <tag>local-home</tag>com.jarfiller.tm.TimeManagerLocalHome<ctag />
+    <tag>local</tag>com.jarfiller.tm.TimeManagerLocal<ctag />
+    <tag>ejb-link</tag>TimeManager<ctag />                               <cmt>optional</cmt>
+<ctag />
+</config>
+		</subSection>
+		<collapsedSubSection anchor="ejbrefexample">
+			<summary>EJB Reference Example</summary>
+			<content>
+				<explanation><idf>&lt;ejb-ref></idf> and <idf>&lt;ejb-local-ref></idf> are mostly useful for old EJB 1.x/2.x beans, as home interfaces
+				are not required for EJB 3.x anymore. When writing for the Servlet 2.5 API, you should probably use the 
+				<javadoc to="http://java.sun.com/javaee/5/docs/api/javax/ejb/EJB.html">@EJB</javadoc> annotation.</explanation>
+    			<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+         
+    <tag>ejb-ref</tag>
+        <tag>ejb-ref-name</tag>ejb/TimeManagerRemote<ctag />
+        <tag>ejb-ref-type</tag>Session<ctag />
+        <tag>home</tag>com.jarfiller.tm.TimeManagerHome<ctag />
+        <tag>remote</tag>com.jarfiller.tm.TimeManagerRemote<ctag />
+    <ctag />
+
+    <tag>ejb-local-ref</tag>
+        <tag>ejb-ref-name</tag>ejb/TimeManagerLocal<ctag />
+        <tag>ejb-ref-type</tag>Session<ctag />
+        <tag>local-home</tag>com.jarfiller.tm.TimeManagerLocalHome<ctag />
+        <tag>local</tag>com.jarfiller.tm.TimeManagerLocal<ctag />
+    <ctag />
+<ctag/>
+</config>
+			</content>
+		</collapsedSubSection>
+		
+		
+		
+		<subSection anchor="webservices">
+			<head>Web Services</head>
+			<more>This resource reference declaration allows you to specify a reference to a web service. For JAX-RPC,
+			this is the only way to get a reference. With JAX-WS, you probably don't want to do this, but use a
+			<idf>@WebServiceRef</idf> annotation instead.</more>
+			<config><tag>service-ref</tag>                   <cmt><em>expect a reference to a web service</em></cmt>
+    <tag>description</tag>My Webservice<ctag/>                         <cmt>optional</cmt>
+    <tag ref="doc-service-ref-display-name">display-name</tag>service1<ctag/>                            <cmt>optional</cmt>
+    <tag>service-ref-name</tag>service/jfservice<ctag/>
+    <tag>service-interface</tag>com.jarfiller.example.JarFillerService<ctag/>
+    <tag>wsdl-file</tag>WEB-INF/wsdl/jarfiller.wsdl<ctag/>               <cmt>optional</cmt>
+    <tag>jaxrpc-mapping-file</tag>WEB-INF/mapping.xml<ctag/>   <cmt>optional</cmt>
+    <tag>service-qname xmlns:jf="http://jarfiller.com/ws"</tag>               <cmt>optional</cmt>
+        jf:JFHelloService                                            <cmt>note the "jf" prefix</cmt>
+    <ctag/>
+    <tag>port-component-ref</tag>                                    <cmt>optional, one per interface</cmt>
+        <tag>service-endpoint-interface</tag><ctag/>
+        <tag>enable-mtom</tag>false<ctag/>                             <cmt>optional</cmt>
+        <tag>port-component-link</tag><ctag/>                  <cmt>optional</cmt>
+    <ctag/>
+    <tag>handler</tag>                        <cmt>optional, one per handler, only for JAX-RPC</cmt>
+        <tag>description</tag>My Handler<ctag/>                        <cmt>optional</cmt>
+        <tag ref="doc-handler-display-name">display-name</tag>handler1<ctag/>                        <cmt>optional</cmt>
+        <tag>handler-class</tag>com.jarfiller.example.WSHandler<ctag/>
+        <tag ref="doc-handler-init-param">init-param</tag>                                        <cmt>optional, one per parameter</cmt>
+            <tag>param-name</tag>email<ctag/>
+            <tag>param-value</tag>tim@jarfiller.com<ctag/>
+        <ctag/>
+        <tag>soap-header xmlns:jf="http://jarfiller.com/ws"</tag>    <cmt>optional, one per header</cmt>
+            jf:jfSecToken
+        <ctag/>
+        <tag>soap-role</tag>next<ctag/>                         <cmt>optional, one per role</cmt>
+        <tag>port-name</tag>Port1<ctag/>                        <cmt>optional, one per port name</cmt>
+    <ctag/>
+<ctag/>
+</config>
+		</subSection>
+		<collapsedSubSection anchor="webservicerefexample">
+			<summary>Webservice Reference Example</summary>
+			<content>
+				<explanation>This example shows a reference to a JAX-WS webservice:</explanation>
+    			<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd"
+         <doc>version</doc>="2.5"</tag>
+         
+    <tag>service-ref</tag>
+        <tag>service-ref-name</tag>service/jfservice<ctag/>
+        <tag>service-interface</tag>com.jarfiller.example.JarFillerService<ctag/>
+        <tag>wsdl-file</tag>WEB-INF/wsdl/jarfiller.wsdl<ctag/>
+        <tag>service-qname xmlns:jf="http://jarfiller.com/ws"</tag>jf:JFHelloService<ctag/>
+    <ctag/>
+<ctag/>
+</config>
+			</content>
+		</collapsedSubSection>
+		
+		
+		
+		<subSection anchor="messages">
+			<head>Messages</head>
+			<more>These declarations allow you to declare references to message destinations (queue or topic) 
+			and create links between those destinations.<br/>
+			Since Servlet 2.5 / JEE 5, resource reference declarations in <idf>web.xml</idf> are not used that often anymore,
+			since you can more easily do this with a <idf>@Resource</idf> annotation.</more>
+			<config><tag>message-destination-ref</tag>       <cmt><em>expect reference to a JMS queue or topic</em></cmt>
+    <tag>description</tag>My queue reference<ctag />                             <cmt>optional</cmt>
+    <tag>message-destination-ref-name</tag>jms/MyQueue<ctag />
+    <tag>message-destination-type</tag>javax.jms.Queue<ctag />
+    <tag>message-destination-usage</tag>Produces<ctag />
+    <tag>message-destination-link</tag>JFQueue1<ctag />             <cmt>optional</cmt>
+<ctag />
+
+<tag>message-destination</tag>           <cmt><em>declares a JMS queue or topic</em></cmt>
+    <tag>description</tag>My destination<ctag />                                 <cmt>optional</cmt>
+    <tag ref="doc-message-destination-display-name">display-name</tag>A test destination.<ctag />                          <cmt>optional</cmt>
+    <tag>message-destination-name</tag>JFQueue1<ctag />
+<ctag /></config>
+		</subSection>
+		<collapsedSubSection anchor="messagerefexample">
+			<summary>Message Destination Example</summary>
+			<content>
+				<explanation>This example shows a simple declaration of a JMS <javadoc>ConnectionFactory</javadoc> and a <javadoc>Queue</javadoc>
+				to send messages:</explanation>
+    			<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+
+    <tag>resource-ref</tag>
+        <tag>res-ref-name</tag>jms/ActiveMQConnectionFactory<ctag />
+        <tag>res-type</tag>javax.jms.ConnectionFactory<ctag />
+        <tag>res-auth</tag>Container<ctag />
+    <ctag />
+    
+    <tag>message-destination-ref</tag>
+        <tag>description</tag>Order Queue<ctag />
+        <tag>message-destination-ref-name</tag>jms/Orders<ctag />
+        <tag>message-destination-type</tag>javax.jms.Queue<ctag />
+        <tag>message-destination-usage</tag>Produces<ctag />
+        <tag>message-destination-link</tag>OrderQueue<ctag />
+    <ctag />
+
+    <tag>message-destination</tag>
+        <tag>message-destination-name</tag>OrderQueue<ctag />
+    <ctag />
+<ctag/> 
+</config>
+				<explanation>This next example shows a simple declaration of a JMS <javadoc>ConnectionFactory</javadoc> and a <javadoc>Topic</javadoc> that
+				receives messages:</explanation>
+    			<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         <doc>version</doc>="2.4"</tag>
+
+    <tag>resource-ref</tag>
+        <tag>res-ref-name</tag>jms/ActiveMQConnectionFactory<ctag />
+        <tag>res-type</tag>javax.jms.ConnectionFactory<ctag />
+        <tag>res-auth</tag>Container<ctag />
+    <ctag />
+    
+    <tag>message-destination-ref</tag>
+        <tag>description</tag>Messages to update the site<ctag />
+        <tag>message-destination-ref-name</tag>jms/SiteUpdates<ctag />
+        <tag>message-destination-type</tag>javax.jms.Topic<ctag />
+        <tag>message-destination-usage</tag>Consumes<ctag />
+    <ctag />
+<ctag/>
+</config>
+			</content>
+		</collapsedSubSection>
+	</singleColumnSection>
+
+
+
+	<singleColumnSection anchor="urlpatterns">
+		<head>URL Patterns</head>
+		<subSection anchor="patterns">
+			<head>Patterns</head>
+			<explanation>Servlets and filters need to be mapped onto URLs with the <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag> element.
+				The <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag> contains a <em>string with limited wildcard support</em>. The following four
+				types of pattern are supported:</explanation>
+			<table>
+			    <head><cell>Description</cell><cell>Syntax</cell><cell>Examples</cell></head>
+			    <row><cell>Simple path without wildcards</cell><cell>String starting with "/"</cell><cell>/filename , /dir1/dir2/filename , /dir1</cell></row>
+			    <row><cell>Directory</cell><cell>String starting with with "/", ending with "/*"</cell><cell>/dir1/* , /dir1/dir2/*</cell></row>
+			    <row><cell>File extension</cell><cell>"*.extension"</cell><cell>*.html , *.jpg, *.do</cell></row>
+			    <row><cell>Default servlet</cell><cell>Always "/"</cell><cell>/</cell></row>
+			</table>
+			
+		</subSection>
+	</singleColumnSection>
+
+	<singleColumnSection anchor="diffs25">
+		<head>New Features in Servlet 2.5</head>
+		<subSection anchor="changes25">
+			<head>Changes</head>
+			<miniHeadline>Multiple Patterns in &lt;servlet-mapping></miniHeadline>
+			<explanation>In 2.5, you can define more than one URL pattern in a <tag>servlet-mapping</tag>. The servlet will be invoked
+			if any pattern matches.
+			</explanation>
+			<config><tag>servlet-mapping</tag>  
+    <tag ref="doc-servlet-mapping-servlet-name">servlet-name</tag>servlet1<ctag />       <cmt>must match &lt;servlet>/&lt;servlet-name></cmt>
+    <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag><em>/my/servlet/*</em><ctag />
+    <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag><em>/servlet/*</em><ctag />
+    <tag ref="doc-servlet-mapping-url-pattern">url-pattern</tag><em>/alternative/servlet/*</em><ctag />
+<ctag />
+</config>
+
+			<miniHeadline>Mutiple Patterns in &lt;filter-mapping></miniHeadline>
+			<explanation>In 2.5, you can specify several URL patterns and servlet names in a single <tag>filter-mapping</tag>.
+			The filter will be invoked if any pattern or servlet name matches.
+			</explanation>
+			<config><tag>filter-mapping</tag>  
+    <tag ref="doc-filter-mapping-name">filter-name</tag>filter1<ctag/>      <cmt>must match &lt;filter>/&lt;filter-name></cmt>
+    <tag ref="doc-filter-mapping-url-pattern">url-pattern</tag><em>*.do</em><ctag/>
+    <tag ref="doc-filter-mapping-url-pattern">url-pattern</tag><em>*.mach</em><ctag/>
+    <tag ref="doc-filter-mapping-url-pattern">url-pattern</tag><em>/doits/*</em><ctag/>
+    <tag ref="doc-filter-mapping-servlet-name">servlet-name</tag><em>jfservlet1</em><ctag/>
+    <tag ref="doc-filter-mapping-servlet-name">servlet-name</tag><em>jfservlet2</em><ctag/>
+<ctag/>
+</config>
+
+			<miniHeadline>&lt;filter-mapping> for All Requests</miniHeadline>
+			<explanation>Version 2.5 allows you to specify the special servlet name "*" in a <tag>filter-mapping</tag> to
+			have a filter applied to all requests:
+			</explanation>
+			<config><tag>filter-mapping</tag>  
+    <tag ref="doc-filter-mapping-name">filter-name</tag>filter1<ctag/>
+    <tag ref="doc-filter-mapping-servlet-name">servlet-name</tag><em>*</em><ctag/>
+<ctag/>
+</config>
+		</subSection>
+	</singleColumnSection>
+
+  </body>
+  <sidebar>
+  	  	<box>
+	  		<title>Useful Links</title>
+	  		<content>
+	  			<link to="http://jcp.org/aboutJava/communityprocess/mrel/jsr154/index.html">Servlet 2.5 Specification / JSR</link><br/>
+	  			<link to="http://jcp.org/aboutJava/communityprocess/final/jsr154/index.html">Servlet 2.4 Specification / JSR</link><br/>
+	  			<br/>
+	  			<link to="http://java.sun.com/javaee/5/docs/api/">JEE 5 API</link><br/>
+	  		</content>
+  		</box>
+  		<box>
+	  		<title>Related Documents</title>
+	  		<subTitleLine>(on Jarfiller.com)</subTitleLine>
+	  		<content>
+	  			<link to="/guide/servlet25/">Servlet Guide</link><br/>
+	  		</content>
+  		</box>
+  </sidebar>
+  </article>
+</page>

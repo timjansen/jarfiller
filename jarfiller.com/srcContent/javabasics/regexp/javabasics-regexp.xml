@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tjansen.de/refPage ../../../schemas/page.xsd ">
+
+  <path>/javabasics/regexp/</path>
+  <title>Java Basics: Regular Expressions</title>
+  <titleIntro>Learn how to read and use regular expressions in Java</titleIntro>
+
+  <license>cc-by-free-src</license>
+
+  <multipage/>
+
+  <javadocConfig>
+	<baseURL>http://java.sun.com/javase/6/docs/api/</baseURL>
+	<defaultPackage>java.lang</defaultPackage>
+	<shortcuts>
+		<shortcut name="matches" uri="http://java.sun.com/javase/6/docs/api/java/lang/String.html#matches(java.lang.String)"/>
+		<shortcut name="replaceFirst" uri="http://java.sun.com/javase/6/docs/api/java/lang/String.html#replaceFirst(java.lang.String, java.lang.String)"/>
+		<shortcut name="replaceAll" uri="http://java.sun.com/javase/6/docs/api/java/lang/String.html#replaceAll(java.lang.String, java.lang.String)"/>
+		<shortcut name="split" uri="http://java.sun.com/javase/6/docs/api/java/lang/String.html#split(java.lang.String)"/>
+		<shortcut name="Pattern" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html"/>
+		<shortcut name="MatchResult" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/MatchResult.html"/>
+		<shortcut name="Matcher" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Matcher.html"/>
+		<shortcut name="compile" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html#compile(java.lang.String)"/>
+		<shortcut name="matcher" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html#matcher(java.lang.CharSequence)"/>
+		<shortcut name="group" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Matcher.html#group(int)"/>
+		<shortcut name="groupCount" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Matcher.html#groupCount()"/>
+		<shortcut name="find" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Matcher.html#find()"/>
+		<shortcut name="quoteReplacement" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Matcher.html#quoteReplacement(java.lang.String)"/>
+		<shortcut name="appendReplacement" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Matcher.html#appendReplacement(java.lang.StringBuffer, java.lang.String)"/>
+		<shortcut name="appendTail" uri="http://java.sun.com/javase/6/docs/api/java/util/regex/Matcher.html#appendTail(java.lang.StringBuffer)"/>
+	</shortcuts>
+  </javadocConfig>
+  
+  <article><body>
+
+	<singleColumnSection anchor="overview">
+	  	<head>Overview</head>
+		<subSection anchor="intro">
+			<head>Intro</head>
+			<explanation>
+			Regular expressions allow you to find patterns in strings and work with them. They are an invaluable tool and allow a simpler
+			and faster implementation for many non-trivial tasks on strings.
+			</explanation>
+		</subSection>
+		<collapsedSubSection anchor="usecases">
+			<head>Use cases</head>
+			<summary>When to use regular expressions?</summary>
+			<content>
+				<explanation>Use regular expressions when..</explanation>
+				<list>
+					<li>you want to <em>parse a string</em></li>
+					<li>you want to <em>replace patterns</em> in a string</li> 
+				</list>
+				<explanation>Do <em>not</em> use regular expressions when..</explanation>
+				<list>
+					<li>your input is very complex. For example, don't try to parse a string containing XML or HTML with
+					regular expressions (you will almost always fail to consider all cases), but use an appropriate
+					library instead.</li>
+					<li>you need to squeeze the last bit of performance out of your code and you are willing to put a lot
+					of effort into this (simple implementations will usually not beat a pre-compiled regular expression)</li> 
+				</list>
+			</content>
+		</collapsedSubSection>
+		<subSection anchor="requirements">
+			<head>Requirements</head>
+			<explanation>Java supports regular expressions <em>since version 1.4</em>.</explanation>
+		</subSection>		
+		<subSection anchor="assert">
+			<head>Assert</head>
+			<explanation>This tutorial uses the <idf>assert</idf> statement to explain the topic. If you don't fully understand
+			<idf>assert</idf> yet, read <link to="/javabasics/assert/javabasics-assert.xhtml">Java Basics: Assert</link> first.</explanation>
+		</subSection>	
+	</singleColumnSection>
+	
+	<singleColumnSection anchor="regularexpressions">
+		<head>Regular Expressions</head>
+		<subSection anchor="plainstrings">
+			<head>Plain Strings</head>
+			<more>Almost any string is a valid regular expression. If it does not contain any control sequences, the
+			regular expression pattern will only match those strings which are equal.</more>
+			<explanation>Regular expressions are strings which <em>may contain certain control sequences</em>. However, they don't have to.
+			The regular expressions in the first examples don't have any control sequences, and thus <em>they match only
+			if they are equal to the input string</em>.</explanation>
+			<code>
+				<line>String s = "foo bar bar";<cmt>input string</cmt></line>
+				<emptyLine/>
+				<line>assert s.<javadoc>matches</javadoc>("<em>foo bar bar</em>");<cmt>regular expression in <em>red</em> <more>"foo bar bar" is a regular
+				expression, albeit a pretty boring one without control sequences. Thus it only matches this one exact string, "foo bar bar".</more></cmt></line>
+				<line>assert <em>!</em>s.<javadoc>matches</javadoc>("dog");<cmt>not equal, <em>no match</em> <more>"dog" does not match, as only those patterns
+				that exactly match the regular expression will fulfill the test.</more></cmt></line>
+				<emptyLine/>
+				<line>assert s.<javadoc>replaceFirst</javadoc>(<em>"foo"</em>, "bar").equals("bar bar bar");<cmt>replace first"foo"</cmt></line>
+				<line>assert s.<javadoc>replaceFirst</javadoc>(<em>"bar"</em>, "dog").equals("foo dog <em>bar</em>");<cmt>replace first "bar"</cmt></line>
+				<emptyLine/>
+				<line>assert s.<javadoc>replaceAll</javadoc>(<em>"foo"</em>, "bar").equals("bar bar bar");<cmt>replace all "foo"</cmt></line>
+				<line>assert s.<javadoc>replaceAll</javadoc>(<em>"bar"</em>, "dog").equals("foo dog <em>dog</em>");<cmt>replace all "bar"</cmt></line>
+			</code>
+		</subSection>
+		<subSection anchor="groupsandor">
+			<head>Groups and Or</head>
+			<more>Using or ("|") you can specify two or more patterns. Any of them can match the input string to make the test succeed.<br/>
+			You can define groups in the regular expression by putting parts of the regular expression into parenthesis ("()"). They can be useful
+			for the "|" operator and quantifiers, and are also used by back-references.</more>
+			<code>
+				<line>String a = "abc";</line>
+				<line>String b = "xyz";</line>
+				<line>assert a.matches("abc<em>|</em>xyz");<cmt>"|" means <em>or</em> <more>With the or operator "|" you can specify two alternatives
+				for the pattern. The pattern matches if at least one of the alternatives matches.</more></cmt></line>
+				<line>assert b.matches("abc<em>|</em>xyz");<cmt>matches "abc" and "xyz"</cmt></line>
+				<line>assert <em>!</em>"123".matches("abc|xyz");<cmt>"123" does <em>not match</em></cmt></line>
+				<emptyLine/>
+				<line>assert a.replaceFirst("b|z", "O").equals("aOc");</line>
+				<line>assert b.replaceFirst("b|z", "O").equals("xyO");</line>
+				<line>assert a.replaceAll("a|b|c", "O").equals("OOO");</line>
+				<emptyLine/>
+				<line>assert a.matches("<em>(</em>a<em>)</em><em>(</em>b<em>)</em><em>(</em>c<em>)</em>");<cmt>"()" defines a <em>capturing group</em> <more>If you put a part of your
+				regular expression into parenthesis, this defines a capturing group. Capturing groups have no direct influence on the pattern, but
+				other operators may refer to them.</more></cmt></line>
+				<line>assert a.matches("<em>((</em>a<em>)</em>bc<em>)</em>");<cmt>nested groups are possible</cmt></line>
+				<emptyLine/>
+				<line>String c = "cold";</line>
+				<line>assert c.matches("<em>(b|c)</em>old");<cmt><em>or</em> and <em>groups</em> combined</cmt></line>
+				<line>assert c.matches("ice|((b|c)ol(d|t))|hot");</line>
+				<line>assert c.replaceAll("o(d|l)", "XX").equals("cXXd");</line>
+				<emptyLine/>
+				<line>String d = "(|)";</line>
+				<line>assert d.matches("<em>\\(\\|\\)</em>");<cmt>escaping <more>In order to match the actual characters "(", ")" or "|",
+				instead of interpreting them in the regular expression, <em>prefix them with a backslash</em>. As Java itself interprets backslashes in
+				string literals, you need to <em>use a double backslash</em> in the source code.</more></cmt></line>
+			</code>
+		</subSection>
+		<subSection anchor="characterclasses">
+			<head>Character Classes</head>
+			<more>A character class allows you to specify a set of characters which will fulfill the pattern at its place.</more>
+			<code>
+				<line>String a = "abc";</line>
+				<line>assert a.matches("a<em>[bgh]</em>c");<cmt>"[]" defines a <em>character class</em><more>A list of characters
+				in square brackets ("[]") is called a <em>character class</em>. They match any of their characters in the pattern. Writing
+				"[abc]" is the same as "(a|b|c)". In this example, "a[bgh]c" matches the strings "abc", "agc" and "ahc".</more></cmt></line>
+				<line>assert a.replaceAll("<em>[abc]</em>", "X").equals("XXX");</line>
+				<emptyLine/>
+				<line>assert a.matches("[a<em>-</em>z][a<em>-</em>z][a<em>-</em>z]");<cmt>"-" defines a <em>character range</em></cmt></line>
+				<line>assert a.replaceAll("<em>[b-f]</em>", "X").equals("aXX");</line>
+				<line>String b = "I love Java";</line>
+				<line>assert b.replaceAll("<em>[a-zA-Z]</em>", "X").equals("X XXXX XXXX");</line>
+				<line>assert b.replaceAll("<em>[oa-cJ]</em>", "X").equals("I lXve XXvX");</line>
+				<emptyLine/>
+				<line>assert a.matches("[<em>[^x-z][^k][^st-w]</em>");<cmt>"^" means "all other characters match" <more>By starting a
+				character class with a caret ("^"), you specify that all characters match except those listed.</more></cmt></line>
+				<line>assert a.replaceAll("[<em>[^b]</em>", "X").equals("XbX");</line>
+				<emptyLine/>
+				<line>assert "x".matches("<em>.</em>");<cmt>"." matches <em>any character</em> except newline <more>The dot "." matches any character except
+				newline. You can enable newline matching with the <idf>(?s)</idf> flag or <idf>DOTALL</idf> option.</more></cmt></line>
+				<line>assert a.matches("<em>...</em>");</line>
+				<line>assert b.matches("I.l.v. .a.a");</line>
+				<line>assert b.replaceAll(".", "X").equals("XXXXXXXXXXX");</line>
+				<emptyLine/>
+				<line>assert a.matches("<em>\\w</em>\\w\\w");<cmt>"\\w" is short for "[a-zA-Z_0-9]" <more>"\\w" is a predefined character
+				class to match only alphanumeric characters and the underscore. It is the same as writing "[a-zA-Z_0-9]".</more></cmt></line>
+				<line>assert b.replaceAll("\\w", "X").equals("X XXXX XXXX");</line>
+				<line>assert " ".matches("<em>\\s</em>");<cmt>"\\s" matches <em>whitespace</em> ("[ \t\n\x0B\f\r]") <more>"\\s" is a predefined character
+				class to match only whitespace characters. It is the same as writing "[ \t\n\x0B\f\r]".</more></cmt></line>
+				<line>assert b.replaceAll("\\s", "X").equals("IXloveXJava");</line>
+				<line>assert "123".matches("<em>\\d</em>\\d\\d");<cmt>"\\d" is short for "[0-9]" <more>"\\d" is a predefined character
+				class to match only digits. It is the same as writing "[0-9]".</more></cmt></line>
+				<line>assert <em>!</em>a.matches("<em>\\W</em>\\W\\W");<cmt>"\\W" inverts "\\w", same as "[^a-zA-Z_0-9]" <more>Uppercase 
+				character classes like "\\W" are the opposite of the lower case characters: they match every character that is not a part
+				of the lowercase pendant</more></cmt></line>
+				<line>assert b.replaceAll("<em>\\S</em>", "X").equals("X XXXX XXXX");</line>
+				<line>assert "a1".replaceAll("<em>\\D</em>", "X").equals("X1");</line>
+			</code>
+		</subSection>
+		<subSection anchor="quantifiers">
+			<head>Quantifiers</head>
+			<more>Quantifies allow you to specify that the preceding character or character class or group is either optional and/or
+			is expected to occur more than one time.</more>
+			<code>
+				<line>String a = "b ba baa baaa";</line>
+				<line>assert a.replaceAll("b<em>a*</em>", "X").equals("X X X X");<cmt>"*" means "<em>zero or more</em>" <more>The quantifier "*" means that the 
+				preceding character or character class or group is optional and does not need to appear to match the pattern. But if it 
+				does, it can be there any number of times.</more></cmt></line>
+				<line>assert a.matches("ba* ba* ba* ba*");</line>
+				<line>assert a.replaceAll("b<em>(aa)*</em>, "X").equals("X ba X baaa");<cmt>apply "*" to group "aa"</cmt></line>
+				<line>assert a.replaceAll("b<em>[a-z]*</em>", "X").equals("X X X X");</line>
+				<line>assert a.matches("<em>(ba* *)*</em>");<cmt>complex pattern <more>This is a very complex pattern that will still match the input
+				string "b ba baa baaa". Note the use of groups and "*" quantifiers. The first "*" means that "b" can be followed by 
+				any number of "a"'s. The second means that the "ba" part can be followed by any number of spaces. And the third part means
+				that the preceding group ("ba* *") can be repeated any number of times.</more></cmt></line>
+				<emptyLine/>
+				<line>assert a.replaceAll("b<em>a+</em>", "X").equals("b X X X");<cmt>"+" means "<em>one or more</em>" <more>The quantifier "+" means that the 
+				preceding character or character class or group appears at least once (but possibly more often).</more></cmt></line>
+				<line>assert a.matches("b ba+ ba+ ba+");</line>
+				<line>assert a.replaceAll("b<em>(aa)+</em>, "X").equals("b ba X baaa");<cmt>apply "+" to group "aa"</cmt></line>
+				<line>assert a.replaceAll("b<em>[a-z]+</em>", "X").equals("b X X X");</line>
+				<line>assert a.matches("<em>b( ba+)+</em>");<cmt>complex pattern <more>This is a very complex pattern that will still match the input
+				string "b ba baa baaa". Note the use of groups and quantifiers. The first "+" means that " b" is followed by at least one "a". 
+				And the second part means that the preceding group ("( ba+)") will be repeated at least once.</more></cmt></line>
+				<emptyLine/>
+				<line>assert a.replaceAll("b<em>a?</em>", "X").equals("X X Xa Xaa");<cmt>"?" means <em>optional</em> (0 or 1) <more>The quantifier "?" means that the 
+				preceding character or character class or group is optional. Its presence is not required for a match.</more></cmt></line>
+				<line>assert a.replaceAll("b<em>(aa)?</em>, "X").equals("X ba X Xa");<cmt>apply "?" to group "aa"</cmt></line>
+				<line>assert a.matches("<em>(ba* ?)+</em>");<cmt>complex pattern</cmt></line>
+				<emptyLine/>
+				<line>assert a.replaceAll("b<em>a{2}</em>", "X").equals("b ba X baaa");<cmt>"{2}" means "twice" <more>The quantifier "{n}", with 
+				"n" being a number, means that the preceding character or character class or group needs to be repeated exactly "n" times
+				to match the pattern.</more></cmt></line>
+				<line>assert a.replaceAll("b<em>a{2,3}</em>", "X").equals("b ba X X");<cmt>"{2,3}" means "2-3 times" <more>The quantifier "{n,m}", with 
+				"n" and "m" being numbers, means that the preceding character or character class or group needs to be repeated at least "n" times and
+				at most "m" times to match the pattern.</more></cmt></line>
+				<line>assert a.replaceAll("b<em>a{2,}</em>", "X").equals("b ba X X");<cmt>"{2,}" means "at least twice" <more>The quantifier "{n,}", with 
+				"n" being a number, means that the preceding character or character class or group needs to be repeated at least "n" times
+				to match the pattern.</more></cmt></line>
+			</code>
+		</subSection>
+		<subSection anchor="anchors">
+			<head>Anchors</head>
+			<more>Anchors allow you to specify where a regular expression pattern needs to be positioned within the input string. For example,
+			you can specify that it must start at the beginning of a line, or at the end of a word.</more>
+			<code>
+				<line>String a = "aaa";</line>
+				<line>String b = "abc aca";</line>
+				<emptyLine/>
+				<line>assert a.replaceAll("<em>^</em>a", "X").equals("Xaa");<cmt>"^" means "<em>beginning of input/line</em>" <more>The "^" must be placed at the beginning
+				of a regular expression. Then the pattern will only match if the pattern can be found at the beginning of the regular expression.
+				If specify the <idf>(?m)</idf> flag or <idf>MULTILINE</idf> option, it will also match if found at the beginning
+				of a line.</more></cmt></line>
+				<line>assert a.matches("<em>^</em>aaa");</line>
+				<line>assert <em>!</em>b.matches("<em>^aca</em>");</line>
+				<emptyLine/>
+				<line>assert a.replaceAll("a<em>$</em>", "X").equals("aaa");<cmt>"$" means "<em>end of input/line</em>" <more>The "$" must be placed at the end
+				of a regular expression. Then the pattern will only match if the pattern can be found at the end of the regular expression.
+				If specify the <idf>(?m)</idf> flag or <idf>MULTILINE</idf> option, it will also match if found at the end
+				of a line.</more></cmt></line>
+				<line>assert a.matches("<em>^</em>aaa<em>$</em>");</line>
+				<line>assert <em>!</em>b.matches("<em>abc$</em>");</line>
+				<emptyLine/>
+				<line>assert b.replaceAll("<em>\\b</em>a", "X").equals("Xbc Xc<em>a</em>");<cmt>"\b" means "at <em>word boundary</em>" <more>With the "\b" anchor
+				a pattern will only match if the "\b" is aligned to a word-boundary. A word-boundary is the beginning and end of a string or line,
+				as well as any alphanumeric character next to whitespace.</more></cmt></line>
+				<line>assert b.replaceAll("<em>\\B</em>a", "X").equals("abc ac<em>X</em>");<cmt>"\B" means "not at word boundary" <more>With the "\B" anchor
+				a pattern will only match if the "\b" is not aligned to a word-boundary. A word-boundary is the beginning and end of a string or line,
+				as well as any alphanumeric character next to whitespace.</more></cmt></line>
+			</code>
+		</subSection>
+		<subSection anchor="flags">
+			<head>Flags</head>
+			<more>Using flags you can modify the regular expression's behaviour. The most important flag is 'i'. It
+			makes your regular expression (or a part thereof) case-insentitive.
+			Just add '<em>(?i)</em>' at the beginning, and the rest will be case-insensitive. You can also declare only
+			parts of the pattern to be case-insensitive and turn case-sensitivity on again using '<em>(?-i)</em>'.
+			You can find a list of all flags in the <idf>Pattern</idf> javadoc.</more>
+			<code>
+				<line>String a = "aBcDeF";</line>
+				<line>String b = "A\nB\nC";</line>
+				<line>assert a.replaceAll("<em>(?i)</em>[a-f]", "X").equals("XXXXXX");<cmt><idf>(?<em>i</em>)</idf> means <javadoc to="java/util/regex/Pattern.html#CASE_INSENSITIVE"><em>CASE_INSENSITIVE</em></javadoc> <more>By putting <idf>(?i)</idf> into a pattern, the rest of the
+pattern (but not the preceding part) is case-insensitive. <warn>Please note that this only works with ASCII characters.</warn> You need to add an 'u'
+flag in order to process unicode characters, thus write '(?iu)'.</more></cmt></line>
+				<line>assert b.matches("<em>(?s)</em>.+");<cmt><idf>(?<em>s</em>)</idf> enables <javadoc to="java/util/regex/Pattern.html#DOTALL"><em>DOTALL</em></javadoc> mode <more ref="more-dotall"/></cmt></line>
+				<line>assert b.matches("<em>(?is)</em>[a-z].[a-z].[a-z]");<cmt><idf>(?<em>is</em>)</idf> <em>combines 'i' and 's'</em> <more>You can combine several flags in a single control sequence. In this case,
+the regular expression is case-insensitive and in <idf>DOTALL</idf> mode. Without both flags the pattern would not match.</more></cmt></line>
+				<line>assert !b.matches("<em>(?is)</em>[a-z].[a-z].<em>(?-i)</em>[a-z]");<cmt><idf>(?<em>-i</em>)</idf> <em>disables</em> the <idf>i</idf> flag <more>By putting a '-'in front of one or more flags, you can disable them until the rest of the pattern (unless you enable them later). To disable both <idf>i</idf> and <idf>s</idf>, you could write <idf>(?-is)</idf>.</more></cmt></line>
+				<line>assert b.replaceAll("<em>(?m)</em>^\\w", "X").equals("X\nX\nX");<cmt>(?<em>m</em>) enables <javadoc to="java/util/regex/Pattern.html#MULTILINE"><em>MUTLILINE</em></javadoc> mode <more ref="more-multiline"/></cmt></line>
+			</code>
+		</subSection>
+		<subSection anchor="backreferences">
+			<head>Back references</head>
+			<more>A back reference states you that the content of a previous capturing group needs to be repeated in order to
+			match the pattern.</more>
+			<code>
+				<line>String a = "101 102 201 202";</line>
+				<line>assert a.replaceAll("<em>(</em>\\d<em>)</em>0<em>\\1</em>", "X").equals("X 102 201 X");<cmt>"\1" is a <em>back reference</em> <more>"\1" is a
+				back reference to the first capturing group. The pattern matches only if the matcher finds the same content in both the
+				capturing group and at the place of the back reference. Similarly, you can use "\2" for the second capturing group 
+				and so on.</more></cmt></line>
+				<emptyLine/>
+				<line>String b = "acbba";</line>
+				<line>assert b.matches("([a-z])<em>(?:</em>b|c<em>)</em>([a-z])\\2\\1");<cmt><em>non-capturing group</em> <more>If you put a group in "(?:" and ")" 
+				(instead of just "(" and ")"), it is a non-capturing group. The only difference between a capturing groupd and a non-capturing group
+				is that the latter won't count for back-references and it won't be returned as group in <idf>Matcher</idf>.</more></cmt></line>
+			</code>
+		</subSection>
+	</singleColumnSection>
+	<singleColumnSection anchor="using">
+		<head>Using Regular Expressions</head>
+		<subSection anchor="simplematching">
+			<head>Simple Matching</head>
+			<more>The easiest way to check whether a string matches a regular expression pattern is the <idf>matches</idf> method in
+			<idf>String</idf>. By using a pattern that ignores all characters at the beginning and at the end of a string, you can
+			also use it to find out whether a string contains a pattern.</more>
+			<code>
+				<line>String a = "I love Java";</line>
+				<line>assert a.<javadoc><em>matches</em></javadoc>("I love Java");<cmt>match whole string</cmt></line>
+				<line>assert a.<javadoc>matches</javadoc>("<em>.*love.*</em>");<cmt>contains 'love'? <more>If you want to find a partial string, just start and end the pattern
+				with ".*". Then any string containing the pattern between will match. The example's regular expression matches if the input string
+				contains the word 'love'. </more></cmt></line>
+				<emptyLine/>
+				<line><plainCmt>Escaping a search string <more>In order to include an arbitrary string into your regular expression pattern, without
+				having to escape control sequences manually, use the <idf>Matcher.quoteReplacement()</idf> method. It escapes all characters that may
+				otherwise be interpreted by the regular expression parser. </more></plainCmt></line>
+				<line>String anyString = <abstract>...</abstract>;<cmt>works with any string</cmt></line>
+				<line>boolean containsString = a.matches(".*" + <javadoc>Matcher</javadoc>.<javadoc><em>quoteReplacement</em></javadoc>(anyString) + ".*");</line>
+			</code>
+		</subSection>
+		<subSection anchor="finding">
+			<head>Finding and Parsing</head>
+			<more>Using the <idf>Pattern</idf> and <idf>Matcher</idf> class, it is possible to locate instances of your regular expression
+			pattern in your input string. You can also make it return the pattern's capturing groups, thus allow simple parsing of strings.</more>
+			<code>
+				<line><plainCmt>Find all numbers in a string:</plainCmt></line>
+				<line>String a = "6 times 7 is 42";</line>
+				<line><javadoc><em>Pattern</em></javadoc> pattern = <javadoc>Pattern</javadoc>.<javadoc><em>compile</em></javadoc>("[0-9]+");<cmt>compile pattern <more>For complex
+				operations on regular expression, you need to compile the regular expression into a <idf>Pattern</idf> object first. 
+				This pattern object can also be reused, if you need the regular expression more than once.<br/>
+				By the way, instead of the regular expression "[0-9]+]" you could also write "\\d+", which would be a little bit shorter (but also
+				a bit less readable).</more></cmt></line>
+				<line><javadoc><em>Matcher</em></javadoc> m = pattern.<javadoc><em>matcher</em></javadoc>(a);<cmt>create <javadoc>Matcher</javadoc> <more>A
+				<idf>Matcher</idf> represents the results of matching a string against a regular expression. You need the <idf>Matcher</idf> for most
+				complex operations on regular expressions.</more></cmt></line>
+				<line>while (m.<javadoc><em>find</em></javadoc>()) {<cmt>loop through all matches <more>The <idf>find</idf> method searches for 
+				the next match of the <idf>Matcher</idf>'s pattern in the input string. If it finds one, it returns <idf>true</idf>. If there are no more matches,
+				it returns <idf>false</idf>.</more></cmt></line>
+				<line>    System.out.println(m.<javadoc to="java/util/regex/Matcher.html#group()"><em>group</em></javadoc>() + <cmt>print the match/number</cmt></line>
+				<line>                 " at "+ m.<javadoc to="java/util/regex/Matcher.html#start()"><em>start</em></javadoc>() + " - " + m.<javadoc to="java/util/regex/Matcher.html#end()"><em>end</em></javadoc>())<cmt>print position <more>The
+				methods <idf>start()</idf> and <idf>end()</idf> return the start and end position of the match within the stream.</more></cmt></line>
+				<line>}</line>
+				<emptyLine/>
+				<line><plainCmt>Parse an email address:</plainCmt></line>
+				<line>String b = "tom@example.org";</line>
+				<line><javadoc>Pattern</javadoc> emailPtrn = <javadoc>Pattern</javadoc>.<javadoc>compile</javadoc>("<em>([^@]+)</em>@<em>([^@]+)</em>");<cmt>Pattern with capturing groups <more>This
+				regular expression uses capturing groups (parenthesis) to define those two regions that should be extracted. The first capturing group
+				includes all characters before the "@", and the second group includes all following the "@".<br/>
+				The content of the capturing groups can be retrieved only after executing the pattern with <idf>find</idf> or <idf>matches</idf>.
+				Then <idf>group(int)</idf> returns the n'th capturing group, with n=1 for the first group.</more></cmt></line>
+				<line><javadoc>Matcher</javadoc> em = emailPtrn.<javadoc>matcher</javadoc>(b)</line>
+				<line>if (em.<javadoc to="java/util/regex/Matcher.html#matches(java.lang.String)"><em>matches</em></javadoc>(b));<cmt>match whole string <more>Note the difference: <idf>matches</idf> compares
+				the whole input string against the pattern, unlike <idf>find</idf>, which looks for matches within the input string. Thus
+				you can have only one match or none at all with <idf>matches</idf>, but you can have several with <idf>find</idf>.</more></cmt></line>
+				<line>    System.out.println("Name=" + em.<javadoc><em>group</em></javadoc>(1) + " Host=" + em.<javadoc><em>group</em></javadoc>(2));</line>
+			</code>
+		</subSection>
+		<subSection anchor="replacing">
+			<head>Simple Replacing</head>
+			<more>As long as you replace every match with the same string, replacing is very easy: just invoke the <idf>replaceFirst</idf> or
+			<idf>replaceAll</idf> methods of either <idf>String</idf> or <idf>Pattern</idf>.</more>
+			<code>
+				<line>String a = "r2d2";</line>
+				<line>assert a.<javadoc><em>replaceAll</em></javadoc>("[a-z]", "00").equals("002002");</line>
+				<line>assert a.<javadoc><em>replaceFirst</em></javadoc>("[a-z]", "00").equals("002<em>d</em>2");</line>
+				<emptyLine/>
+				<line><javadoc><em>Pattern</em></javadoc> p = <javadoc>Pattern</javadoc>.<javadoc><em>compile</em></javadoc>("[a-z]");<cmt>with pre-compiled Pattern <more>Using <idf>replaceAll</idf> and <idf>replaceFirst</idf> with
+				<idf>Pattern</idf>  and <idf>Matcher</idf> does the same as <idf>String</idf>'s equivalents, but may be faster if you can re-use the pattern. 
+				It also allows you to compile the pattern with additional flags, which will be shown below.</more></cmt></line>
+				<line><javadoc>Matcher</javadoc> m = p.<javadoc><em>matcher</em></javadoc>(a);</line>
+				<line>assert m.<javadoc to="java/util/regex/Matcher.html#replaceAll(java.lang.String)"><em>replaceAll</em></javadoc>("00").equals("002002");</line>
+				<line>assert m.<javadoc to="java/util/regex/Matcher.html#replaceFirst(java.lang.String)"><em>replaceFirst</em></javadoc>("00").equals("002<em>d</em>2");</line>
+			</code>
+		</subSection>
+		<subSection anchor="complrexreplacing">
+			<head>Complex Replacements</head>
+			<more>If you want to replace a pattern with a custom built string, you need to use <idf>Matcher</idf>'s <idf>appendReplacement</idf>
+			and <idf>appendTail</idf> methods. They make it relatively easy to do such replacements in a <idf>StringBuffer</idf>.</more>
+			<code>
+				<line><plainCmt>Replace all dates in format yyyy-mm-dd with ddmmyyyy in the string:</plainCmt></line>
+				<line>String a = "2009/12/24, 2009/12/31, 2010/01/01";</line>
+				<line><javadoc>Pattern</javadoc> p = <javadoc>Pattern</javadoc>.<javadoc>compile</javadoc>("(\\d{4})-(\\d{2})-(\\d{2})");</line>
+				<line><javadoc>Matcher</javadoc> m = p.<javadoc>matcher</javadoc>(a);</line>
+				<line><javadoc package="java.util">StringBuffer</javadoc> result = new <javadoc package="java.util">StringBuffer</javadoc>();</line>
+				<line>while (m.<javadoc><em>find</em></javadoc>())<cmt>loop through all results</cmt></line>
+				<line>    m.<javadoc><em>appendReplacement</em></javadoc>(result, m.<javadoc>group</javadoc>(3)+m.<javadoc>group</javadoc>(2)+m.<javadoc>group</javadoc>(3));<cmt>add replacement <more><idf>appendReplacement</idf> is
+the most important method here, and the place where the magic is hidden. It does two things:<br/> 
+First, it appends a part of the import string to the <idf>StringBuffer</idf>. If it is the first match, it appends the region from
+the input string start to the beginning of the match. Otherwise it appends the region from the last match to the current match.<br/>
+Second, it appends the string given as second argument. This is the string the old match region will be replaced with.</more></cmt></line>
+				<line>m.<javadoc><em>appendTail</em></javadoc>(result);<cmt>important! <more>Invoking <idf>appendTail</idf> is important because it will
+append the part of the original string from the last match to the end (if there was no match, at appends the whole input string).</more></cmt></line>
+				<line>System.out.println(result.toString());</line>
+			</code>
+		</subSection>
+		<subSection anchor="splitting">
+			<head>Splitting</head>
+			<more>Beside matching, parsing and replacing, Java can also use regular expressions to split strings into an array of strings.</more>
+			<code>
+				<line>String a = "42, 17, 24, 5, 175";</line>
+				<line>String[] r = a.<javadoc><em>split</em></javadoc>("[ ,]+");<cmt>comma and space split <more>The <idf>split</idf> method takes
+				a regular expression which defines the separator between the substrings that you want to get.</more></cmt></line>
+				<line>assert r.length == 5;<cmt>split into 5 substrings</cmt></line>
+				<line>assert r[0].equals("42") &amp;&amp; r[1].equals("17"); <cmt>...</cmt></line> 
+				<emptyLine/>
+				<line>String b = "-3--2";</line>
+				<line>String[] r2 = b.<javadoc><em>split</em></javadoc>("-");</line>
+				<line>assert r2.length == <em>4</em>;</line>
+				<line>assert <em>r2[0].equals("")</em> &amp;&amp; <em>r2[2].equals("")</em>;<cmt>substrings may be empty</cmt></line>
+				<emptyLine/>
+				<line>String[] r3 = a.<javadoc to="java/lang/String.html#split(java.lang.String, int)">split</javadoc>("[ ,]+", <em>3</em>);<cmt>limit to 3 <more>Using the limit argument,
+you can limit the number of substrings that you get. The last string will then always contain the remaining string.</more></cmt></line>
+				<line>assert r3.length == <em>3</em>;<cmt>limited array size</cmt></line>
+				<line>assert r3[2].equals(<em>"24, 5, 175"</em>);<cmt>contains remaining text</cmt></line>
+				<emptyLine/>
+				<line>String c = "1, 2,, 3,,,";</line>
+				<line>String[] r4 = a.<javadoc to="java/lang/String.html#split(java.lang.String, int)">split</javadoc>("[ ,]+", <em>0</em>);<cmt>remove empty strings at the end <more>The value
+0 has a special meaning for <idf>split</idf>: when set, empty elements at the end of the array will be removed.</more></cmt></line>
+				<line>assert r4.length == <em>4</em>;<cmt>empty strings at the end removed</cmt></line>
+				<line>assert r4[2].equals(<em>""</em>);<cmt>other empty strings remain</cmt></line>
+				<emptyLine/>
+				<line><plainCmt><javadoc>Pattern</javadoc> has exact equivalents of <idf>String</idf>'s <idf>split</idf> methods:</plainCmt></line>
+				<line><javadoc>Pattern</javadoc> p = <javadoc>Pattern</javadoc>.<javadoc>compile</javadoc>(("[ ,]+");</line>
+				<line>assert p.<javadoc to="java/util/regex/Pattern.html#split(java.lang.CharSequence)"><em>split</em></javadoc>(a).length == 5;</line>
+				<line>assert p.<javadoc to="java/util/regex/Pattern.html#split(java.lang.CharSequence, int)"><em>split</em></javadoc>(a, 3).length == 3;<cmt>with limit</cmt></line>
+			</code>
+		</subSection>
+		<subSection anchor="patternflags">
+			<head>Pattern Flags</head>
+			<more>Compiling a <idf>Pattern</idf> allows you to specify additional flags, modifying the default behaviour of regular expressions.
+			The most important flags are <idf>CASE_INSENSITIVE</idf>, <idf>MULTILINE</idf> ("^" and "$" refer to the beginning/end of the line) and
+			<idf>DOTALL</idf> ("." matches newlines).</more>
+			<code>
+				<line><plainCmt>Case-insensitive matching:</plainCmt></line>
+				<line>String a = "I lOvE jAvA";</line>
+				<line><javadoc>Pattern</javadoc> p = <javadoc>Pattern</javadoc>.<javadoc to="java/util/regex/Pattern.html#compile(java.lang.String, int)">compile</javadoc>(".*love.*", <javadoc>Pattern</javadoc>.<javadoc to="java/util/regex/Pattern.html#CASE_INSENSITIVE"><em>CASE_INSENSITIVE</em></javadoc>);<cmt><warn>ASCII only!</warn> <more>As you
+				can see, the flag <idf>CASE_INSENSITIVE</idf> declares the pattern to be case-sensitive. However, this only works for pure ASCII texts. If
+				you want to match all unicode text, you must additionally add the <idf>UNICODE_CASE</idf> flag, thus write "Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE".</more></cmt></line>
+				<line>assert p.<javadoc>matcher</javadoc>(a).<javadoc to="java/util/regex/Matcher.html#matches()">matches</javadoc>();</line>
+				<emptyLine/>
+				<line><plainCmt></plainCmt>Find all lines containing numbers:</line>
+				<line>String b = "23\naSd\n5\nLOVE\n\NYE\n3\n";</line>
+				<line><javadoc>Pattern</javadoc> p2 = <javadoc>Pattern</javadoc>.<javadoc to="java/util/regex/Pattern.html#compile(java.lang.String, int)">compile</javadoc>("^\\d+$", <javadoc>Pattern</javadoc>.<javadoc to="java/util/regex/Pattern.html#MULTILINE"><em>MULTILINE</em></javadoc>);<cmt>multiline <more id="more-multiline">The <idf>MULTILINE</idf>
+flag redefines the "^" and "$" anchors. Without the flag, they only match the beginning and end of the input string. With <idf>MULTILINE</idf>, they match the beginning and end
+of lines.</more></cmt></line>
+				<line><javadoc>Matcher</javadoc> m2 = p2.<javadoc>matcher</javadoc>(b);</line>
+				<line>while (m2.<javadoc>find</javadoc>()) </line>
+				<line>    System.out.println(m2.<javadoc to="java/util/regex/Matcher.html#group()">group</javadoc>());<cmt>print numbers 23, 5 and 3</cmt></line>
+				<emptyLine/>
+				<line><plainCmt>Patterns that may span several lines:</plainCmt></line>
+				<line>String c = "a\n\b\nc";</line>				
+				<line><javadoc>Pattern</javadoc> p3 = <javadoc>Pattern</javadoc>.<javadoc to="java/util/regex/Pattern.html#compile(java.lang.String, int)">compile</javadoc>("a.*b.*c", <javadoc>Pattern</javadoc>.<javadoc to="java/util/regex/Pattern.html#DOTALL"><em>DOTALL</em></javadoc>);<cmt>"." matches newlines <more id="more-dotall">The <idf>DOTALL</idf>
+flag redefines the "." character group. Without the flag, it matches any character but newline. With <idf>DOTALL</idf>, it matches everything.</more></cmt></line>
+				<line>assert p3.<javadoc>matcher</javadoc>(c).<javadoc to="java/util/regex/Matcher.html#matches()">matches</javadoc>();</line>
+				<line>assert <em>!</em>c.<javadoc>matches</javadoc>("a.*b.*c");<cmt>no match without <idf>DOTALL</idf></cmt></line>
+				<emptyLine/>
+				<line><plainCmt>Multiple flags:</plainCmt></line>
+				<line><javadoc>Pattern</javadoc> p4 = <javadoc>Pattern</javadoc>.<javadoc to="java/util/regex/Pattern.html#compile(java.lang.String, int)">compile</javadoc>(".*love.*", </line>
+				<line>          <em><javadoc>Pattern</javadoc>.<javadoc to="java/util/regex/Pattern.html#CASE_INSENSITIVE">CASE_INSENSITIVE</javadoc> <em>|</em> <javadoc to="java/util/regex/Pattern.html#DOTALL">DOTALL</javadoc></em>);<cmt>combining flags <more>You
+				can easily combine several flags by ORing them with the binary OR ("|").</more></cmt></line>
+				<line>assert p4.<javadoc>matcher</javadoc>(b).<javadoc to="java/util/regex/Matcher.html#matches()">matches</javadoc>();</line>
+			</code>
+		</subSection>
+	</singleColumnSection>
+	
+	<singleColumnSection anchor="advanced">
+		<head>Advanced Regular Expressions</head>
+		<subSection anchor="greedy">
+			<head>Greedy / Non-Greedy Quantifier</head>
+			<explanation>Regular expression <annotated><title>quantifiers</title><explanation>Quantifiers are operators such as "*", "+" and "?", which specify the number
+			of repetition of the preceding character or group.</explanation></annotated> are <em>greedy by default</em>. This means that each quantifier tries to get
+			as many repetitions as possible. As the regular expression is executed from left to right, this means that the first quantifiers may
+			get more repetitions than the following ones. In some situations, this is not desirable, and that's what non-greedy quantifiers are
+			for. They try to match <em>as few repetitions as possible</em> while still fulfilling the pattern as a whole.<br/>
+			In order to get a non-greedy quantifier, just append a "?", e.g. write "*?" instead of just "*".</explanation>
+			<code>
+				<line>String a = "a,b,c";</line>
+				<line><javadoc>Matcher</javadoc> m1 = <javadoc>Pattern</javadoc>.<javadoc>compile</javadoc>("(.<em>*</em>),(.<em>*</em>)").<javadoc>matcher</javadoc>(a);<cmt>greedy quantifiers</cmt></line>
+				<line>if (m1.<javadoc to="http://java.sun.com/javase/6/docs/api/java/util/regex/Matcher.html#matches()">matches</javadoc>())</line>
+				<line>    System.out.println(m1.<javadoc>group</javadoc>(1) + " " + m1.<javadoc>group</javadoc>(2));<cmt>prints "<em>a,b c</em>"</cmt></line>
+				<emptyLine/>
+				<line><javadoc>Matcher</javadoc> m2 = <javadoc>Pattern</javadoc>.<javadoc>compile</javadoc>("(.<em>*?</em>),(.<em>*?</em>)").<javadoc>matcher</javadoc>(a);<cmt>non-greedy quantifiers</cmt></line>
+				<line>if (m2.<javadoc to="http://java.sun.com/javase/6/docs/api/java/util/regex/Matcher.html#matches()">matches</javadoc>())</line>
+				<line>    System.out.println(m2.<javadoc>group</javadoc>(1) + " " + m2.<javadoc>group</javadoc>(2));<cmt>prints "<em>a b,c</em>"</cmt></line>
+			</code>
+		</subSection>
+		
+		<subSection anchor="lookaround">
+			<head>Lookaround</head>
+			<explanation><em>Lookahead assertions</em> allow you to state that a pattern only <em>matches if it is followed by another sub-pattern</em>. This sub-pattern itself is <em>not part of the actual match</em> though.</explanation>
+			<code>
+				<line>String a = "ab ac ad";</line>
+				<line>String b = "pineapple";</line>
+				<line>assert a.replaceAll("a(?=c)", "X").equals("ab Xc ad"); <cmt>Match "a" <em>followed by "c"</em> <more><idf>(?=c)</idf> specifies that the pattern will only match if the 
+preceding part of the pattern is followed by "c". Instead of "c" you could use any other regular expression. Note that the lookahead part is not part of the match, and thus it won't 
+be replaced.</more></cmt></line>
+				<line>assert a.replaceAll("a(?!c)", "X").equals("Xb ac Xd"); <cmt>Match "a" <em>not followed by "c"</em> <more><idf>(?!c)</idf> is the opposite of <idf>(?=c)</idf>: it
+matches only if the sub-pattern is not following the main pattern "a". As with other lookaheads, the lookahead is not part of the match.</more></cmt></line>
+				<line>assert b.replaceAll("[a-z](?=[eip])", "X").equals("XiXeXXpXe");</line>
+				<line>assert b.replaceAll("[a-z](?![eip])", "X").equals("pXnXapXlX");</line>
+				<line>assert "5".replaceFirst("^(?=\\d$)", "0").equals("05");<cmt>prepend 0 to single-digit strings</cmt></line>
+				<emptyLine/>
+				<line><plainCmt>Lookahead can be everywhere in the pattern <more>The lookahead can be everywhere in the pattern, not only at the end of the string. It usually does not
+make sense to do this though, as the lookahead part will then be part of the match. In this example, only the letter 'e' matches both the lookahead and the last character class of the
+pattern.</more>:</plainCmt></line>
+				<line>assert b.replaceAll("[a-z](?=[eip])[a-e]", "X").equals("piXappX""); </line>
+			</code>
+			<explanation>Similar to lookahead assertions, <em>lookbehind assertions</em> allow you to state a sub-pattern that must be in front of the main pattern. The sub-pattern itself is not part of the match.</explanation>
+			<code>
+				<line>String a = "ba ca da";</line>
+				<line>assert a.replaceAll("(?&lt;=c)a", "X").equals("ba cX da"); <cmt>Match "a" <em>following "c"</em> <more><idf>(?&lt;=c)</idf> specifies that the pattern will only match if the 
+following part of the pattern is preceded by "c". Instead of "c" you could use any other regular expression. Note that the lookbehind part is not part of the match, and thus it won't 
+be replaced.</more></cmt></line>
+				<line>assert a.replaceAll("(?&lt;!c)a", "X").equals("bX ca dX"); <cmt>Match "a" <em>not following "c"</em> <more><idf>(?&lt;!c)</idf> is the opposite of <idf>(?&lt;=c)</idf>: it
+matches only if the sub-pattern is not preceding the main pattern "a". As with other lookarounds, the lookbehind is not part of the match.</more></cmt></line>
+			</code>
+			<explanation>You can find more information on lookahead and lookbehind in the <link to="http://www.regular-expressions.info/lookaround.html">Regex Tutorial</link>.</explanation>
+		</subSection>
+	</singleColumnSection>
+	
+  </body>
+  <sidebar>
+  	  	<box>
+  		<title>Useful Links</title>
+  		<content>
+  			<link to="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html#sum">Regular expression summary (Java Documentation)</link><br/>
+  			<link to="http://en.wikipedia.org/wiki/Regular_expression">Regular expressions on Wikipedia</link><br/>
+  		</content>
+  	</box>
+  </sidebar>
+  </article>
+</page>

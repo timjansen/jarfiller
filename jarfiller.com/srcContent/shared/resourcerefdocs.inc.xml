@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includables xmlns="http://tjansen.de/refPage" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:inc="http://tjansen.de/refPageInclude"
+	xsi:schemaLocation="http://tjansen.de/refPage ../../schemas/page.xsd ">
+	
+	<popup name="env-entry">Declares that the application requires an environment entry with the given name.  Environment entries
+	are used for configuration and must be provided by the deployer. The application can find the entry in the JNDI context,
+	relative to <idf>java:comp/env/</idf>. Optional, more than one allowed.</popup>
+	<popup name="env-entry-name">The name of the entry in the JNDI namespace, relative to <idf>java:comp/env/</idf>. 
+	This is the name the application uses to look up the entry. It is recommended for environment entries that
+	their name starts with "param/". Required.</popup>
+	<popup name="env-entry-type">The Java type of the entry as fully qualified class name. Supported are at 
+	least <idf>java.lang.String</idf>, <idf>java.lang.Character</idf>, <idf>java.lang.Boolean</idf>,
+	<idf>java.lang.Integer</idf>, <idf>java.lang.Long</idf>, <idf>java.lang.Float</idf> or <idf>java.lang.Double</idf>. Required.</popup>
+	<popup name="env-entry-value">A string containing a default value for the deployer. Can only be used for types
+	that allow a <idf>String</idf> or <idf>Character</idf> as only constructor argument. Optional.</popup>
+	
+	<popup name="ejb-ref">Declares that the application requires a reference to an EJB, using its remote interface. The 
+	application can find the reference in the JNDI context, relative to <idf>java:comp/env/</idf>. Optional, more than one allowed.</popup>
+	<popup name="ejb-ref-name">The name of the entry in the JNDI namespace, relative to <idf>java:comp/env/</idf>. 
+	This is the name the application uses to look up the EJB. Required.</popup>
+	<popup name="ejb-ref-type">The type of EJB, either <idf>Entity</idf> or <idf>Session</idf>. Required.</popup>
+	<popup name="home">The fully qualified name of the EJB's home interface. As this element is required, 
+	<idf>&lt;ejb-ref></idf> is not ideal for EJB 3.0 beans, as they typically don't have a home interface. Use the <idf>@EJB</idf>
+	annotation instead. Required.</popup>
+	<popup name="remote">The fully qualified name of the EJB's remote interface. Required.</popup>
+	<popup name="ejb-link">Can be used to specify the name of a EJB that the reference refers to (that is the name specified as annotation
+	parameter or as <idf>&lt;ejb-name></idf> in the deployment descriptor). In complex environments, in order to avoid naming conflicts,
+	a convention is to use the JAR name, followed by "#" and the EBJ name. Note that it is implementation-specific what exactly
+	the container does with this link. Optional.</popup>
+	
+	<popup name="ejb-local-ref">Declares that the application requires a reference to an EJB, using its remote interface. The 
+	application can find the reference in the JNDI context, relative to <idf>java:comp/env/</idf>. Optional, more than one allowed.</popup>
+	<popup name="local-home">The fully qualified name of the EJB's local home interface. As this element is required, 
+	<idf>&lt;ejb-local-ref></idf> is not ideal for EJB 3.0 beans, as they typically don't have a home interface. Use the <idf>@EJB</idf>
+	annotation instead. Required.</popup>
+	<popup name="local">The fully qualified name of the EJB's local interface. Required.</popup>
+
+	<popup name="resource-ref">Declares that the application needs a reference to some kind of <em>connection factory</em>
+	that allows you to obtain connections. Typically this is used for JDBC <idf>DataSource</idf> (for database access),
+	JMS <idf>ConnectionFactory</idf> (for messaging) or JavaMail <idf>Session</idf> objects. 
+	The reference will be put into the application's JNDI namespace. Optional, more than one allowed.</popup>
+	<popup name="res-ref-name">The name under which the factory will be put into the application's JNDI
+	environment, relative to <idf>java:comp/env/</idf>. Required.</popup>
+	<popup name="res-type">The fully-qualified class name of the connection factory. Required.</popup>
+	<popup name="res-auth">Either <idf>Container</idf>, if the container is responsible for authentication, or <idf>Application</idf>,
+	if the application will authenticate itself. Required.</popup>
+	<popup name="res-sharing-scope">If <idf>Sharable</idf>, components in the applications can share the connection created
+	by this connection factory within a single transaction. Usually this is ok, and saves resources. Otherwise 
+	use <idf>Unsharable</idf>. <idf>Sharable</idf> is the default if the element is omitted. Optional.</popup>
+	
+	<popup name="resource-env-ref">Declares that the application needs an instance of the specified object. 
+	How exactly this works is very container-specific, but the container may allow you, for example, to put
+	arbitrary beans into the JNDI environment. Optional, more than one allowed.</popup>
+	<popup name="resource-env-ref-name">The name under which the object will be put into the application's JNDI
+	environment, relative to <idf>java:comp/env/</idf>. Required.</popup>
+	<popup name="resource-env-ref-type">The fully-qualified class name of the object. Required.</popup>
+	
+	<popup name="message-destination-ref">Declares that the application needs a JMS <idf>Destination</idf> (<idf>Queue</idf> or <idf>Topic</idf>)
+	from the container. Optional, more than one allowed.</popup>
+	<popup name="message-destination-ref-name">The name under which the destination will be put into the application's JNDI
+	environment, relative to <idf>java:comp/env/</idf>. Required.</popup>
+	<popup name="message-destination-type">The fully-qualified class name of the <idf>Destination</idf>.  Practically
+	either <idf>javax.jms.Queue</idf> or <idf>javax.jms.Topic</idf>. Required.</popup>
+	<popup name="message-destination-usage">Describes how the application uses the <idf>Destination</idf>: 
+	<idf>Produces</idf> (sends messages), <idf>Consumes</idf> (receives messages) or <idf>ConsumesProduces</idf> (both).
+	Required.</popup>
+	<popup name="message-destination-link">The name of the actual <idf>Destination</idf>. Must correspond to the name
+	given in a corresponding <idf>&lt;message-destination></idf> element. This feature can be used by the consumer 
+	to automatically link producers and consumers. If the message destination is in a different JAR, the suggested
+	syntax is <idf>jarname#queuename</idf>. Optional.</popup>
+	
+	<popup name="message-destination">Declares a JMS <idf>Destination</idf> (<idf>Queue</idf> or <idf>Topic</idf>) 
+	that <idf>&lt;message-destination-ref></idf> elements can refer to with their <idf>&lt;message-destination-link></idf>. The 
+	container may use this to make deployment easier. Optional, more than one allowed.</popup>
+	<popup id="doc-message-destination-display-name">A name for the destination to be used by tools. Optional.</popup>
+	<popup name="message-destination-name">The name of the destination. Note that this is not necessarily a physical
+	name (thus the name used in the messaging system), but only a name made up by the developer to connect 
+	<idf>&lt;message-destination-ref></idf> elements. Referred to by the 
+	<idf>&lt;message-destination-link></idf> element in <idf>&lt;message-destination-ref></idf>. Required.</popup>
+
+
+	<popup name="service-ref">Declares that the application needs a reference to a web service.
+	The web service must be mapped using JAX-WS (or its predecessor JAX-RPC). Optional, more than one allowed.</popup>
+	<popup id="doc-service-ref-display-name">A display name for tools to show the user. Optional.</popup>
+	<popup name="service-ref-name">The name under which the service will be put into the application's JNDI
+		environment, relative to <idf>java:comp/env/</idf>. It is recommended that this name
+	starts with "service/". Required.</popup>
+	<popup name="service-interface">The fully qualified name of the <idf>Service</idf> interface to use. This interface or
+	class will be returned when looking up the reference. For JAX-WS, it is usually a generated class
+	extending <idf>javax.xml.ws.Service</idf>, but you can also use <idf>javax.xml.ws.Service</idf> itself.
+	For JAX-RPC, it should be <idf>javax.xml.rpc.Service</idf>. Required.</popup>
+	<popup name="wsdl-file">The path of a WSDL file, relative to the application root. Optional.</popup>
+	<popup name="jaxrpc-mapping-file">A mapping file for JAX-RPC. It is not used for JAX-WS anymore. Optional.</popup>
+	<popup name="service-qname">The QName of the service to reference. Note XML's notation for QNames,
+	which use XML namespace prefixes. Optional.</popup>
+	
+	<popup name="port-component-ref">Configures a service endpoint interface (also known as port) of the service.
+	This is only relevant if you call <idf>Service.getPort(Class)</idf>, thus the variant of <idf>getPort</idf>
+	without a service name, and even then it is rarely used. Optional, more than one allowed.</popup>
+	<popup name="service-endpoint-interface">The name of the service endpoint interface. Required.</popup>
+	<popup name="enable-mtom">Can be "true" to enable MTOM (for fast binary transmission in SOAP). "false"
+	is default. Optional.</popup>
+	<popup name="port-component-link">A reference to a <idf>&lt;port-component</idf> of an EJB. Optional.</popup>
+	
+	<popup name="handler">Optional, more than one allowed.</popup>
+	<popup id="doc-handler-display-name">A display name for the user. Only used in the tool. Optional.</popup>
+	<popup name="handler-class">Specifies the fully qualified name of the class implementing the
+	<idf>SOAPHandler</idf> (JAX-WS, SOAP) or <idf>Handler</idf> (JAX-RPC or non-SOAP) interface. Required.</popup>
+	<popup id="doc-handler-init-param">Optional, more than one allowed.</popup>
+	
+	<popup name="soap-header">Specifies the QName of a header that should be processed by this handler. Repeat
+	to define several headers. Optional, more than one allowed.</popup>
+	<popup name="soap-role">Allows you to defines the SOAP roles that the handler assumes. SOAP 1.2 defines "next", "none" and
+	"ultimateReceiver". Optional, more than one allowed.</popup>
+	<popup name="port-name">Specifies the port name the handler is responsible for. Repeat for several ports.
+	If no port name is specified, the handler will be invoked for all ports. Optional, more than one allowed.</popup>
+	
+	<popup name="service-name-pattern">A pattern describing the service names to handle. Can be either the service's
+	QName, a QName followed by asterisk ("*") for all services whose local name start with the QName, or "*" for all.
+	Optional, can not be combined with <idf>&lt;port-name-pattern</idf> or <idf>&lt;protocol-bindings</idf>.</popup>
+	<popup name="port-name-pattern">A pattern describing the port names to handle. Can be either the port's
+	QName, a QName followed by asterisk ("*") for all ports whose local name start with the QName, or "*" for all.
+	Optional, can not be combined with <idf>&lt;service-name-pattern</idf> or <idf>&lt;protocol-bindings</idf>.</popup>
+	<popup name="protocol-bindings">Space-separated list of protocols to handle. The following values
+	are defined by the specification: "##SOAP11_HTTP", "##SOAP11_HTTP_MTOM", "##SOAP12_HTTP", "##SOAP12_HTTP_MTOM"
+	and "##XML_HTTP". Yes, the values actually look like this. Optional, can not be combined with
+	<idf>&lt;service-name-pattern</idf> or <idf>&lt;protocol-bindings</idf>. </popup>
+	
+</includables>

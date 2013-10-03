@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tjansen.de/refPage ../schemas/page.xsd ">
+
+  <path>/imprint.xhtml</path>
+  <root></root>
+  
+  <title>Jarfiller Imprint</title>
+  <metaDescription>Jarfiller Imprint</metaDescription>
+  <styleSheet>style/startpage.css</styleSheet>
+   
+  <html><div xmlns="http://www.w3.org/1999/xhtml" id="contentDiv">
+<h1>Imprint (Impressum)</h1>
+Responsible for the content on jarfiller.com and affiliated sites:<br/>
+Tim Oliver Jansen<br/>
+Kuehlwetterstr. 47<br/>
+40239 Duesseldorf<br/>
+Germany<br/><br/>
+Mail: tim@t<span style="display: none">got you</span>jansen.de (preferred; use "jarfiller" in the subject to avoid the spam filter)<br/>
+Phone: +49 211 58007050
+  </div>
+    </html>
+
+  
+</page>

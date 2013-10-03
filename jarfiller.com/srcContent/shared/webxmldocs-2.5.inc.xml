@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includables xmlns="http://tjansen.de/refPage" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:inc="http://tjansen.de/refPageInclude"
+	xsi:schemaLocation="http://tjansen.de/refPage ../../schemas/page.xsd ">
+	
+	<popup name="version">Declares the version of the Servlet Specification the descriptor uses, e.g. "2.4", "2.5" or
+	"3.0". Newer versions are backward compatible, so "2.2" will work in 3.0 containers as well. Required.</popup>
+
+	<popup id="doc-filter-mapping-url-pattern">Defines the URLs that the filter will respond to. A complete path, or
+	"/path/*", "*.extension" or "/". Repeat to define several alternative patterns. Optional, more than one allowed. At least one 
+	<idf>&lt;servlet-name></idf> or <idf>&lt;url-pattern></idf> must be present.</popup>
+	<popup id="doc-filter-mapping-servlet-name">The name of a servlet to be filtered. Must match the <idf>&lt;servlet-name></idf>
+	set in the <idf>&lt;servlet></idf> declaration. Use the special name "*" to match all requests. Repeat it to define several 
+	alternative patterns. 
+	Optional, more than one allowed. At least one <idf>&lt;servlet-name></idf> or <idf>&lt;url-pattern></idf> must be present.</popup>
+	
+	<popup id="doc-servlet-mapping-url-pattern">Defines the URLs that the servlet will invoked for. A complete path, or
+	"/path/*", "*.extension" or "/". Repeat to define several alternative patterns. Required, more than one allowed.</popup>
+
+    <inc:includeContent file="../srcContent/shared/webxmldocs-common.inc.xml"/>	
+</includables>

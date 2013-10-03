@@ -1,0 +1,9 @@
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+ <g transform='translate(8,8) rotate(45) scale(0.095)' fill='black'>
+  <path d="M10,-10 h70 a80,80 0 0,0 -70,-70 z"/>
+  <path d="M10,10 h70 a80,80 0 0,1 -70,70 z"/>
+  <path d="M-10,-10 h-70 a80,80 0 0,1 70,-70 z"/>
+  <path d="M-10,10 h-70 a80,80 0 0,0 70,70 z"/>
+ </g>
+</svg>
+

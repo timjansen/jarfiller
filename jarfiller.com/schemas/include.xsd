@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://tjansen.de/refPageInclude" xmlns:tns="http://tjansen.de/refPageInclude" 
+	elementFormDefault="qualified">
+
+	<complexType name="includeType">
+		<attribute name="file" type="string" />
+		<attribute name="ref" type="string" use="optional"/>
+	</complexType>
+
+    <element name="includeNode" type="tns:includeType"/>
+    <element name="includeContent" type="tns:includeType"/>
+</schema>

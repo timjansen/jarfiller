@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includables xmlns="http://tjansen.de/refPage" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:inc="http://tjansen.de/refPageInclude"
+	xsi:schemaLocation="http://tjansen.de/refPage ../../schemas/page.xsd ">
+	
+	<popup name="web-app"><idf>web-app</idf> is the root element for all web.xml deployment descriptors. Its <idf>version</idf> attribute is required
+	for declaring the Servlet Specification version.</popup>
+	<popup name="version">Declares the version of the Servlet Specification the descriptor uses, e.g. "2.4", "2.5" or
+	"3.0". Newer versions are backward compatible, so "2.4" will work in 2.5 and 3.0 containers as well. Required.</popup>
+	<popup name="xmlns">The namespace of all standard web.xml elements is
+	"http://java.sun.com/xml/ns/j2ee".</popup>
+	<popup name="xmlns:xsi">Declares the XML Schema namespace with the prefix "xsi". Only needed for <idf>schemaLocation</idf>.</popup>
+	<popup name="xsi:schemaLocation">Declares the location of the XML Schema, so editors and other XML processors can find it.
+	Optional (but recommended). The attribute is not directly part of the Servlet Specification, but comes from the XML
+	Schema Specification.</popup>
+	<popup name="description">A description of the surrounding element which may be shown by a tool. Can be repeated with
+	different <idf>xml-lang</idf> attributes in order to provide descriptions in several languages. Optional.</popup>
+	<popup name="display-name">A name that may be displayed by tools. Does not need to be unique. Optional.</popup>
+	<popup name="icon">Allows you to specify one or two icons (large and small) to display in tools. Optional and hardly used.</popup>
+	<popup name="small-icon">The path of a small icon within the web application to be displayed by tools. The exact size is up to
+	you. Tools are only required to support GIF and JPEG formats. Optional (you can specify only the small or the large icon).</popup>
+	<popup name="large-icon">The path of a large icon within the web application to be displayed by tools. The exact size is up to
+	you. Tools are only required to support GIF and JPEG formats. Optional (you can specify only the small or the large icon).</popup>
+	<popup name="distributable">If this element is set, it indicates that the web application is designed to be deployed
+	in distributed servlet containers. In short, it only stores serializable objects in its sessions (some container allow additional
+	references, for example EJB references) and handles things like static fields and context attributes correctly. 
+	Optional.</popup>
+	
+	<popup name="context-param">Specifies a context parameter (string name/value pair) that will be put into the <idf>ServletContext</idf>
+	and can be read using <idf>getInitParameter</idf>. You can specify any number of parameters. Optional, more than one allowed.</popup>
+	<popup id="doc-context-param-name">Contains the name of a context parameter. Any unique name allowed. Required.</popup>
+	<popup id="doc-context-param-value">Contains the value of a context parameter. Required.</popup>
+	
+	<popup name="filter">Declares a <idf>Filter</idf> that can process requests and/or responses in the web server. Does not specify when
+	the filter will run - you need <idf>&lt;filter-mapping></idf> elements to declare the URL patterns for the filter. <br/>
+	Optional, more than one allowed.</popup>
+	<popup id="doc-filter-display-name">A name of the filter to be shown by tools. Does not need to be unique. Optional.</popup>
+	<popup name="filter-name">The name of the filter. Must be non-empty and unique in the web application. Will be
+	referenced by the <idf>&lt;filter-mapping></idf>. Required.</popup>
+	<popup name="filter-class">Name of the class that implements the filter. The class must implement
+	<idf>javax.servlet.Filter</idf>. Required.</popup>
+	<popup id="doc-filter-init-param">Declares an initialization parameter for the <idf>Filter</idf>. Parameters can be retrieved
+	from the <idf>FilterConfig</idf> using <idf>getInitParmater</idf>. Optional, more than one allowed.</popup>
+	<popup name="param-name">Contains the name of a parameter. Any unique name allowed. Required.</popup>
+	<popup name="param-value">Contains the value (string) of a parameter. Required.</popup>
+	
+	<popup name="filter-mapping">Specifies when the given <idf>Filter</idf> should be invoked. You can repeat this element
+	to declare more mappings. If a request has more than one matching filter, they will be executed in the order of their
+	declaration. URL pattern mappings will always be processed before servlet name mappings.
+	Optional, more than one allowed.</popup>
+	<popup id="doc-filter-mapping-name">This is the name of the <idf>&lt;filter></idf> this mapping is for. Must match the
+	<idf>&lt;filter-name></idf> declared there. Required.</popup>
+	<popup id="doc-filter-mapping-url-pattern">Defines the URLs that the filter will respond to. A complete path, or
+	"/path/*", "*.extension" or "/". Since Servlet version 2.5 you can repeat it to define several alternative patterns (in
+	2.4 you need to repeat the whole <idf>&lt;filter-mapping></idf>). Optional, more than one allowed in 2.5. Either at least one 
+	<idf>&lt;servlet-name></idf> or <idf>&lt;url-pattern></idf> must be present.</popup>
+	<popup id="doc-filter-mapping-servlet-name">The name of a servlet to be filtered. Must match the <idf>&lt;servlet-name></idf>
+	set in the <idf>&lt;servlet></idf> declaration. Since Servlet version 2.5 you can repeat it to define several alternative patterns (in
+	2.4 you need to repeat the whole <idf>&lt;filter-mapping></idf>), and also use the special name "*" to match all requests.
+	Optional, more than one allowed in 2.5. Either at least one <idf>&lt;servlet-name></idf> or <idf>&lt;url-pattern></idf> must be present.</popup>
+	<popup name="dispatcher">Up to four dispatchers for the filter. Describes what should be filtered. Possible:
+	"REQUEST" (filter regular requests), "FORWARD" (filter forwards), "INCLUDE" (filter includes), "ERROR" (filter error pages).
+	If omitted, default is "REQUEST" only. Optional, more than one allowed.
+	</popup>
+	
+	<popup name="listener">Declares the class as event listener. Use this element for all servlet listener interfaces
+(e.g. there is no special element for <idf>ServletContextListener</idf>). Listeners will be invoked in the order
+of declaration. Optional, more than one allowed.</popup>
+	<popup id="doc-listener-display-name">Name of the listener which may be shown by tools. Does not need to be unique. Optional.</popup>
+	<popup name="listener-class">The full class name of the listener implementation. Required.</popup>
+
+	<popup name="servlet">Declares a servlet, either in the form of a class implementing the
+	<idf>Servlet</idf> interface or as a JSP page. The URL mapping must be declared in one or more
+	<idf>&lt;servlet-mapping></idf> elements. Optional, more than one allowed.</popup>
+	<popup id="doc-servlet-display-name">A name of the servlet to be shown by tools. Does not need to be unique. Optional.</popup>
+	<popup name="servlet-name">The name of the servlet. Must be unique in the descriptor, and will be referenced
+	by <idf>&lt;servlet-mapping></idf> elements. Required.</popup>
+	<popup name="servlet-class">The name of the class that implements the <idf>Servlet</idf> interface. Required if
+	<idf>&lt;jsp-file></idf> is not present.</popup>
+	<popup name="jsp-file">The path of the JSP that acts as servlet. Begins with a '/'. Required if
+	<idf>&lt;servlet-class></idf> is not present.</popup>
+	<popup id="doc-servlet-init-param">Declares initialization parameters for the servlet. The servlet can
+	retrieve initialization parameters using <idf>ServletConfig.getInitParameter</idf>. Optional, more than one allowed.</popup>
+	<popup name="load-on-startup">If present, the servlet will always be loaded on startup (no lazy-loading).  
+	If the servlet is a JSP, it will be loaded and precompiled. The element must contain an integer >=0 for the initialization order (lower values
+	first). If missing or the number is negative, the container can chose when to initialize the servlet and may load it on demand. Optional.</popup>
+	<popup name="run-as">When the servlet is invoking EJB services, this element allows you to specify the role
+	name to do the calls instead of the default user. Optional.</popup>
+	<popup id="doc-run-as-role-name">Contains the name of the role to be used for EJB calls.</popup>
+	<popup name="security-role-ref">Declares a role name that the servlet can use when checking
+	the user's permissions with <idf>HttpServletRequest.isUserInRole</idf>. Optional, more than one allowed.</popup>
+	<popup id="doc-security-role-ref-role-name">The name of the role to declare. This is the role that the servlet passes to 
+	<idf>HttpServletRequest.isUserInRole</idf>. Required.</popup>
+	<popup id="doc-security-role-ref-role-link">The name of role declared with a <idf>&lt;security-role></idf> that 
+	<idf>&lt;security-role-ref></idf>refers to. If not specified, the container will ask the deployer for a role.
+	Optional.</popup>
+	
+	<popup name="servlet-mapping">Defines the URL or a pattern for those URLs that the servlet responds to. Optional, more than one allowed.</popup>
+	<popup id="doc-servlet-mapping-servlet-name">The name of the servlet that is mapped. Must correspond to a
+	<idf>&lt;servlet></idf>/<idf>&lt;servlet-name></idf> element. Required.</popup>
+	<popup id="doc-servlet-mapping-url-pattern">Defines the URLs that the servlet will invoked for. A complete path, or
+	"/path/*", "*.extension" or "/". Since Servlet 2.5 you can repeat to define several patterns (in version 2.4 you
+	have to repeat the whole <idf>&lt;servlet-mapping></idf>). Required, more than one allowed in 2.5.</popup>
+	 
+	<popup name="session-config">Contains application-wide settings for sessions. Currently contains only a timeout value. Optional.</popup>
+	<popup name="session-timeout">Defines the timeout for sessions in minutes. 0 means that they won't time out. If not
+	set, the container uses its default. Optional.</popup>
+	 
+	<popup name="mime-mapping">Defines the MIME type (content type) of a file extension, for use with static files that are contained in the
+	WAR file. Optional, more than one allowed.</popup>
+	<popup name="extension">The file extension, for example "html" or "jpg". Required.</popup> 
+	<popup name="mime-type">The content type, for example "text/html" or "image/jpeg". Required.</popup> 
+	 
+	<popup name="welcome-file-list">An ordered list of file names to show for requests that go to a directory (possibly the
+	root directory). The first file that exists will be shown. Optional.</popup>
+	<popup name="welcome-file">Specifies a single file name, e.g. "index.html" or "index.jsp". Required, more than one allowed.</popup>
+	
+	<popup name="error-page">Defines the page to be shown in case of the specified error. Optional, more than one allowed.</popup>
+	<popup name="error-code">The code of the error (in HTTP error codes such as 404, 500..). Required if <idf>&lt;exception-type></idf> not
+	present.</popup>
+	<popup name="exception-type">The name of the exception that will cause the error page to be shown. May be a super-class of the actual
+	exception. If several pages match, the closest match in the class hierarchy wins.
+	Required if <idf>&lt;error-code></idf> not present.</popup>
+	<popup name="location">The path of the page to show in case of the error. Must begin with a '/' and refer 
+	to a page in the application.</popup>
+
+	<popup name="jsp-config">Allows configuration of JSPs contained in the web application / WAR. Optional.</popup>
+	<popup name="taglib">Declares a tag library for JSPs. Optional, more than one allowed.</popup>
+	<popup name="taglib-uri">The URI that identifies the taglib. Required.</popup>
+	<popup name="taglib-location">The location of the TLD file within the web application / WAR, relative
+	to <idf>/WEB-INF</idf>. Required.</popup>
+	<popup name="jsp-property-group">Specifies settings for all JSPs that match the given
+	pattern. It also allows you to specify an alternative extension for JSPs.</popup>
+	<popup id="jsp-property-group-url-pattern">Defines the URL patterns this element applies to. 
+	The pattern "*.jsp" sets properties for all JSPs. It is possible to have several 
+	<idf>&lt;url-pattern></idf> elements in a <idf>&lt;jsp-property-group></idf>. Required, 
+	one or more.</popup>
+	<popup name="el-ignored"><idf>true</idf> to disable expression language (mostly for backward compatibility
+	to old JSP versions). <idf>false</idf> otherwise. Optional.</popup>
+	<popup name="page-encoding">Sets the default page encoding (character set). Optional.</popup>
+	<popup name="scripting-invalid"><idf>true</idf> to disable scripting (Java code in <idf>&lt;% ... %></idf>). 
+	<idf>false</idf> to keep it enabled. Optional.</popup>
+	<popup name="is-xml"><idf>true</idf> to treat the JSPs a XML content. Usually XML content has a
+	<idf>jspx</idf> extension, but other extensions can output XML as well with this setting. 
+	<idf>false</idf> otherwise. Optional.</popup>
+	<popup name="include-prelude">The path of a file, relative to the web application (WAR) root, that will be
+	included at the beginning of each JSP in the group. Repeat <idf>&lt;include-prelude></idf> to 
+	include several files, in the order of the element's appearance. Optional, more than one allowed.</popup>
+	<popup name="include-coda">The path of a file, relative to the web application (WAR) root, that will be
+	included at the end of each JSP in the group. Repeat <idf>&lt;include-coda></idf> to 
+	include several files, in the order of the element's appearance. Optional, more than one allowed.</popup>
+	
+	<popup name="security-constraint">Allows restricting access access to a collection of resources. You can either
+	restrict it to a group of users, or to forbid any access to the resource. Without any constraint, any user is allowed to
+	access a resource. Optional, more than one allowed.</popup>
+	<popup name="web-resource-collection">Defines the resources (=pages and other elements) this 
+	<idf>&lt;security-constraint></idf> applies to. You can define several collections in a constraint. 
+	Required, more than one allowed.</popup>
+	<popup name="web-resource-name">A name for the collection. You can put anything in here. Required.</popup>
+	<popup id="doc-web-resource-collection-url-pattern">Specifies a URL pattern of resources to include. May be
+	repeated to add additional resources. Required, more than one allowed.</popup>
+	<popup name="http-method">Specifies the HTTP methods ("GET", "POST", "PUT", "DELETE"...) that will be constrained.
+	If no method is specified, the constraint applies to all methods. Optional, more than one allowed.</popup>
+	<popup name="auth-constraint">Defines the roles that are allowed to access the resources. The user
+	must be in at least one.  If empty, no user is allowed to access the resources. If omitted, everybody 
+	can access the resources (authentication not required). Optional.</popup>
+	<popup name="doc-auth-constraint-role-name">The role that is allowed to access the collection. 
+	Must be one of the roles defined in the <idf>&lt;security-role></idf> element, or 
+	"*" to allow access to all declared roles. Can be repeated to allow different roles. If omitted, no user has 
+	access. Optional, more than one allowed.</popup>
+	<popup name="user-data-constraint">Contains constraints for data sent to the client.
+	Currently only the <idf>&lt;transport-guarantee></idf> can be set, which will essentially allow you to
+	require SSL. Optional.</popup>
+	<popup name="transport-guarantee">Can be used to require certain standards for the transport. "NONE"
+	means that any transport is allowed. "INTEGRAL" means that it must be transported in a way that tampering is
+	not possible, and "CONFIDENTIAL" requires encryption. With HTTP, both "INTEGRAL" and "CONFIDENTIAL"
+	both mean that the data must be send over SSL/TLS. Optional.</popup>
+	
+	<popup name="login-config">Specifies how users login. Optional. </popup>
+	<popup name="auth-method">Specifies the authentication method: "BASIC" (standard HTTP
+	authentication, with the browser's dialog), "DIGEST" (like BASIC, more secure, but problems with 
+	older browsers), "FORM" (you specify a HTML login page) and CLIENT-CERT (SSL client authentication,
+	secure but complicated). Optional.</popup>
+	<popup name="realm-name">The "realm" to show the user for Basic Authentication. Optional.</popup>
+	<popup name="form-login-config">Configuration for the FORM <idf>&lt;auth-method></idf>. Optional.</popup>
+	<popup name="form-login-page">Path of the login page for FORM authentication, starting with "/" and
+	relative to the web application / WAR root. The page must contain a POST form with action "j_security_check" and
+	two fields "j_username" and "j_password". Required.</popup>
+	<popup name="form-error-page">Path to the error page for FORM authentication, starting with "/" and
+	relative to the web application / WAR root. It will be shown when the authentication failed. Required.</popup>
+	
+	<popup name="security-role">Specifies one security role which can be referred to by 
+	a <idf>&lt;security-constraint></idf> or <idf>&lt;servlet></idf>. All further configuration of the
+	role, such as which users are in that role, must be done in the web container.
+	Repeat to define several roles. Optional, more than one allowed.</popup>
+	<popup name="role-name">The name of the role to define. Must follow NMTOKEN rules (in short: only alphanumeric
+	characters, '.', '-' and '_', <em>no spaces</em>). Referred to by <idf>&lt;security-constraint></idf> or <idf>&lt;servlet></idf>.
+	You need to define the role in the web container as well. Required.</popup>
+	
+	<popup name="locale-encoding-mapping-list">Defines one or more mappings between locales and character encodings. Optional.</popup>
+	<popup name="locale-encoding-mapping">Defines one mapping. Required, more than one allowed.</popup>
+	<popup name="locale">The name of the locale to map. This is a ISO two-letter code for the language,
+	optionally followed by a underscore ("_") and the ISO two-letter code for the country. See also
+	<idf>java.util.Locale</idf>. Required.</popup>
+	<popup name="encoding">The name of the encoding for the locale. The encoding is a IANA charset. See
+	<idf>java.nio.charset.Charset</idf> for more information. Required.</popup>
+
+	<inc:includeContent file="../srcContent/shared/resourcerefdocs.inc.xml"/>
+	
+</includables>

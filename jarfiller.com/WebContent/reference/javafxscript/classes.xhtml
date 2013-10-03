@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:page="http://tjansen.de/refPage" xmlns:i="http://tjansen.de/internal"><head><title>Classes - JavaFX Script Reference</title><meta http-equiv="X-UA-Compatible" content="chrome=1"/><meta http-equiv="content-language" content="en"/><link rel="shortcut icon" href="../../images/favicon.png" type="image/png"/><link rel="stylesheet" type="text/css" href="../../style/style.css"/><script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-6791190-2']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+})();
+</script><script type="text/javascript" src="../../js/all.js"/></head><body id="body"><div id="visibleContent"><div id="top"><a href="/"><img src="../../images/titlebar.png" alt="Jarfiller.com"/></a></div><div id="main"><div id="bodycolumn"><div class="yahbar"><div class="yahprev"><a href="functions.xhtml">Prev</a></div><h3 class="yahhere"><a href="#" onclick="return navToggle();">JavaFX Script Reference / Classes</a></h3><div class="yahnext"><a href="bindings.xhtml">Next</a></div></div><h1 id="sec_classes" class="multipageTitle"><a name="classes">Classes</a></h1><div class="subSecRow2" id="sec_classdef"><div class="subSecHead" id="sechd_classdef"><a name="classdef">Definition and Instantiating</a><br/>(<a href="#" id="tl-d39688e2196" class="dottedTooltip" onclick="return tlClick('tl-d39688e2196','pp-d39688e2201');" onmouseover="return tlOver('tl-d39688e2196','pp-d39688e2201');" onmouseout="return tlOut('tl-d39688e2196','pp-d39688e2201');">more</a>)
+		</div><div class="subSecContent" id="seccnt_classdef"><pre class="subSecCode"><code><em>class</em> Person {                           <span class="cmt">// declaring a class</span>
+    var lastName : String;               <span class="cmt">// instance variables</span>
+    var firstName : String = "unknown";  <span class="cmt">// default value</span>
+
+    function toFullName() {              <span class="cmt">// instance function</span>
+        return "{firstName} {lastName}";
+    }
+}
+
+def a <em>= Person {</em>                         <span class="cmt">// creating new Person (<a href="#" id="tl-d39688e2250" class="dottedTooltip" onclick="return tlClick('tl-d39688e2250','pp-d39688e2250');" onmouseover="return tlOver('tl-d39688e2250','pp-d39688e2250');" onmouseout="return tlOut('tl-d39688e2250','pp-d39688e2250');">more</a>)</span>
+    firstName: "John"                    <span class="cmt">// <strong class="warn">no comma or semicolon needed</strong></span>
+    lastName: "Doe"
+<em>}</em>;
+assert(<em>a.firstName</em> == "John");           <span class="cmt">// property access</span>
+assert(<em>a.toFullName()</em> == "John Doe");    <span class="cmt">// calling a function</span>
+
+<em>a.firstName =</em> "George";
+assert(a.firstName == "George");
+
+def b <em>= Person{}</em>;                        <span class="cmt">// Omitting properties</span>
+assert(b.lastName == "");                <span class="cmt">// uninitialized default</span>
+assert(b.firstName == "unknown");
+
+def c = <em>new Person()</em>;                    <span class="cmt">// Java constructor syntax</span>
+assert(c.lastName == "");                <span class="cmt">// uninitialized default</span>
+assert(c.firstName == "unknown");
+</code></pre></div></div><div class="subSecRow1" id="sec_objectinit"><div class="subSecHead" id="sechd_objectinit"><a name="objectinit">Object Initialization</a><br/>(<a href="#" id="tl-d39688e2344" class="dottedTooltip" onclick="return tlClick('tl-d39688e2344','pp-d39688e2349');" onmouseover="return tlOver('tl-d39688e2344','pp-d39688e2349');" onmouseout="return tlOut('tl-d39688e2344','pp-d39688e2349');">more</a>)
+		</div><div class="subSecContent" id="seccnt_objectinit"><pre class="subSecCode"><code>var r: String = "start";
+class InitTester {
+    var a = "vardefault" on replace { r = "{r}-{a}" };
+    <em>init</em> { r = "{r}-init" }          <span class="cmt">// <span class="idf">init</span> block called after variable initialization</span>
+    <em>postinit</em> { r = "{r}-postinit" }  <span class="cmt">// <span class="idf">postinit</span> is called after <span class="idf">init</span></span>
+}
+var test = InitTester { a: "varinit" };
+assert(r == "start-varinit-init-postinit");
+</code></pre></div></div><div class="subSecRow2" id="sec_complextrees"><div class="subSecHead" id="sechd_complextrees"><a name="complextrees">Complex Object Trees</a><br/>(<a href="#" id="tl-d39688e2415" class="dottedTooltip" onclick="return tlClick('tl-d39688e2415','pp-d39688e2420');" onmouseover="return tlOver('tl-d39688e2415','pp-d39688e2420');" onmouseout="return tlOut('tl-d39688e2415','pp-d39688e2420');">more</a>)
+		</div><div class="subSecContent" id="seccnt_complextrees"><pre class="subSecCode"><code>import java.lang.Math;  <span class="cmt">// import Java's Math class</span>
+class Point {
+    var x : Integer; var y : Integer;
+}
+class Shape {
+    var name : String;
+    var points : Point[];
+}
+class ShapeCollection {
+    var name : String;
+    var shapes : Shape[];
+}
+
+def myShapes = ShapeCollection {
+    name: "My Shapes"
+    shapes: [           <span class="cmt">// sequence as value</span>
+        Shape {
+            name: "Triangle"
+            points: [ Point { x: 0.5 y: 0.5}, Point { x: 1.5 y: 1.5},
+                      Point { x: 0.5 y: 2.5} ]
+        },
+        Shape {
+            name: "Square"
+            points: [ Point { x: 5 y: 5}, Point { x: 10 y: 5},
+                      Point { x: 10 y: 10}, Point { x: 5 y: 10} ]
+        },
+        Shape {
+            name: "Near-Circle"
+            points: for (i in [0..&lt;360])
+                       Point { x: 5 + 5 * Math.cos(2.0 * Math.PI * i / 360.0)
+                               y: 15 + 5 * Math.sin(2.0 * Math.PI * i / 360.0) }
+        }
+    ]
+};
+</code></pre></div></div><div class="subSecRow1" id="sec_objecteq"><div class="subSecHead" id="sechd_objecteq"><a name="objecteq">Object Equality</a><br/>(<a href="#" id="tl-d39688e2537" class="dottedTooltip" onclick="return tlClick('tl-d39688e2537','pp-d39688e2542');" onmouseover="return tlOver('tl-d39688e2537','pp-d39688e2542');" onmouseout="return tlOut('tl-d39688e2537','pp-d39688e2542');">more</a>)
+		</div><div class="subSecContent" id="seccnt_objecteq"><pre class="subSecCode"><code>class A { var x; var y; }
+def a = A { x: 12, y: 12};
+def b = A { x: 12, y: 12};
+assert(a != b);                <span class="cmt">// <strong class="warn">Equality not defined!</strong> =&gt; no 2 objects are equal</span>
+assert(a == a);                <span class="cmt">// Same instance =&gt; equal</span>
+
+class B { 
+    var x; var y; 
+    <em>override function equals(o: Object) : Boolean</em> {
+        if (o instanceof B) {  <span class="cmt">// implementing equality</span>
+            def b2 = o as B;
+	    (x == b2.x) and (y == b2.y)
+	}
+        else
+            false;
+    }
+}
+def d = B { x: 12, y: 12};
+def e = B { x: 12, y: 12};
+def f = B { x: 5, y: 12};
+assert(d == e);
+assert(d != f);
+</code></pre></div></div><div class="subSecRow2" id="sec_inheritance"><div class="subSecHead" id="sechd_inheritance"><a name="inheritance">Inheritance</a><br/>(<a href="#" id="tl-d39688e2643" class="dottedTooltip" onclick="return tlClick('tl-d39688e2643','pp-d39688e2648');" onmouseover="return tlOver('tl-d39688e2643','pp-d39688e2648');" onmouseout="return tlOut('tl-d39688e2643','pp-d39688e2648');">more</a>)
+		</div><div class="subSecContent" id="seccnt_inheritance"><pre class="subSecCode"><code>class Customer <em>extends Person</em> {
+    var customerNumber : Integer;                <span class="cmt">// adds a new variable</span>
+    <em>override</em> var firstName = "Bob";              <span class="cmt">// <span class="idf">override</span> to change default</span>
+                                                 <span class="cmt">// or provide a different <span class="idf">on replace</span></span>
+
+    <em>override</em> function toFullName() {             <span class="cmt">// <span class="idf">override</span> to modify behaviour</span>
+                                                 <span class="cmt">// calls super implementation:</span>
+        "{<em>Person.toFullName()</em>} (customer {customerNumber})"
+    }
+}
+
+def myCustomer = Customer {
+    firstName: "Tom" lastName: "Miller" customerNumber: 3437
+};
+
+def a : Person = myCustomer;
+assert(a <em>instanceof</em> Person);                     <span class="cmt">// checks class of reference</span>
+assert(a <em>instanceof</em> Customer);                   <span class="cmt">// checks class of reference</span>
+<span class="strike">assert(a.customerNumber == 3437);</span>                <span class="cmt">// <span class="idf">a</span> declared Person, not Customer</span>
+assert((a <em>as Customer</em>).customerNumber == 3437);  <span class="cmt">// casting</span>
+
+var r2: String = "start";
+class InitTesterA {
+    var a = "vardefault" on replace { r2 = "{r2}-{a}" };
+    init { r2 = "{r2}-initA" }
+    postinit { r2 = "{r2}-postinitA" }
+}
+class InitTesterB extends InitTesterA {
+    var b = "vardefault" on replace { r2 = "{r2}-{b}" };
+    init { r2 = "{r2}-initB" }
+    postinit { r2 = "{r2}-postinitB" }
+}
+var test2 = InitTesterB { a: "varinitA", b: "varinitB" };
+assert(r2 == "start-varinitA-varinitB-initA-initB-postinitA-postinitB");
+</code></pre></div></div><div class="subSecRow1" id="sec_mixins"><div class="subSecHead" id="sechd_mixins"><a name="mixins">Mixins</a><br/>(<a href="#" id="tl-d39688e2804" class="dottedTooltip" onclick="return tlClick('tl-d39688e2804','pp-d39688e2809');" onmouseover="return tlOver('tl-d39688e2804','pp-d39688e2809');" onmouseout="return tlOut('tl-d39688e2804','pp-d39688e2809');">more</a>)
+		</div><div class="subSecContent" id="seccnt_mixins"><pre class="subSecCode"><code><em>mixin</em> class Counter {                             <span class="cmt">// defining a <span class="idf">mixin</span></span>
+    var counter: Integer;
+    function countUp() { counter++; }
+}
+
+<em>mixin</em> class Greeter {                             <span class="cmt">// defining a second <span class="idf">mixin</span></span>
+    function greet(name: String): String { "Hello {name}!" }
+}
+
+class GreetingCounter <em>extends Counter, Greeter</em> {  <span class="cmt">// extending both mixins</span>
+    function countAndGreet(name: String) {
+        "{greet(name)} You are visitor number {countUp()}."
+    }
+}
+
+def a : GreetingCounter = GreetingCounter{counter: 2};
+assert(a.countAndGreet("Tim") == "Hello Tim! You are visitor number 2.");
+
+<span class="strike">def b = Counter{counter: 5};</span>                      <span class="cmt">// Mixins can not be instantiated</span>
+</code></pre></div></div><div class="subSecRow2" id="sec_abstract"><div class="subSecHead" id="sechd_abstract"><a name="abstract">Abstract</a><br/>(<a href="#" id="tl-d39688e2894" class="dottedTooltip" onclick="return tlClick('tl-d39688e2894','pp-d39688e2899');" onmouseover="return tlOver('tl-d39688e2894','pp-d39688e2899');" onmouseout="return tlOut('tl-d39688e2894','pp-d39688e2899');">more</a>)
+		</div><div class="subSecContent" id="seccnt_abstract"><pre class="subSecCode"><code><em>abstract</em> class A {                   <span class="cmt">// <span class="idf">abstract</span> class</span>
+    <em>abstract</em> function foo() : Void;  <span class="cmt">// <span class="idf">abstract</span> function</span>
+}
+class B extends A {                  <span class="cmt">// concrete sub-class</span>
+    <em>override</em> function foo() : Void { println("Hello"); }
+}
+
+<span class="strike">var a = A{};</span>                         <span class="cmt">// <span class="idf">abstract</span> classes can't be created</span>
+var b = B{};
+</code></pre></div></div><div class="yahbar"><div class="yahprev"><a href="functions.xhtml">Prev<br/><span>Functions</span></a></div><div class="yahhere"><a href="#" onclick="return navToggle();">JavaFX Script Reference / Classes</a><br/><a href="/reference/javafxscript/"><span>Single Page Mode</span></a>, <a href="#" onclick="return navToggle();"><span>Show Table of Content</span></a></div><div class="yahnext"><a href="bindings.xhtml">Next<br/><span>Bindings</span></a></div></div></div><div id="sidecolumn">
+  	<div><h3>Useful Links</h3><div class="sidecolumnSubTitleLine"/>
+  			<a href="http://www.javafx.com">JavaFX.com</a><br/>
+  			<a href="http://openjfx.java.sun.com/current-build/doc/reference/JavaFXReference.html">JavaFX Reference</a><br/>
+  			<a href="http://java.sun.com/javafx/1.2/docs/api/">JavaFX 1.2 APIs</a><br/>
+  			<a href="http://java.sun.com/javafx/reference/">Sun JavaFX Documentation</a><br/>
+  			<a href="http://learnjavafx.typepad.com/">James Weaver's JavaFX Blog</a><br/>
+  		</div>
+  </div></div></div><div id="footer"><div id="footer-content"><div id="footer-left"><div class="footerLine"><a href="/">Home</a> - <a href="/about">About Jarfiller</a> - <a href="/imprint.xhtml">Imprint</a></div><div class="footerLine">Please send feedback and corrections to <a href="mailto:tim@tjansen.de">tim@<span style="display: none">got you</span>tjansen.de</a>.</div><div class="footerLine"><a href="http://www.twitter.com/timjansen">Follow</a> me on Twitter.</div><div class="copyrightLine">© 2010 Tim Jansen; content licensed under <a href="http://creativecommons.org/licenses/by/3.0/us/">cc-by</a>; example source code is public domain
+				</div></div><div id="footer-right"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="../../images/ext/cc-by-88x31.png"/></a></div></div></div><div id="navbar" onclick="return navToggle();" onmouseover="document.getElementById('navbar').className='mouseover';" onmouseout="document.getElementById('navbar').className='';"/><div id="navcontainer"><div id="navlinks"><div id="navclosebar"><a href="#" onclick="return navClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="navpositionbar" class="navpositionbar"/><h2 id="navtitle">JavaFX Script Reference</h2><a id="nav_basictypes" class="navseclink" href="basictypes.xhtml#basictypes">Basic Types</a><a id="nav_booleans" class="navsublink" href="basictypes.xhtml#booleans">Booleans and Comparisons</a><a id="nav_variables" class="navsublink" href="basictypes.xhtml#variables">Variables</a><a id="nav_integers" class="navsublink" href="basictypes.xhtml#integers">Integers</a><a id="nav_numbers" class="navsublink" href="basictypes.xhtml#numbers">Numbers (float)</a><a id="nav_strings" class="navsublink" href="basictypes.xhtml#strings">Strings</a><a id="nav_duration" class="navsublink" href="basictypes.xhtml#duration">Duration</a><a id="nav_sequences" class="navseclink" href="sequences.xhtml#sequences">Sequences</a><a id="nav_creatingseqs" class="navsublink" href="sequences.xhtml#creatingseqs">Creating sequences</a><a id="nav_seqreadbyslice" class="navsublink" href="sequences.xhtml#seqreadbyslice">Reading by index / slice</a><a id="nav_seqwriteindexslice" class="navsublink" href="sequences.xhtml#seqwriteindexslice">Writing by index / slice</a><a id="nav_seqselect" class="navsublink" href="sequences.xhtml#seqselect">Sequence Select Clause</a><a id="nav_seqinsert" class="navsublink" href="sequences.xhtml#seqinsert">Insert / Delete</a><a id="nav_conditionalsandloops" class="navseclink" href="conditionalsandloops.xhtml#conditionalsandloops">Conditionals and Loops</a><a id="nav_ifthenelse" class="navsublink" href="conditionalsandloops.xhtml#ifthenelse">if then else</a><a id="nav_for" class="navsublink" href="conditionalsandloops.xhtml#for">for</a><a id="nav_while" class="navsublink" href="conditionalsandloops.xhtml#while">while</a><a id="nav_break" class="navsublink" href="conditionalsandloops.xhtml#break">break</a><a id="nav_continue" class="navsublink" href="conditionalsandloops.xhtml#continue">continue</a><a id="nav_indexof" class="navsublink" href="conditionalsandloops.xhtml#indexof">indexof</a><a id="nav_functions" class="navseclink" href="functions.xhtml#functions">Functions</a><a id="nav_funcdefinition" class="navsublink" href="functions.xhtml#funcdefinition">Defining and Calling</a><a id="nav_closures" class="navsublink" href="functions.xhtml#closures">Closures and Anonymous Functions</a><a id="nav_classes" class="navseclink" href="#classes" onclick="if (event.button == 0) return goTo('#classes', true); else return true;">Classes</a><a id="nav_classdef" class="navsublink" href="#classdef" onclick="if (event.button == 0) return goTo('#classdef', true); else return true;">Definition and Instantiating</a><a id="nav_objectinit" class="navsublink" href="#objectinit" onclick="if (event.button == 0) return goTo('#objectinit', true); else return true;">Object Initialization</a><a id="nav_complextrees" class="navsublink" href="#complextrees" onclick="if (event.button == 0) return goTo('#complextrees', true); else return true;">Complex Object Trees</a><a id="nav_objecteq" class="navsublink" href="#objecteq" onclick="if (event.button == 0) return goTo('#objecteq', true); else return true;">Object Equality</a><a id="nav_inheritance" class="navsublink" href="#inheritance" onclick="if (event.button == 0) return goTo('#inheritance', true); else return true;">Inheritance</a><a id="nav_mixins" class="navsublink" href="#mixins" onclick="if (event.button == 0) return goTo('#mixins', true); else return true;">Mixins</a><a id="nav_abstract" class="navsublink" href="#abstract" onclick="if (event.button == 0) return goTo('#abstract', true); else return true;">Abstract</a><a id="nav_bindings" class="navseclink" href="bindings.xhtml#bindings">Bindings</a><a id="nav_varbindings" class="navsublink" href="bindings.xhtml#varbindings">Variable Bindings</a><a id="nav_funcbound" class="navsublink" href="bindings.xhtml#funcbound">Functions / bound</a><a id="nav_bindobjs" class="navsublink" href="bindings.xhtml#bindobjs">Objects</a><a id="nav_exceptions" class="navseclink" href="exceptions.xhtml#exceptions">Exceptions (try/catch/finally)</a><a id="nav_throwcatch" class="navsublink" href="exceptions.xhtml#throwcatch">Throwing and Catching</a><a id="nav_finally" class="navsublink" href="exceptions.xhtml#finally">finally</a><a id="nav_interop" class="navseclink" href="interop.xhtml#interop">Java Interoperability</a><a id="nav_interop1" class="navsublink" href="interop.xhtml#interop1"/><a id="nav_packagesandaccessmods" class="navseclink" href="packagesandaccessmods.xhtml#packagesandaccessmods">Packages and Access Modifiers</a><a id="nav_packages" class="navsublink" href="packagesandaccessmods.xhtml#packages">Packages</a><a id="nav_accessmods" class="navsublink" href="packagesandaccessmods.xhtml#accessmods">Access Modifier</a><a id="nav_guifeatures" class="navseclink" href="guifeatures.xhtml#guifeatures">GUI Features</a><a id="nav_keyvalue" class="navsublink" href="guifeatures.xhtml#keyvalue">KeyValue</a><a id="nav_keyframe" class="navsublink" href="guifeatures.xhtml#keyframe">KeyFrame</a><a id="nav_localizedstrings" class="navsublink" href="guifeatures.xhtml#localizedstrings">Localized Strings</a></div></div><div id="popups"><div id="pp-d39688e2201" class="tooltip">Classes can have variables and functions, just like you can define at the top-level of your script.<br/> Unlike Java and many other languages, there is no constructors in JavaFX. Instead JavaFX allows you to set the properties of the new object during the initialization.</div><div id="pp-d39688e2250" class="tooltip">This syntax creates a new object of the given class and provides values for the specified properties. It is also called <em>object literal</em>.<br/>The equivalent using the traditional constructor syntax is:<br/> <span class="plainCode">
+   def a = new Person();
+   a.firstName = "John";
+   a.lastName = "Doe";
+				</span><br/></div><div id="pp-d39688e2349" class="tooltip">JavaFX does not have constructors, but its classes can have two special blocks called <span class="idf">init</span> and <span class="idf">postinit</span> that will be called after the initialization of the object's variables.<br/> In a class hierarchy, the <span class="idf">init</span> blocks are executed first, starting with the top-most class. After all <span class="idf">init</span> blocks are done, the <span class="idf">postinit</span> blocks will be executed in the same order. </div><div id="pp-d39688e2420" class="tooltip">An essential part of JavaFX's charm is that JavaFX makes it really easy to create complex object trees by combining object literal and sequence logic.</div><div id="pp-d39688e2542" class="tooltip">In order to use the <span class="idf">==</span> operator to compare two objects, you need to implement the <span class="idf">equals</span> method, just like in Java.<br/> If the <span class="idf">equals</span> method is not defined, the <span class="idf">==</span> operator returns only true of both sides point to the same object.</div><div id="pp-d39688e2648" class="tooltip">A JavaFX class can extend from exactly one Java or JavaFX classes, as well as any number of mixins and Java interfaces. A class can override the methods and variables of the its super-classes.</div><div id="pp-d39688e2809" class="tooltip">A mixin is a class that can be extended to add functionality to another class. A class can extend more than one mixin (but not more than one regular class). <br/> You can think of mixins as a Java-like interface, only with default implementations and the ability to add variables. Mixins can only be extended (or, rather mixed into other classes), but not instantiated on their own.</div><div id="pp-d39688e2899" class="tooltip">An <span class="idf">abstract</span> method is a method that has only a signature defined, but no body. The body must be defined in a sub-class that overrides the abstract class.<br/> Classes that contain <span class="idf">abstract</span> methods must be declared as <span class="idf">abstract</span> (any other class can be <span class="idf">abstract</span> as well). Abstract classes can not be instantiated directly, only their sub-classes.</div><div id="ttCloseBar" class="closeBar"><a href="#" onclick="return tlClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="topicCloseBar" class="closeBar"><a href="#" onclick="return tpcClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div></div></body></html>

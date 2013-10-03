@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tjansen.de/refPage ../../../schemas/page.xsd ">
+
+  <path>/javabasics/jee5resources/</path>
+
+  <title>JEE 5 Resource and JNDI Guide</title>
+  <titleIntro></titleIntro>
+   
+  <license>cc-by-free-src</license>
+   
+  <javadocConfig>
+	<baseURL>http://java.sun.com/javase/5/docs/api/</baseURL>
+	<defaultPackage>java.lang</defaultPackage>
+	<defaultAnnotationPackage>javax.annotation</defaultAnnotationPackage>
+	
+  </javadocConfig>
+
+  <article><body>
+  	<singleColumnSection anchor="overview">
+  		<head>Overview</head>
+  		<subSection anchor="intro">
+    		<head>Intro</head>
+		    <explanation>Applications running in a <topic>JEE</topic> container, such as an 
+		    <annotated><title>EJB application server</title><explanation>Popular JEE application servers
+		    include JBoss Application Server, Glassfish Application Server, Resin, Websphere Application Server
+		    and the WebLogic application server.</explanation></annotated>
+		    or a pure <annotated><title>web container</title><explanation>Popular web container without EJB capabilities
+		    include Apache Tomcat and Jetty.</explanation></annotated>, can be configured using <topic>JNDI</topic>. JNDI is the
+		    API used to <em>look up objects by name</em> from the container's internal directory service, and is also used for 
+		    the <em>resource injection</em> mechanisms introduced with JEE 5.<br/>
+			An application running in a JEE container needs to <em>declare which objects it expects</em> from the JNDI namespace. The application's
+			<annotated><title>deployer</title><explanation>The deployer is the person who installs the application on the
+			server. During development this is usually the developer, but in production environments it may also be a 
+			system administrator.</explanation></annotated> is then responsible for configuring <em>the container to provide those objects</em>.
+		    </explanation>
+		</subSection>
+		
+		<subSection anchor="whentouse">
+		    <head>When to use</head>
+		    <explanation>Use JNDI Resources when your web or EJB application...</explanation>
+			<list>
+			<li>needs to <em>access other systems</em> such as databases or message queues</li>
+			<li>your web application should be <em>configured by the deployer</em></li>
+			</list>
+		    
+		</subSection>
+		
+		<subSection anchor="requirements">
+		    <head>Requirements</head>
+		    <explanation>This document has been written for JEE 5 (and thus Servlet 2.5 and EJB 3.0). Older versions do
+			not have annotations, but beside that they are mostly identical.</explanation>
+		</subSection>
+  	</singleColumnSection>
+  	
+  	<singleColumnSection anchor="resourcelookup">
+  		<head>Resource Lookup</head>
+  		<subSection anchor="basiclookup">
+  			<head>Basic Lookup</head>
+  			<more>Getting a resource from a container is easy: create a new <idf>InitialContext</idf> object, and use the
+			<idf>lookup</idf> method to retrieve it by name.</more>
+			<explanation>You only <em>need a tiny subset of JNDI</em> for reading resources. The rest is needed for tasks like accessing
+			<link to="http://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol">LDAP</link> directory services.<br/>
+			</explanation>
+			<code>
+			    <line><javadoc>Context</javadoc> ctx = new <javadoc>InitialContext</javadoc>();<cmt>default context <more>The
+			empty <idf>InitialContext</idf> constructor provides the default context. In a JEE container <em>this is the context created by the
+			container</em> for you. If you would need to connect to something else, you would need to use one of the other
+			constructors.</more></cmt></line>
+			    <line>MyBean bean = (MyBean) ctx.<javadoc>lookup</javadoc>("<em>java:comp/env</em>/beans/MyBean");</line>
+			</code>
+			<explanation>Note that the <javadoc>lookup</javadoc> method <em>creates a new instance</em> for every lookup in all but a few special cases <more><idf>lookup</idf> creates
+			new instances of the object, except in the following cases:<br/>
+			1. The object is immutable (strings, numbers)
+			2. The object is a singleton (designed so that there is only one instance)
+			3. A special name is looked up which is defined to return always the same object</more>.</explanation>
+  		</subSection>
+  		
+  		<subSection anchor="context">
+	  		<head>Context</head>
+			<more>In JNDI, you always look up objects from <idf>Context</idf>s. The first context you get is the
+			<javadoc>InitialContext</javadoc>.<br/>
+			Contexts can be nested. Every context can contain either objects or more contexts. The JNDI name represents these nested contexts by
+			separating their names with slashes ("/").</more>
+			<explanation>A <em><javadoc>Context</javadoc> is like a directory</em> in a file system. The <javadoc>InitialContext</javadoc>
+			is the root directory. The <em><javadoc>Context</javadoc> names are separated by slashes</em> ("/") to build a path.</explanation>
+			<code>
+			    <line><javadoc>Context</javadoc> ctx = new <javadoc>InitialContext</javadoc>();</line>
+			    <line><javadoc>Context</javadoc> env = (<javadoc>Context</javadoc>) ctx.<javadoc>lookup</javadoc>("<em>java:comp/env</em>");<cmt>get environment context <more><idf>java:comp/env</idf>
+			    is the context where the container stores all references for an application. It <em>only contains the application's
+			    resources</em>, but not those of other applications - even if they run on the same server. Thus this is also called
+			    the <em>local context</em>.</more></cmt></line>
+			    <line>MyBean bean1 = (MyBean) env.<javadoc>lookup</javadoc>("beans/MyBean1");  <cmt>get 'java:comp/env/beans/MyBean1'</cmt></line>
+			    <line>MyBean bean2 = (MyBean) env.<javadoc>lookup</javadoc>("beans/MyBean2");  <cmt>get 'java:comp/env/beans/MyBean2'</cmt></line>
+			</code>
+  		</subSection>
+  		
+  		<subSection anchor="javacompenv">
+  			<head>java:comp/env</head>
+			<miniHeadline>What is 'java:comp/env'?</miniHeadline>
+			<explanation><idf>java:comp/env</idf> is called the <em>environment naming context (ENC)</em>. It is a <em>private context</em> only accessible 
+			by the <annotated id="annotation-app-comp"><title>application component</title><explanation>In pure web application, the 'application
+			component' is the whole WAR, and all contained servlets and JSPs share the environment.<br/>
+			In an enterprise application or EAR, every WAR and every EJB Jar is an 'application component' of its own and can not access the
+			environment of the other application components.</explanation></annotated>. The JEE container
+			puts all references for the <annotated ref="annotation-app-comp"/> in
+			this context. Even though every <annotated ref="annotation-app-comp"/> uses the same name (<idf>java:comp/env</idf>) to access it,
+			<em>every <annotated ref="annotation-app-comp"/> actually has its own local environment</em> and can't see the entries of other 
+			components.</explanation>
+  		</subSection>
+  		
+  		<collapsedSubSection anchor="ejbcontextlookup">
+  			<head></head>
+  			<summary>Simple Lookup with EJBContext.lookup</summary>
+  			<content>
+  				<explanation>In EJBs you can easily look up objects in <idf>java:comp/env</idf> using <javadoc>EJBContext</javadoc>
+  				and its sub-interfaces (like <javadoc>SessionContext</javadoc>):</explanation>
+  				<code>
+  					<line>import javax.ejb.*;</line>
+  					<line>import javax.annotation.*;</line>
+  					<emptyLine/>
+  					<line><javadoc>@Stateless</javadoc></line>
+  					<line>public class SomeBean implements SomeRemote {</line>
+  					<emptyLine/>
+  					<line>    <javadoc>@Resource</javadoc></line>
+  					<line>    private <javadoc>SessionContext</javadoc> sctx;<cmt><em>inject <idf>SessionContext</idf></em></cmt></line>
+  					<emptyLine/>
+  					<line>    public void hello() {</line>
+			   		<line>        MyBean bean1 = (MyBean) <em>sctx.<javadoc to="">lookup</javadoc>("beans/MyBean1")</em>;  <cmt>get 'java:comp/env/beans/MyBean1'</cmt></line>
+  					<line>    }</line>
+  					<line>}</line>
+  				</code>
+  			</content>
+  		</collapsedSubSection>
+  		
+  		<subSection anchor="globalnamespace">
+  			<head>Global Namespace</head>
+			<miniHeadline>What is the Global JNDI Namespace?</miniHeadline>
+			<explanation>Practically every application server has a 'global namespace' that <em>contains all resources</em> and looks the same to all 
+<annotated ref="annotation-app-comp"><title>application components</title></annotated>. However, this namespace is <em>not standardized</em>
+and should be avoided if you want to write portable applications.<br/>
+Usually you can access the namespace directly from initial context (that is you don't select a sub-context such as <idf>java:comp/env</idf>).
+With resource injection, you can often <em>access it with the <javadoc to="javax/annotation/Resource.html#mappedName()">mappedName</javadoc>
+property of <javadoc>@Resource</javadoc></em>.<br/>
+Note that the global namespace is <em>not the same as the <idf>java:global/</idf> namespace</em> introduced with <topic>JEE 6</topic>.  
+<idf>java:global/</idf> only contains beans, but no other resources.</explanation>
+  		</subSection>
+  		
+  		<subSection anchor="resourceinjection">
+  			<head>Resource Injection</head>
+			<explanation>Using the <javadoc>@Resource</javadoc> annotation, you can declare that the <annotated ref="annotation-container"><title>container</title>
+			<explanation>The JEE container is usually either a web container (for Servlets) or an application server (for EJBs).</explanation></annotated>
+			should <annotated ref="annotation-injection"><title>inject</title>
+			<explanation>"Injection" means that the container writes a value into the field or property right after the object's construction.
+			As the object is not fully initialized at the time the constructor is running, you can use the 
+			annotation <idf>@PostConstruct</idf> to define a method that will invoked after the injection.</explanation></annotated> resources 
+			into your object's properties or fields.<br/> 
+			Rules:</explanation>
+			<list>
+			<li>You can <em>only inject into container-managed classes</em> such as EJBs and Servlets. Injection does not work for regular classes.</li>
+			<li>You can inject <em>all resource types supported by the container</em> <more>This typically includes 
+			Strings, numbers, beans, JDBC <javadoc>DataSource</javadoc>s, JAX-WS <javadoc>Service</javadoc> JMS <javadoc>Queues</javadoc>s, and JMS <javadoc>ConnectionFactory</javadoc> objects</more>.</li>
+			<li><em>For EJBs the <javadoc>@EJB</javadoc> annotation should be used</em> instead of <javadoc>@Resource</javadoc>.</li>
+			<li><javadoc>@Resource</javadoc> also declares a resource dependence - that means you can also <em>look up the resource using a
+			<javadoc>InitialContext</javadoc></em>.</li>
+			</list>
+			
+			
+			<miniHeadline>Field-based Injection</miniHeadline>
+			<code>
+			    <line>package com.jarfiller.example;</line>
+			    <emptyLine/>
+			    <line><javadoc>@Stateless</javadoc></line>
+			    <line>public class MyBean extends MyBeanLocal {</line>
+			    <emptyLine/>
+			    <line>    <em><javadoc>@Resource</javadoc>(<javadoc>name</javadoc>="jdbc/MyDataSource")</em> <cmt>name in ENC <more></more></cmt></line>
+			    <line>    private <javadoc>DataSource</javadoc> dataSourceA;</line>
+			    <emptyLine/>
+			    <line>    <em><javadoc>@Resource</javadoc></em> <cmt><em>default name</em> "com.jarfiller.example.MyBean/dataSourceB" <more></more></cmt></line>
+			    <line>    private <javadoc>DataSource</javadoc> dataSourceB;</line>
+			    <emptyLine/>
+			    <line>    <abstract>...</abstract></line>
+			    <line>}</line>
+			</code>
+			<miniHeadline>Property-based Injection</miniHeadline>
+			<code>
+			    <line>package com.jarfiller.example;</line>
+			    <emptyLine/>
+			    <line><javadoc>@Stateless</javadoc></line>
+			    <line>public class MyBean extends MyBeanLocal {</line>
+			    <emptyLine/>
+			    <line>    private <javadoc>DataSource</javadoc> dataSourceA;</line>
+			    <line>    <em><javadoc>@Resource</javadoc>(<javadoc>name</javadoc>="jdbc/MyDataSource")</em> <cmt>name in ENC <more></more></cmt></line>
+			    <line>    private void setDataSourceA(<javadoc>DataSource</javadoc> ds) {</line>
+			    <line>        dataSourceA = ds;</line>
+			    <line>    }</line>
+			    <line>    private <javadoc>DataSource</javadoc> getDataSourceA() {</line>
+			    <line>        return dataSourceA;</line>
+			    <line>    }</line>
+			    <emptyLine/>
+			    <line>    private <javadoc>DataSource</javadoc> dataSourceB;</line>
+			    <line>    <em><javadoc>@Resource</javadoc></em> <cmt><em>default name</em> "com.jarfiller.example.MyBean/dataSourceB" <more></more></cmt></line>
+			    <line>    private void setDataSourceB(<javadoc>DataSource</javadoc> ds) {</line>
+			    <line>        dataSourceB = ds;</line>
+			    <line>    }</line>
+			    <line>    private <javadoc>DataSource</javadoc> getDataSourceB() {</line>
+			    <line>        return dataSourceB;</line>
+			    <line>    }</line>
+			    <emptyLine/>
+			    <line>    <abstract>...</abstract></line>
+			    <line>}</line>
+			</code>
+  		</subSection>
+  	</singleColumnSection>
+  	
+<!-- 
+
+  	<singleColumnSection>
+  		<head>Descriptors</head>
+
+  	</singleColumnSection>
+
+- SubSection: EJB Lookup (ejblocal: etc) https://glassfish.dev.java.net/javaee5/ejb/EJB_FAQ.html#StandaloneRemoteEJB
+- SubSection: EJB Injection
+- SubSection: EJB Annotations a type level
+- SubSection: Container Configuration (Tomcat)
+- SubSection: Container Configuration (JBoss)
+
+- SubSection: InitialContext
+- SubSection: JNDI Service Provider
+
+Section: How-To
+- SubSection: How to get Strings or Numbers in the 
+
+Section: Questions
+- SubSection: Which type should be declared how?
+
+
+For JEE 6 variant:
+- SubSection: EJB 3.1 java:global Context
+- SubSection: java global (http://blogs.sun.com/MaheshKannan/entry/portable_global_jndi_names)
+
+
+
+<subSection>
+<head>Resource References</head>
+<summary>What's the difference between <idf>&lt;env-entry></idf>, <idf>&lt;resource-ref></idf> and <idf>&lt;resource-env-ref></idf>?</summary>
+<content>
+<explanation>
+The difference is that the they have been designed for different types of objects:
+<list>
+<li><tag>env-entry</tag> is used for <em>simple values</em> such as strings, boolean and numbers. In general, they can be represented by a
+single string.</li>
+<li><tag>resource-ref</tag> is used for <em>factories that create objects</em>, for example <javadoc package="javax.sql">DataSource</javadoc> objects
+that create JDBC <javadoc package="java.sql">Connection</javadoc>s. </li>
+<li><tag>resource-env-ref</tag> is used for <em>all other objects</em>, which are too complex for <tag>env-entry</tag> and are no
+factories like <tag>resource-ref</tag>.</li>
+</list>
+Having said that, containers usually allow you to use those elements interchangeably and differ only in their parameters (e.g. only
+<tag>resource-ref</tag> allows you to make configure the authentication method).<br/>
+When using annotations, the differences disappear completely and there is only the <javadoc>@Resource</javadoc> annotation.
+</explanation>
+</content>
+
+http://tomcat.apache.org/tomcat-6.0-doc/jndi-resources-howto.html
+
+ -->
+
+		
+  </body>
+  <sidebar>
+  	  	<box>
+  		<title>Useful Links</title>
+  		<content>
+  		</content>
+  	</box>
+  </sidebar>
+  </article>
+</page>

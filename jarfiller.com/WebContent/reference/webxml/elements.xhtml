@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:page="http://tjansen.de/refPage" xmlns:i="http://tjansen.de/internal"><head><title>Elements - Web.xml for Servlet 3.0 Reference</title><meta http-equiv="X-UA-Compatible" content="chrome=1"/><meta http-equiv="content-language" content="en"/><link rel="shortcut icon" href="../../images/favicon.png" type="image/png"/><link rel="stylesheet" type="text/css" href="../../style/style.css"/><script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-6791190-2']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+})();
+</script><script type="text/javascript" src="../../js/all.js"/></head><body id="body"><div id="visibleContent"><div id="top"><a href="/"><img src="../../images/titlebar.png" alt="Jarfiller.com"/></a></div><div id="main"><div id="bodycolumn"><div class="yahbar"><div class="yahprev"><a href="skeletons.xhtml">Prev</a></div><h3 class="yahhere"><a href="#" onclick="return navToggle();">Web.xml for Servlet 3.0 Reference / Elements</a></h3></div><h1 id="sec_elements" class="multipageTitle"><a name="elements">Elements</a></h1><div class="subSecRow1" id="sec_descriptions"><div class="subSecHead" id="sechd_descriptions"><a name="descriptions">Descriptions</a></div><div class="subSecContent" id="seccnt_descriptions"><pre class="subSecConfig">
+TODO: Copy some parts from web.xml 2.x...
+TODO: Remove all JAX-RPC references from 2.x
+
+
+New Elements in 3.0:			
+filter/async-supported
+
+servlet/async-supported
+
+servlet/multipart-config
+
+session-config/cookie-config
+session-config/tracking-mode
+
+security-constraint/web-resource-collection/http-method-omission
+
+env-entry/mapped-name
+env-entry/injection-target
+env-entry/lookup-name
+
+ejb-ref/mapped-name
+ejb-ref/injection-target
+ejb-ref/lookup-name
+
+service-ref/mapped-name
+service-ref/injection-target
+service-ref/lookup-name
+
+resource-ref/mapped-name
+resource-ref/injection-target
+resource-ref/lookup-name
+
+resource-env-ref/mapped-name
+resource-env-ref/injection-target
+resource-env-ref/lookup-name
+
+message-destination-ref/mapped-name
+message-destination-ref/injection-target
+message-destination-ref/lookup-name
+
+persistence-context-ref
+
+persistence-unit-ref
+
+data-source
+
+post-construct
+
+pre-destroy
+
+
+			</pre></div></div><div class="yahbar"><div class="yahprev"><a href="skeletons.xhtml">Prev<br/><span>Skeletons</span></a></div><div class="yahhere"><a href="#" onclick="return navToggle();">Web.xml for Servlet 3.0 Reference / Elements</a><br/><a href="/reference/webxml/"><span>Single Page Mode</span></a>, <a href="#" onclick="return navToggle();"><span>Show Table of Content</span></a></div></div></div><div id="sidecolumn">
+  	  	<div><h3>Useful Links</h3><div class="sidecolumnSubTitleLine"/>
+  			<a href="http://jcp.org/en/jsr/detail?id=315">Servlet 3.0 Specification / JSR</a><br/>
+  			<a href="http://jcp.org/aboutJava/communityprocess/mrel/jsr154/index.html">Servlet 2.5 Specification / JSR</a><br/>
+  			<br/>
+  			<a href="http://java.sun.com/javaee/6/docs/api/">JEE 6 API</a><br/>
+  		</div>
+  </div></div></div><div id="footer"><div id="footer-content"><div id="footer-left"><div class="footerLine"><a href="/">Home</a> - <a href="/about">About Jarfiller</a> - <a href="/imprint.xhtml">Imprint</a></div><div class="footerLine">Please send feedback and corrections to <a href="mailto:tim@tjansen.de">tim@<span style="display: none">got you</span>tjansen.de</a>.</div><div class="footerLine"><a href="http://www.twitter.com/timjansen">Follow</a> me on Twitter.</div><div class="copyrightLine">© 2010 Tim Jansen; content licensed under <a href="http://creativecommons.org/licenses/by/3.0/us/">cc-by</a>; example source code is public domain
+				</div></div><div id="footer-right"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="../../images/ext/cc-by-88x31.png"/></a></div></div></div><div id="navbar" onclick="return navToggle();" onmouseover="document.getElementById('navbar').className='mouseover';" onmouseout="document.getElementById('navbar').className='';"/><div id="navcontainer"><div id="navlinks"><div id="navclosebar"><a href="#" onclick="return navClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="navpositionbar" class="navpositionbar"/><h2 id="navtitle">Web.xml for Servlet 3.0 Reference</h2><a id="nav_skeletons" class="navseclink" href="skeletons.xhtml#skeletons">Skeletons</a><a id="nav_skeletons1" class="navsublink" href="skeletons.xhtml#skeletons1">Skeleton</a><a id="nav_skeletons30" class="navsublink" href="skeletons.xhtml#skeletons30">Complete Web.xml Skeleton with Schema Declaration for Servlet 3.0</a><a id="nav_elements" class="navseclink" href="#elements" onclick="if (event.button == 0) return goTo('#elements', true); else return true;">Elements</a><a id="nav_descriptions" class="navsublink" href="#descriptions" onclick="if (event.button == 0) return goTo('#descriptions', true); else return true;">Descriptions</a></div></div><div id="popups"><div id="ttCloseBar" class="closeBar"><a href="#" onclick="return tlClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="topicCloseBar" class="closeBar"><a href="#" onclick="return tpcClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div></div></body></html>

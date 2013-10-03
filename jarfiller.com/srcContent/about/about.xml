@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tjansen.de/refPage schemas/page.xsd ">
+  <root>../</root>
+  <title>The Jarfiller Story</title>   
+   <embeddedStyle>
+#contentDiv {margin-top: 20px; width: 1160px; margin-left:auto; margin-right:auto; }
+#textDiv {width: 800px}
+#textHead { font-size: 2em; font-weight: bold; margin: 1.5em 0 1em}
+.textPara { margin-bottom: 1.5em}
+#sigContainer { margin-left: 50%; text-align: center;}
+#sigText { font-size: smaller }
+   </embeddedStyle>
+   
+  <html><div xmlns="http://www.w3.org/1999/xhtml" id="contentDiv">
+<div id="textDiv">
+<div id="textHead">The Jarfiller Story</div>
+<div class="textPara">
+I am a professional software developer for over 12 years now. Over those years
+I worked at various companies, at many different projects, using so many different APIs and frameworks. 
+And I don't know about you, but when I am not using an API or a language for a few months, I forget about
+all the details. Even though they may come back quickly, it's hard to find a good reference as starting point.
+</div> 
+<div class="textPara">
+That's why I started Jarfiller. It's a collection of references and tutorials for Java technology that get you started as quickly as possible.
+Inspired by VisiBone's great <a href="http://javascript-reference.info/">Javascript Reference</a>, I try to
+keep the tutorials short and try to be as concise as possible.
+Instead of using many words, I use commented source code to show you how things work. Information that is not required for understanding the
+concept is hidden in pop-ups or collapsed sections. At the end of most tutorials, there is a list of 'How-tos' to show you all
+the details as well as solutions to some common tasks and answers to frequent questions. The result are documents that contain as much information
+about a topic as many books do, in a far more concentrated form, but yet easier to understand than the API documentation.
+</div>
+<div class="textPara">
+I hope that you enjoy Jarfiller as must as I enjoy creating this content for you.
+</div>
+<div id="sigContainer">
+<object data="signature.svg" type="image/svg+xml" height="40" width="180"><img src="signature.png" height="40" width="180" alt="Tim Jansen (signature)" /></object>
+<!--[if lte IE 8]><img src='/img/signature.png' width="40" height="180" alt="Tim Jansen (signature)"><![endif]-->
+<!--[if gt IE 8]><img src='/img/signature.svg' width="40" height="180" alt="Tim Jansen (signature)"><![endif]-->
+<!--[if !IE]> --><img src='/img/signature.svg' width="40" height="180" alt="Tim Jansen (signature)"/><!-- <![endif]-->
+<div id="sigText">Tim Jansen</div> 
+</div>
+  </div>
+  </div>
+    </html>
+
+  
+</page>

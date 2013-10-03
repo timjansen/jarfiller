@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includables xmlns="http://tjansen.de/refPage" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:inc="http://tjansen.de/refPageInclude"
+	xsi:schemaLocation="http://tjansen.de/refPage ../../schemas/page.xsd ">
+	
+	 <topic>
+  		<keyword>XML Schema</keyword>
+  		<keyword>XSD</keyword>
+  		
+  		<headline>XML Schema</headline>
+  		<description>An XML Schema is used to describe the structure of a XML document. The schema itself is a also XML document,
+  		called XML Schema Definition (XSD).</description>
+  		<homepage><link to="http://www.w3.org/XML/Schema">XML Schema Homepage (W3C)</link></homepage>
+		<wikipedia><link to="http://en.wikipedia.org/wiki/XML_Schema_(W3C)">XML Schema (W3C)</link></wikipedia>
+  		<specification><link to="http://www.w3.org/TR/xmlschema-0/">Part 0</link>, <link to="http://www.w3.org/TR/2004/REC-xmlschema-1-20041028/structures.html">Part 1</link>, <link to="http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/datatypes.html">Part 2</link></specification>
+  	</topic>
+  	
+  	<topic>
+  		<keyword>XPath</keyword>
+  		
+  		<headline>XPath</headline>
+  		<description>XPath is a query language for XML documents.</description>
+		<wikipedia><link to="http://en.wikipedia.org/wiki/XPath">XPath</link></wikipedia>
+  		<specification><link to="http://www.w3.org/TR/xpath/">XPath 1.0</link>, <link to="http://www.w3.org/TR/xpath20/">XPath 2.0</link></specification>
+  	</topic>
+  	
+  	<topic>
+  		<keyword>XSLT</keyword>
+  		
+  		<headline>XSLT</headline>
+  		<description>XSLT is a language for transforming XML documents into other XML documents, HTML or plain text.</description>
+  		<homepage><link to="http://www.w3.org/Style/XSL/">XSL Family (W3C)</link></homepage>
+		<wikipedia><link to="http://en.wikipedia.org/wiki/XSLT">XSLT</link></wikipedia>
+  		<specification><link to="http://www.w3.org/TR/xslt">XSLT 1.0</link>, <link to="http://www.w3.org/TR/xslt20/">XSLT 2.0</link></specification>
+  	</topic>
+  	
+  	<topic>
+  		<keyword>JPA</keyword>
+  		
+  		<headline>JPA</headline>
+		<abbreviation>Java Persistence API</abbreviation>
+		
+  		<description>JPA is a high-level API for accessing relational databases. It is mostly known
+  		for mapping between Java objects and database tables.</description>
+		<wikipedia><link to="http://en.wikipedia.org/wiki/Java_Persistence_API">Java Persistence API</link></wikipedia>
+  		<specification><link to="http://jcp.org/aboutJava/communityprocess/final/jsr220/index.html">JPA 1.0</link> (JEE 5), <link to="http://jcp.org/aboutJava/communityprocess/final/jsr317/index.html">JPA 2.0</link> (JEE 6)</specification>
+  		<api><link to="http://java.sun.com/javaee/5/docs/api/javax/persistence/package-summary.html">JPA 1.0</link> (JEE 5), <link to="http://java.sun.com/javaee/6/docs/api/javax/persistence/package-summary.html">JPA 2.0</link> (JEE 6)</api>
+  		<jsr><link to="http://jcp.org/en/jsr/detail?id=220">JSR-220</link>, <link to="http://jcp.org/en/jsr/detail?id=317">JSR-317</link></jsr>
+  	</topic>
+  	
+  	<topic>
+  		<keyword>JSP</keyword>
+  		<keyword>JSPs</keyword>
+  		
+  		<headline>JSP</headline>
+		<abbreviation>JavaServer Pages</abbreviation>
+		
+  		<description>JSPs are a template system for generating dynamic web pages. It is tightly integrated with
+  		Java and allows mixing Java source code with markup code.</description>
+  		
+  		<homepage><link to="http://java.sun.com/products/jsp/">JavaServer Pages Technology (Sun/Oracle)</link></homepage>
+		<wikipedia><link to="http://en.wikipedia.org/wiki/JavaServer_Pages">JavaServer Pages</link></wikipedia>
+  		<specification><link to="http://jcp.org/aboutJava/communityprocess/mrel/jsr245/index.html">JSP 2.2</link></specification>
+  		<jsr><link to="http://jcp.org/en/jsr/detail?id=53">JSR-53</link>, <link to="http://jcp.org/en/jsr/detail?id=152">JSR-152</link>, <link to="http://jcp.org/en/jsr/detail?id=245">JSR-245</link></jsr>
+  	</topic>
+	
+	<topic>
+  		<keyword>JAR</keyword>
+  		<keyword>JARs</keyword>
+  		
+  		<headline>JAR</headline>
+		<abbreviation>Java ARchive</abbreviation>
+		
+  		<description>JARs are ZIP files with a <idf>.jar</idf> extension and a special directory structure. Java uses them to store Java 
+  		applications and libraries.</description>
+  		<relatedGuides><link to="/javabasics/jar/">Java Basics: JAR Files</link></relatedGuides>
+		<wikipedia><link to="http://en.wikipedia.org/wiki/JAR_(file_format)">JAR (file format)</link></wikipedia>
+  		<specification><link to="http://java.sun.com/j2se/1.5.0/docs/guide/jar/jar.html">JAR Specification</link></specification>
+  	</topic>
+  	 
+  	<topic>
+  		<keyword>JSF</keyword>
+  		<keyword>JSFs</keyword>
+  		
+  		<headline>JSF</headline>
+		<abbreviation>JavaServer Faces</abbreviation>
+		
+  		<description>JSF is a MVC-based framework for web applications which runs on top of a display technologies such as Facelets (default
+  		for JSF 2.0) and JSPs(default for 1.x).</description>
+  		<homepage><link to="http://java.sun.com/javaee/javaserverfaces/">JavaServer Faces Homepage (Sun/Oracle)</link></homepage>
+		<wikipedia><link to="http://en.wikipedia.org/wiki/JavaServer_Faces">JavaServer Faces</link></wikipedia>
+  		<specification><link to="http://jcp.org/aboutJava/communityprocess/final/jsr314/index.html">JSF 2.0 Specification</link></specification>
+  		<jsr><link to="http://jcp.org/en/jsr/detail?id=127">JSR-127</link>, <link to="http://jcp.org/en/jsr/detail?id=252">JSR-252</link>, <link to="http://jcp.org/en/jsr/detail?id=314">JSR-314</link></jsr>
+  	</topic>
+  	
+  	<topic>
+  		<keyword>Spring</keyword>
+  		
+  		<headline>Spring</headline>
+		
+  		<description>Spring is a popular application framework for Java. It is not part of Java EE, but usually considered an alternative to using the full JEE stack.</description>
+  		<homepage><link to="http://www.springsource.org/">Spring Source</link></homepage>
+		<wikipedia><link to="http://en.wikipedia.org/wiki/Spring_Framework">Spring Framework</link></wikipedia>
+		<api><link to="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/">Reference</link>, <link to="http://static.springsource.org/spring/docs/3.0.x/javadoc-api/">API</link></api>
+  	</topic>
+  	
+  	<!-- Todo: serializable (for servlet guide)
+  	Common Annotations (for servlet guide)
+  	 -->
+</includables>

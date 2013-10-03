@@ -1,0 +1,1097 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tjansen.de/refPage ../../../schemas/page.xsd ">
+
+  <path>/reference/javafxscript/</path>
+
+  <title>JavaFX Script Reference</title>
+  <titleIntro>JavaFX Script is a JavaScript-like language for the JavaVM with
+  		static typing and some special support for user interfaces. Written for JavaFX 1.3.</titleIntro>
+
+  <license>cc-by-free-src</license>
+
+  <multipage/>
+
+  <article> 
+  <body> 
+  	<singleColumnSection anchor="basictypes">
+  		<head>Basic Types</head> 
+  		<subSection anchor="booleans">
+  			<head>Booleans and Comparisons</head>
+  			<more><idf>true</idf> and <idf>false</idf> are literals for boolean
+  			values. Boolean variables can not be <idf>null</idf>.<br/>
+  			JavaFX uses the typical C/Java equality and relational operators, like <idf>==</idf>,
+  			<idf>!=</idf>, <idf>>=</idf> etc. However, unlike Java, the 
+  			<idf>==</idf> operator always tests equality, never identity. To check
+  			identity, use the built-in function isSameObject(:Object, :Object).</more>
+  			<code>
+	  			<line><warn>Warning: JavaFX has no <idf>assert</idf> support yet! This reference just acts as if it did. <more>This reference is
+	  			based on an imaginary method called <idf>assert()</idf>. In this
+	  			reference, <idf>assert()</idf> is always called with an argument that 
+	  			is <idf>true</idf>. Please note that <idf>assert()</idf> does not exist in JavaFX, 
+	  			and can not be implemented,	since <idf>assert</idf> is a reserved keyword in JavaFX.</more></warn></line>
+	  			<line><em>assert</em>(true);<cmt>assertions must be true</cmt></line>
+	  			<line>assert(<em>not</em> false);<cmt><warn>"not" instead of "!"</warn></cmt></line>
+	  			<line><strike>assert(!false);</strike><cmt>"!" not defined</cmt></line>
+	  			<line>assert(true <em>and</em> true);<cmt>logical <idf>and</idf>, like Java's <idf>&amp;&amp;</idf>	<more>The <idf>and</idf> operator works like Java's <idf>&amp;&amp;</idf>: the second expression
+	  				will only be evaluated if the first one was <idf>true</idf>. Otherwise it returns <idf>false</idf> immediately.</more></cmt></line>
+	  			<line>assert(true <em>or</em> false);<cmt>logical <idf>or</idf>, like Java's <idf>||</idf> <more>The <idf>or</idf> operator works like Java's <idf>||</idf>: the second expression
+	  				will only be evaluated if the first one was <idf>false</idf>. Otherwise it returns <idf>true</idf> immediately.</more></cmt></line>
+	  			<emptyLine/>
+	  			<line>assert(true <em>instanceof java.lang.Boolean</em>);</line>
+	  			<line>assert(false instanceof java.lang.Boolean);</line>
+	  			<emptyLine/>
+	  			<line>assert(1 <em>==</em> 1);<cmt>equal</cmt></line>
+	  			<line>assert(1 <em>!=</em> 2);<cmt>not equal</cmt></line>
+	  			<line>assert(2 <em>></em> 1);<cmt>greater than</cmt></line>
+	  			<line>assert(2 <em>>=</em> 1);<cmt>greater or equal</cmt></line>
+	  			<line>assert(1 <em>&lt;</em> 2);<cmt>less than</cmt></line>
+	  			<line>assert(1 <em>&lt;=</em> 2);<cmt>less or equal</cmt></line>
+	  			<emptyLine/>
+	  			<line>assert("foo" <em>==</em> "foo");<cmt>== and != compare Strings (unlike Java) <more>Actually the <idf>==</idf> and <idf>!=</idf> operators call the method <idf>equals</idf> on the
+	  			object. Thus they work on all classes that implement them. If class does not implement
+	  			<idf>equals</idf>, the default implementation is taken. It only returns
+	  			<idf>true</idf> of both expressions refer to the same object.</more></cmt></line>
+	  			<line>assert("foo" <em>!=</em> "bar");</line>
+	  		</code>
+  		</subSection>
+  		
+  		<subSection anchor="variables">
+  			<head>Variables</head>
+  			<more>JavaFX supports two types of variable definitions: <idf>def</idf> 
+  			defines a variable that can not be modified after initialization (like
+  			<idf>final</idf> in Java). <idf>var</idf> is a normal modifiable variable.<br/>
+  			The type of variables does not need to be declared. If not set, JavaFX tries to 
+  			guess the type from the initialization.</more>
+  			<code>
+	  			<line><em>def</em> a = 1; assert(a == 1);<cmt><idf>def</idf> defines variables that can not be overwritten</cmt></line>
+	  			<line><strike>a = 2;</strike><cmt>must not modify <idf>def</idf> variables</cmt></line>
+	  			<line><em>var</em> b = 1; assert(b == 1);<cmt><idf>var</idf> declares a regular variable</cmt></line>
+	  			<line>b = 2; assert(b == 2);</line>
+	  			<line><strike>var a, b;</strike><cmt>one <idf>var</idf> or <idf>def</idf> per variable allowed</cmt></line>
+	  			<emptyLine/>
+	  			<line>var c = 1; <strike>c = "foo";</strike><cmt>c is Integer because of the initial assignment <more>JavaFX Script uses type inference for all variables that do not specify a type. This
+	  			means that the variable has the type of the value that you initialized it with, and can
+	  			only store variables that are compatible to that type. If you want to store other types
+	  			in a variable, you have to define it differently.</more></cmt></line>
+	  			<line>var d<em> : Integer</em> = 1; d = 2;<cmt>explicit type declaration</cmt></line>
+	  			<line>var e : Boolean = true; <strike>e = 5;</strike><cmt>incompatible type</cmt></line>
+	  			<line>var f : <em>Object</em> = 1; f = "foo";<cmt>Object allows all values <more>If you want to be able to store different types of values or objects in
+	  			a variable, you most declare it as a common super type of the values.
+	  			<idf>Object</idf> is the root type and super class of all values and objects.</more></cmt></line>
+				<line>def g : String = <em>null</em>;<cmt>reference types can be null</cmt></line>
+				<line><strike>def h : Integer = null;</strike><cmt>..but not built-ins like Integer<more>The built-in
+				types like Integer, Number and Boolean must not be null. String and all regular objects can be null.
+				</more></cmt></line>
+	  			<emptyLine/>
+	  			<line>var x = 0;</line>
+	  			<line>var y = 2 <em>on replace { x++; };</em><cmt><idf>on replace</idf> clause</cmt></line>
+	  			<line>assert(<em>x == 1</em>);<cmt>called on initial assignment</cmt></line>
+	  			<line>y = 0; assert(<em>x == 2</em>);<cmt>and after additional assignments</cmt></line>
+	  		</code>
+  		</subSection>
+  		
+  		<subSection anchor="integers">
+  			<head>Integers</head>
+  			<more><idf>Integer</idf> is the typical 32 bit signed integer value, like Java's <idf>int</idf>.</more>
+			<code>
+				<line>assert(<em>5</em> &lt; 10);<cmt>decimal <idf>Integer</idf> literal</cmt></line>
+	  			<line>assert(26 == <em>0x1a</em>);<cmt>hexadecimal</cmt></line>
+	  			<line>assert(10 == <em>012</em>);<cmt>octal</cmt></line>
+	  			<line>assert(1 <em>instanceof Integer</em>);</line>
+	  			<line>var x : Integer; assert(<em>x == 0</em>);<cmt>default value 0</cmt></line>
+	  			<line><strike>var y : Integer = null;</strike><cmt>Integer can not be null</cmt></line>
+	  			<emptyLine/>
+	   			<line>assert(1 <em>+</em> 2 == 3);<cmt>addition</cmt></line>
+	   			<line>assert(1 <em>-</em> 2 == -1);<cmt>subtraction</cmt></line>
+	   			<line>assert(6 <em>*</em> 7 == 42);<cmt>multiplication</cmt></line>
+	   			<line>assert(24 <em>/</em> 6 == 4);<cmt>division</cmt></line>
+	   			<line>assert(25 <em>/</em> 6 == 4);</line>
+	   			<line>assert(25 <em>mod</em> 6 == 3);<cmt>reminder</cmt></line>
+	   			<line>assert(<em>-</em>(1+1) == -2);<cmt>negation</cmt></line>
+	  			<emptyLine/>
+	   			<line>var a = 1; assert(<em>a++</em> == 1); assert(a == 2);<cmt>Post-increment</cmt></line>
+	   			<line>var b = 1; assert(<em>++b</em> == 2); assert(b == 2);<cmt>Pre-increment</cmt></line>
+	   			<line>var c = 1; assert(<em>c--</em> == 1); assert(c == 0);<cmt>Post-decrement</cmt></line>
+	   			<line>var d = 1; assert(<em>--d</em> == 0); assert(d == 0);<cmt>Pre-decrement</cmt></line>
+	   			<emptyLine/>
+	   			<line>var e = 1; e <em>+=</em> 3; assert(e == 4);<cmt>add then assign</cmt></line>
+	   			<line>var f = 2; f <em>-=</em> 1; assert(f == 1);<cmt>subtract then assign</cmt></line>
+	   			<line>var g = 2; g <em>*=</em> 3; assert(g == 6);<cmt>multiply then assign</cmt></line>
+	   			<line>var h = 8; h <em>/=</em> 2; assert(h == 4);<cmt>divide then assign</cmt></line>
+	   		</code>
+  		</subSection>
+  		
+  		<subSection anchor="numbers">
+  			<head>Numbers (float)</head>
+  			<more><idf>Number</idf> is a floating point number. Since JavaFX 1.1 it
+  			uses Java's <idf>float</idf> (earlier versions use <idf>double</idf>).</more>
+  			<code>
+	  			<line>assert(<em>12.5</em> == 25.0/2.0);<cmt><idf>Number</idf> / <idf>float</idf> literal</cmt></line>
+	  			<line>assert(0.75 == <em>.75</em>);<cmt>Omitting zero</cmt></line>
+	  			<line>assert(<em>1.25e2</em> == 125);<cmt>exponential notation</cmt></line>
+	  			<line>assert(<em>184e-2</em> == 0.184e1);</line>
+	  			<line>assert(0.75 <em>instanceof java.lang.Number</em>);</line>
+	  			<line>assert(0.75 <em>instanceof java.lang.Float</em>);</line>
+	  			<line>var x : Number; assert(<em>x == 0.0</em>);<cmt>default value 0.0</cmt></line>
+	  			<line><strike>var y : Number = null;</strike><cmt>Number can not be null</cmt></line>
+	  			<emptyLine/>
+	   			<line>assert(2.5 <em>+</em> 4.5 == 7.0);<cmt>addition</cmt></line>
+	   			<line>assert(0.75 <em>-</em> 2 == -1.25);<cmt>subtraction</cmt></line>
+	   			<line>assert(0.5 <em>*</em> 7.0 == 3.5);<cmt>multiplication</cmt></line>
+	   			<line>assert(12.0 <em>/</em> 8 == 1.5);<cmt>division</cmt></line>
+	   			<emptyLine/>
+	   			<line>var a = 1.5; assert(<em>a++</em> == 1.5); assert(a == 2.5);<cmt>Post-increment</cmt></line>
+	   			<line>var b = 1.5; assert(<em>++b</em> == 2.5); assert(b == 2.5);<cmt>Pre-increment</cmt></line>
+	   			<line>var c = 1.5; assert(<em>c--</em> == 1.5); assert(c == 0.5);<cmt>Post-decrement</cmt></line>
+	   			<line>var d = 1.5; assert(<em>--d</em> == 0.5); assert(d == 0.5);<cmt>Pre-decrement</cmt></line>
+	   			<emptyLine/>
+	   			<line>var e = 1.5; e <em>+=</em> 3.5; assert(e == 5.0);<cmt>add then assign</cmt></line>
+	   			<line>var f = 2.5; f <em>-=</em> 1; assert(f == 1.5);<cmt>subtract then assign</cmt></line>
+	   			<line>var g = 2.5; g <em>*=</em> 3.0; assert(g == 7.5);<cmt>multiply then assign</cmt></line>
+	   			<line>var h = 8.6; h <em>/=</em> 2; assert(h == 4.3);<cmt>divide then assign</cmt></line>
+	  			<emptyLine/>
+	   			<line>assert(2.5 + 2 + 5.5 == 10);<cmt>type conversion Integer &lt;-> Number</cmt></line>
+	   		</code>
+  		</subSection>
+  		
+  		<subSection anchor="strings">
+  			<head>Strings</head>
+  			<more><idf>String</idf> is a unicode string. Null and empty strings
+  			are the same.</more>
+  			<code>
+	  			<line>assert(<em>"foo"</em> == <em>'foo'</em>);<cmt>double-quote and single-quote are equivalent</cmt></line>
+	  			<line>assert(" ' " == ' <em>\'</em> ' and ' " ' == " <em>\"</em> ");<cmt>back-slash escape</cmt></line>
+	  			<line>assert("<em>\n</em>".charAt(0) == 10);<cmt>back-slash newline <more>JavaFX supports the usual backslash escapes known from Java and
+	  			C in both single- and double-quoted strings, like \n, \r, \t, \\...
+	  			In addition to them, \{ and \} are used to escape curly braces.</more></cmt></line>
+	  			<line>var x: String; assert(x == "");<cmt>default empty string</cmt></line>
+	  			<line>assert(<em>"" == null</em>); <cmt>null is empty</cmt></line>
+	  			<line>assert("foo" <em>instanceof String</em>);</line>
+	  			<emptyLine/>
+	  			<line>assert("Number <em>{2+3}</em>." == "Number 5.");<cmt>Embedded expression</cmt></line>
+	  			<line>def a = "foo"; def b = "bar"; assert("<em>{a}{b}</em>" == "foobar");</line>
+	  			<line><strike>assert(a + b == "foobar");</strike><cmt><warn>no + operator for Strings</warn></cmt></line>
+	  			<line>assert("foo {'bar'}" == "foo bar");</line>
+	  			<line>assert("{"foo {"bar"}"}" == "foo bar");<cmt>Nested expressions</cmt></line>
+	  		</code>
+  		</subSection>
+
+		
+		<subSection anchor="duration">
+			<head>Duration</head>
+			<more><idf>Duration</idf> represents an amount of time. Its literals allow
+			to specify in milliseconds, seconds, minutes or hours. </more>
+			<code>
+				<line>assert(<em>1s</em> == <em>1000ms</em>);<cmt>1 second is 1000 milliseconds</cmt></line>
+				<line>assert(<em>1m</em> == <em>60s</em>);<cmt>1 minute is 60 seconds</cmt></line>
+				<line>assert(<em>1h</em> == <em>60m</em>);<cmt>1 hour is 60 minutes</cmt></line>
+				<line>assert(<em>3600000ms</em> == <em>1h</em>);<cmt>1 hour is 3600000 milliseconds</cmt></line>
+				<line>assert(1s <em>instanceof Duration</em>);</line> 
+				<emptyLine/>
+				<line>assert(<em>0.5m</em> == 30s);<cmt>non-integer duration units</cmt></line>
+				<line>assert(0.25h == 900s);</line>
+				<emptyLine/>
+				<line>assert(<em>1m + 30s</em> == 90s);<cmt>duration arithmetic</cmt></line>
+				<line>assert(1m <em>-</em> 15s == 45 * 1000ms);</line>
+				<line>assert(1h <em>/</em> 10m == 6);</line>
+				<line>assert(1h <em>/</em> 10 == 6m);</line>
+				<line>assert((1h - 50m - 500s - 9500ms)/2 == 45.25s);</line>
+				<emptyLine/>
+				<line><strike>assert(10h * 5m);</strike><cmt>illegal multiplication</cmt></line>
+				<line><strike>assert(10s + 5);</strike><cmt>illegal addition</cmt></line>
+			</code>
+		</subSection>
+  	</singleColumnSection>
+	
+	
+  	
+  	<singleColumnSection anchor="sequences">
+  		<head>Sequences</head>
+  		<subSection anchor="creatingseqs">
+  			<head>Creating sequences</head>
+  			<more>Sequences are basically variable-length arrays. Null is the same
+  			as an empty sequence.</more>
+  			<code>
+	  			<line>def a = <em>[10, 20, 30, 40, 50]</em>;<cmt>sequence of integers</cmt></line>
+	  			<line>def b = [35, 1.2, "foo", null, false];<cmt>mixed types</cmt></line>
+	  			<line>def c : <em>String[]</em> = ["a", "b", "c"];<cmt>explicit type</cmt></line>
+	  			<line>def d : <em>Object[]</em> = [1, "a", null, 2.2, true];<cmt>Object can contain everything</cmt></line>
+	  			<line>def e : Object[] = <em>null</em>; assert(e == <em>[]</em>);</line>
+	  			<line>assert(<em>[] == null</em>);<cmt>null is empty</cmt></line>
+	  			<line>assert(<em>sizeof a</em> == 5);<cmt>sequence length</cmt></line>
+	  			<line>assert(a == [<em>5+5</em>, 4*5, 60/2, 50-10, 10*5]);<cmt>embedded expressions</cmt></line>
+	  			<line>assert(<em>[1, [2, 3, []], [4, 5]]</em> == [1, 2, 3, 4, 5]);<cmt>flattening <more>It is not possible to have a sequence containing other sequences.
+	  			Sequences are flattened, inner sequences will be merged into the outer sequence.</more></cmt></line>
+	  			<emptyLine/>
+	  			<line>assert(<em>[1..3]</em> == [1, 2, 3]);<cmt>range</cmt></line>
+	  			<line>assert([1..6 <em>step 2</em>] == [1, 3, 5]);<cmt>range with step</cmt></line>
+	  			<line>assert([4..2 step <em>-1</em>] == [4, 3, 2]);<cmt>negative step</cmt></line>
+	  			<emptyLine/>
+	  			<line>assert(<em>reverse</em> [1, 5, 10] == [10, 5, 1]);<cmt>reverse a sequence</cmt></line>
+	  			<line>assert(reverse [1..3] == [3..1 step -1]);</line>
+	  		</code>
+		</subSection>  			
+		<subSection anchor="seqreadbyslice">
+  			<head>Reading by index / slice</head>
+  			<more>Elements of sequences can be accessed using square brackets, like arrays in Java and C. However,
+  			using the <idf>..</idf> notation you can also create a slice of the original sequence.</more> 
+  			<code>
+	  			<line>def a = [10, 20, 30, 40, 50];</line>
+	  			<line>assert(a<em>[1]</em> == 20);<cmt>read single element</cmt></line>
+	  			<line>assert(a[7] == <em>0</em>);<cmt>default value if index does not exist</cmt></line>
+	  			<line>assert(a<em>[1..3]</em> == [20, 30, 40]);<cmt>slicing (inclusive)</cmt></line>
+	  			<line>assert(a[1<em>..&lt;</em>3] == [20, 30]);<cmt>slicing (exclusive)</cmt></line>
+	  			<line>assert(a[<em>1..</em>] == [20, 30, 40, 50]);<cmt>end is optional (inclusive)</cmt></line>
+	  			<line>assert(a[<em>1..&lt;</em>] == [20, 30, 40]);<cmt>end is optional (exclusive)</cmt></line>
+				<line>assert(a == [ a[0..1], a[2..] ]);</line>
+			</code>
+ 		</subSection>  	
+		<subSection anchor="seqwriteindexslice">
+  			<head>Writing by index / slice</head>
+  			<more>Writing to sequence elements uses the same syntax as reading. You can set single
+  			elements as well as replace whole slices of the original sequence.</more>
+  			<code>
+	  			<line>var a = ["a", "b", "c", "d"];</line>
+	  			<line>a<em>[1]</em> = "BBB"; assert(a == ["a", "BBB", "c", "d"]);<cmt>replace member</cmt></line>
+				<line><em>a[4] = "d";</em> assert(a == ["a", "BBB", "c", "d"]);<cmt><warn>does nothing</warn> (index too large)</cmt></line>
+				<line><strike>a[4] = ["d"];</strike><cmt>assigning a sequence not allowed</cmt></line>
+				<emptyLine/>
+				<line>def b = ["a", "b", "c", "d"];</line>
+				<line>b<em>[1..1]</em> = ["b1", "b2", "b3"];<cmt>replace slice</cmt></line>
+				<line>assert(b == ["a", "b1", "b2", "b3", "c", "d"]);</line>
+				<emptyLine/>
+				<line>def c = ["a", "b", "c", "d"];</line>
+				<line><em>c[0..&lt;2] = [];</em> assert(c == ["c", "d"]);<cmt>delete slice</cmt></line>
+				<line><em>c[-1..-1]</em> = ["a", "b"];  assert(c == ["c", "d"]); <cmt><warn>does nothing</warn></cmt></line>
+				<emptyLine/>
+				<line>def d = ["c", "d"];</line>
+				<line>d<em>[0..0]</em> = ["a", "b", d[0]];<cmt>better use <idf>insert</idf> statement</cmt></line>
+				<line>assert(d == ["a", "b", "c", "d"]);</line>
+				<emptyLine/>
+				<line>def e = ["a", "b", "c", "d"];</line>
+				<line>e<em>[4..4]</em> = ["e"];<cmt>append (better use <idf>insert</idf> statement)</cmt></line>
+				<line>assert(e == ["a", "b", "c", "d", "e"]);</line>
+			</code>
+		</subSection>
+		<subSection anchor="seqselect">
+  			<head>Sequence Select Clause</head>
+  			<more>The select clause allows you to create a new sequence by filtering 
+  			an existing one.</more>
+  			<code>
+	  			<line>def a = [12, -2, 0, 21, -100, 3];</line>
+	  			<line>assert(a<em>[x | x >= 0]</em> == [12, 0, 21, 3]);<cmt>select clause to filter sequences</cmt></line>
+	  			<line>assert(a[c | c &lt; -10 or c > 10] == [12, 21, -100]);</line>
+	  			<line>assert(a[c | <em>indexof c</em> mod 2 == 0] == [12, 0, -100]);<cmt><idf>indexof</idf> is the current index</cmt></line>
+	  		</code>
+  		</subSection>
+  		<subSection anchor="seqinsert">
+  			<head>Insert / Delete</head>
+  			<more><idf>insert</idf> and <idf>delete</idf> are convenience statements for the
+  			manipulation of sequences. <idf>insert</idf> allows you to add single elements or
+  			sequences, and <idf>delete</idf> can remove them.</more>
+  			<code>
+				<line>var a = ["a", "b", "c"];</line>
+				<line><em>insert</em> "d" <em>into</em> a; assert(a == ["a", "b", "c", "d"]);<cmt>appends elements</cmt></line>
+				<line>insert <em>["e", "f"]</em> into a; assert(a == ["a", "b", "c", "d", "e", "f"]);<cmt>append sequence</cmt></line>
+				<emptyLine/>
+				<line>var b = [1, 2, 3];</line>
+				<line>insert 34 <em>before</em> b[2]; assert(b == [1, 2, 34, 3]);<cmt><idf>insert before</idf></cmt></line>
+				<line>insert [-1, 0] <em>before</em> b[0]; assert(b == [-1, 0, 1, 2, 34, 3]);</line>
+				<emptyLine/>
+				<line>var c = [1, 2, 3];</line>
+				<line>insert 34 <em>after</em> c[2]; assert(c == [1, 2, 3, 34]);<cmt><idf>insert after</idf></cmt></line>
+				<line>insert [22, 23] <em>after</em> c[0]; assert(c == [1, 22, 23, 2, 3, 34]);</line>
+				<emptyLine/>
+				<line>var d = [1, 2, 3, 4, 5, 6];</line>
+				<line><em>delete</em> d[1]; assert(d == [1, 3, 4, 5, 6]);<cmt>delete single element</cmt></line>
+				<line>delete <em>d[1..3]</em>; assert(d == [1, 6]);<cmt>delete slice</cmt></line>
+				<line><em>delete d;</em> assert(d == []);<cmt>delete all elements</cmt></line>
+				<emptyLine/>
+				<line>var e = [1, 3, 1, 4, 2, 2, 1];</line>
+				<line>delete <em>1 from e</em>; assert(e == [3, 4, 2, 2]);<cmt>delete by value</cmt></line>
+			</code>
+  		</subSection>
+  	</singleColumnSection>
+  	
+	
+	<singleColumnSection anchor="conditionalsandloops">
+		<head>Conditionals and Loops</head>
+  		<subSection anchor="ifthenelse">
+  			<head>if then else</head>
+  			<more><idf>if/then/else</idf> work almost like in any other language. However, unlike
+  			in Java, if you have an <idf>else</idf> it also returns a value. This replaces
+  			Java's ternary operator (<idf>a ? b : c</idf>).</more>
+  			<code>
+	  			<line>def a = 5;</line>
+	  			<line><em>if</em> (a > 0) <em>then</em> assert(true);</line>
+	  			<line>if (a > 0) assert(true);<cmt><idf>then</idf> is optional</cmt></line>
+	  			<line>if (a > 0) assert(true) <em>else</em> assert(false);</line>
+	  			<line>var b;</line>
+	  			<line>if (a > 0) {<cmt>with block (curly braces)</cmt></line> 
+	  			<line>    b = 1;</line>
+	  			<line>}</line>
+	  			<line>else {</line>
+	  			<line>    b = -1;</line>
+	  			<line>}</line>
+	  			<line>assert(b == 1);</line>
+	  			<emptyLine/>
+	  			<line>var c <em>= if (b == 1) "foo" else "bar"</em>;<cmt><idf>if/else</idf> returns value</cmt></line>
+	  			<line>def d = if (b == 1) {</line>
+	  			<line>    println("b is 1.");</line>
+	  			<line>    <em>"foo";</em><cmt>last expression in block will be returned</cmt></line>
+	  			<line>}</line>
+	  			<line>else {</line>
+	  			<line>    println("b is not 1;");</line>
+	  			<line>    <em>"bar";</em></line>
+	  			<line>};</line>
+	  			<line>assert(d == "foo");</line>
+	  		</code>
+  		</subSection>
+  		<subSection anchor="for">
+  			<head>for</head>
+  			<more><idf>for</idf> iterates over a sequence or a Java <idf>Iterable</idf>. The iteration
+  			variable (before <idf>in</idf>) is automatically declared for the scope of the <idf>for</idf>
+  			loop (variables of the same name outside the <idf>for</idf> scope will not be modified).
+  			The code block following the <idf>for</idf> will be executed once for each element
+  			of the sequence or <idf>Iterable</idf>.<br/>
+  			In JavaFX, <idf>for</idf> is not a stand-alone statement, but an expression that
+  			returns a sequence containing the return values of the executed blocks.<br/>
+  			The execution of a <idf>for</idf> loop can be interrupted using <idf>break</idf>.</more>
+  			<code>
+	  			<line>var sum = 0;</line>
+	  			<line><em>for</em> (i in [1..4])<cmt>iterates through a sequence</cmt></line>
+	  			<line>    sum += i;</line>
+	  			<line>assert(sum == 10);</line>
+	  			<emptyLine/>
+	  			<line>def a <em>= for (i in [1..3]) i * i</em>;<cmt>returns a new sequence</cmt></line>
+	  			<line>assert(a == [1, 4, 9]);</line>
+	  			<emptyLine/>
+	  			<line>def b = for (i in [1..7] <em>where</em> i mod 2 != 0) i * i;<cmt>restricts sequence</cmt></line>
+	  			<line>assert(b == [1, 9, 25, 49]);</line>
+	  			<emptyLine/>
+	  			<line>def c = for (i in [5..7]<em>, j in [1..3]</em>) i - j; <cmt>two sequences in one loop <more>if 
+	  			there are two or more <idf>in</idf>-clauses in a <idf>for</idf> loop, the 
+	  			right-most clause is the inner loop.</more></cmt></line>
+	  			<line>assert(c == [4, 3, 2, 5, 4, 3, 6, 5, 4]);</line>
+	  			<emptyLine/>
+	  			<line>def d = for (i in [1..5] where i mod 2 != 0, j in [1..5] where i &lt;= j) i * j;</line>
+	  			<line>assert(d == [1, 2, 3, 4, 5, 9, 12, 15, 25]);</line>
+	  			<emptyLine/>
+	  			<line>var i = 0;</line>
+	  			<line>for (<em>i</em> in [1..5])<cmt><warn>creates new variable named <idf>i</idf></warn></cmt></line>
+	  			<line>    sum += i;</line>
+	  			<line>assert(i == 0);<cmt><warn><idf>i</idf> did not change</warn></cmt></line>
+	  		</code>
+  		</subSection>
+  		<subSection anchor="while">
+  			<head>while</head>
+  			<more><idf>while</idf> in JavaFX works like in most other languages: first the boolean argument given in 
+  			parentheses is evaluated. If it is true, the following code block is executed and afterwards it starts all over
+  			again. As soon as the argument is false, <idf>while</idf> skips the rest of the block and the
+  			program continues with the following statement.<br/>
+  			The execution of a <idf>for</idf> loop can be interrupted using <idf>break</idf>.</more>
+  			<code>
+	  			<line>var a = 0; var b = 3;</line>
+	  			<line><em>while</em> (b > 0)<cmt>repeats a block while condition is true</cmt></line>
+	  			<line>    a = a + (b--);</line>
+	  			<line>assert(a == 6);</line>
+	  			<emptyLine/>
+	  			<line><strike>def b = while (a > 0) a--;</strike><cmt><idf>while</idf> returns <idf>Void</idf></cmt></line>
+	  		</code>
+  		</subSection>
+  		<subSection anchor="break">
+  			<head>break</head>
+  			<more><idf>break</idf> can be used to abort the execution of the innermost <idf>for</idf>
+  			or <idf>while</idf> loop.</more>
+  			<code>
+	  			<line>var a = ""; var b = ["abc", "d", "efg", "hij", "k", "lmnop", "qrs"];</line>
+	  			<line>for (i in b) {</line>
+	  			<line>    a = "{a}{i}";</line>
+	  			<line>    if (a.length() >= 10)</line>
+	  			<line>        <em>break</em>;<cmt>aborts the loop</cmt></line> 
+	  			<line>}</line>
+	  			<line>assert(a == "abcdefghij");</line>
+	  			<emptyLine/>
+	  			<line>var c = 0; var d = 0;</line>
+	  			<line>while (c &lt;= 10) {</line>
+	  			<line>    d += c * c;</line>
+	  			<line>    if (d > 100)</line>
+	  			<line>        <em>break</em>;<cmt>aborts the loop</cmt></line> 
+	  			<line>    c++;</line>
+	  			<line>}</line>
+	  			<line>assert(d == 140);</line>
+	  		</code>
+  		</subSection>
+  		<subSection anchor="continue">
+  			<head>continue</head>
+  			<more><idf>continue</idf> can be used to skip the remaining code of the innermost <idf>for</idf>
+  			or <idf>while</idf> loop, and to start the next iteration.</more>
+  			<code>
+	  			<line>var a = ""; var b = ["abc", "d", "efg", "hij", "k", "lmnop", "qrs"];</line>
+	  			<line>for (i in b) {</line>
+	  			<line>    if (a.length() >= 10)</line>
+	  			<line>        <em>continue</em>;<cmt>skips the rest of the current iteration</cmt></line> 
+	  			<line>    a = "{a}{i}";</line>
+	  			<line>}</line>
+	  			<line>assert(a == "abcdefghij");</line>
+	  			<emptyLine/>
+	  			<line>var c = 0; var d = 0;</line>
+	  			<line>while (c &lt;= 10) {</line>
+	  			<line>    c++;</line>
+	  			<line>    if (d > 100)</line>
+	  			<line>        <em>continue</em>;<cmt>skips the rest of the current iteration</cmt></line> 
+	  			<line>    d += c * c;</line>
+	  			<line>}</line>
+	  			<line>assert(d == 140);</line>
+	  		</code>
+  		</subSection>
+  		<subSection anchor="indexof">
+  			<head>indexof</head>
+  			<more><idf>indexof</idf> is a special operator that only works with the iteration variable of <idf>for</idf> loops
+	  			and the sequence select clause. It is returns the current index (the first index is 0).</more>
+  			<code>
+	  			<line>var a = [];</line>
+	  			<line>for (i in ["a", "b", "c"])</line>
+	  			<line>    insert "{i}{<em>indexof i</em>}" into a;</line>
+	  			<line>assert(a == ["a0", "b1", "c2"]);</line>
+	  		</code>
+  		</subSection>
+  	</singleColumnSection>
+	
+  	<singleColumnSection anchor="functions">
+  		<head>Functions</head>
+  		<subSection anchor="funcdefinition">
+  			<head>Defining and Calling</head>
+  			<more>The <idf>function</idf> statement allows defining functions both at the script
+  			level as well as in classes. Functions can define any number input arguments,
+  			but can return only one value and have no output or reference parameters.<br/>
+  			A function returns the value of the last executed statement. Alternatively,
+  			you can also use the <idf>return</idf> statement to specify the return value explicitly
+  			or end the function at any time.</more>
+  			<code>
+	  			<line><em>function</em> isEqual(a, b) {<cmt>defining a <idf>function</idf></cmt></line>
+	  			<line>    <em>return</em> a == b;</line>
+	  			<line>}</line>
+	  			<line>assert(isEqual("a", "a"));<cmt>calling the <idf>function</idf></cmt></line>
+	  			<line>assert(not isEqual("a", "b"));</line>
+	  			<line>assert(isEqual(1, 1));<cmt>Can be called with any type</cmt></line>
+	  			<emptyLine/>
+	  			<line>function isEqual2(a, b) {</line>
+	  			<line>    <em>a == b</em><cmt><idf>return</idf> is optional!</cmt></line>
+	  			<line>}</line>
+	  			<line>assert(isEqual2("a", "a"));</line>
+	  			<emptyLine/>
+	  			<line>function isEqual3(a<em>: Integer</em>, b<em>: Integer</em>)<em> : Boolean</em> {</line>
+	  			<line>    a == b<cmt>explicitly typed function</cmt></line>
+	  			<line>}</line>
+	  			<line>assert(isEqual3(5, 5));</line>
+	  			<line><strike>assert(isEqual3("a", "a"));</strike><cmt>incompatible types</cmt></line>
+	  		</code>
+		</subSection>
+		<subSection anchor="closures">
+			<head>Closures and Anonymous Functions</head>
+			<more>Using the <idf>function</idf> keyword you can define a function in any
+			expression. The function is a real closure, and thus can use and modify all variables
+			that were defined at the scope of its declaration.</more>
+			<code>
+	  			<line>def f = <em>function(a) { a * a }</em>;<cmt>inline function</cmt></line>
+	  			<line>assert(f(2) == 4);<cmt>called like any other function</cmt></line>
+	  			<emptyLine/>
+	  			<line>function forEach(seq : Integer[], <em>f: function(:Integer)</em>) {<cmt>declaration</cmt></line>
+				<line>    for (i in seq)</line>
+				<line>        f(i);</line>
+				<line>}</line>
+				<line>var sum = 0;</line>
+				<line>forEach([1, 2, 3], <em>function(a: Integer) : Void { sum +=  a}</em>);</line>
+				<line>assert(sum == 6);</line>
+			</code>
+  		</subSection>
+  	</singleColumnSection>
+	
+	<singleColumnSection anchor="classes">
+		<head>Classes</head>
+		<subSection anchor="classdef">
+			<head>Definition and Instantiating</head>
+			<more>Classes can have variables and functions, just like you can define
+			at the top-level of your script.<br/>
+			Unlike Java and many other languages, there is no constructors in JavaFX.
+			Instead JavaFX allows you to set the properties of the new object during the
+			initialization.</more>
+			<code>
+				<line><em>class</em> Person {<cmt>declaring a class</cmt></line>
+				<line>    var lastName : String;<cmt>instance variables</cmt></line>
+				<line>    var firstName : String = "unknown";<cmt>default value</cmt></line>
+				<emptyLine/>
+				<line>    function toFullName() {<cmt>instance function</cmt></line>
+				<line>        return "{firstName} {lastName}";</line>
+				<line>    }</line> 
+				<line>}</line>
+				<emptyLine/>
+				<line>def a <em>= Person {</em><cmt>creating new Person <more>This syntax creates a new
+				object of the given class and provides values for the specified properties. It
+				is also called <em>object literal</em>.<br/>The equivalent using the traditional
+				constructor syntax is:<br/>
+				<plainCode>
+   def a = new Person();
+   a.firstName = "John";
+   a.lastName = "Doe";
+				</plainCode><br/></more></cmt></line>
+				<line>    firstName: "John"<cmt><warn>no comma or semicolon needed</warn></cmt></line>
+				<line>    lastName: "Doe"</line>
+				<line><em>}</em>;</line>
+				<line>assert(<em>a.firstName</em> == "John");<cmt>property access</cmt></line>
+				<line>assert(<em>a.toFullName()</em> == "John Doe");<cmt>calling a function</cmt></line>
+				<emptyLine/>
+				<line><em>a.firstName =</em> "George";</line>
+				<line>assert(a.firstName == "George");</line>
+				<emptyLine/>
+				<line>def b <em>= Person{}</em>;<cmt>Omitting properties</cmt></line>
+				<line>assert(b.lastName == "");<cmt>uninitialized default</cmt></line>
+				<line>assert(b.firstName == "unknown");</line>
+				<emptyLine/>
+				<line>def c = <em>new Person()</em>;<cmt>Java constructor syntax</cmt></line>
+				<line>assert(c.lastName == "");<cmt>uninitialized default</cmt></line>
+				<line>assert(c.firstName == "unknown");</line>
+			</code>
+		</subSection>
+		<subSection anchor="objectinit">
+			<head>Object Initialization</head>
+			<more>JavaFX does not have constructors, but its classes can have two special
+			blocks called <idf>init</idf> and <idf>postinit</idf> that will be called after
+			the initialization of the object's variables.<br/>
+			In a class hierarchy, the <idf>init</idf> blocks are executed first, starting with
+			the top-most class. After all <idf>init</idf> blocks are done, the <idf>postinit</idf>
+			blocks will be executed in the same order.
+			</more>
+			<code> 
+				<line>var r: String = "start";</line>
+				<line>class InitTester {</line>
+				<line>    var a = "vardefault" on replace { r = "{r}-{a}" };</line>
+				<line>    <em>init</em> { r = "{r}-init" }<cmt><idf>init</idf> block called after variable initialization</cmt></line>
+				<line>    <em>postinit</em> { r = "{r}-postinit" }<cmt><idf>postinit</idf> is called after <idf>init</idf></cmt></line>
+				<line>}</line>
+				<line>var test = InitTester { a: "varinit" };</line>
+				<line>assert(r == "start-varinit-init-postinit");</line>
+			</code>
+		</subSection>
+		<subSection anchor="complextrees">
+			<head>Complex Object Trees</head>
+			<more>An essential part of JavaFX's charm is that JavaFX makes it really easy
+			to create complex object trees by combining object literal and sequence logic.</more>
+			<code>
+				<line>import java.lang.Math;<cmt>import Java's Math class</cmt></line>
+				<line>class Point {</line>
+				<line>    var x : Integer; var y : Integer;</line>
+				<line>}</line>  
+				<line>class Shape {</line>
+				<line>    var name : String;</line>
+				<line>    var points : Point[];</line>
+				<line>}</line>
+				<line>class ShapeCollection {</line>
+				<line>    var name : String;</line>
+				<line>    var shapes : Shape[];</line>
+				<line>}</line>
+				<emptyLine/>
+				<line>def myShapes = ShapeCollection {</line>
+				<line>    name: "My Shapes"</line>
+				<line>    shapes: [ <cmt>sequence as value</cmt></line>
+				<line>        Shape {</line>
+				<line>            name: "Triangle"</line>
+				<line>            points: [ Point { x: 0.5 y: 0.5}, Point { x: 1.5 y: 1.5},</line>
+				<line>                      Point { x: 0.5 y: 2.5} ]</line>
+				<line>        },</line>
+				<line>        Shape {</line>
+				<line>            name: "Square"</line>
+				<line>            points: [ Point { x: 5 y: 5}, Point { x: 10 y: 5},</line>
+				<line>                      Point { x: 10 y: 10}, Point { x: 5 y: 10} ]</line>
+				<line>        },</line>
+				<line>        Shape {</line>
+				<line>            name: "Near-Circle"</line>
+				<line>            points: for (i in [0..&lt;360])</line>
+				<line>                       Point { x: 5 + 5 * Math.cos(2.0 * Math.PI * i / 360.0)</line>
+				<line>                               y: 15 + 5 * Math.sin(2.0 * Math.PI * i / 360.0) }</line>
+				<line>        }</line>
+				<line>    ]</line>
+				<line>};</line>
+			</code>
+		</subSection>
+		<subSection anchor="objecteq">
+			<head>Object Equality</head>
+			<more>In order to use the <idf>==</idf> operator to compare two objects, you need
+			to implement the <idf>equals</idf> method, just like in Java.<br/>
+			If the <idf>equals</idf> method is not defined, the <idf>==</idf> operator returns only true
+			of both sides point to the same object.</more>
+			<code>
+				<line>class A { var x; var y; }</line>
+				<line>def a = A { x: 12, y: 12};</line>
+				<line>def b = A { x: 12, y: 12};</line>
+				<line>assert(a != b);<cmt><warn>Equality not defined!</warn> => no 2 objects are equal</cmt></line>
+				<line>assert(a == a);<cmt>Same instance => equal</cmt></line>
+				<emptyLine/>
+				<line>class B { </line>
+				<line>    var x; var y; </line>
+				<line>    <em>override function equals(o: Object) : Boolean</em> {</line> 
+				<line>        if (o instanceof B) {<cmt>implementing equality</cmt></line>
+				<line>            def b2 = o as B;</line>
+				<line>	    (x == b2.x) and (y == b2.y)</line>
+				<line>	}</line>
+				<line>        else</line>
+				<line>            false;</line>
+				<line>    }</line>
+				<line>}</line>
+				<line>def d = B { x: 12, y: 12};</line>
+				<line>def e = B { x: 12, y: 12};</line>
+				<line>def f = B { x: 5, y: 12};</line>
+				<line>assert(d == e);</line>
+				<line>assert(d != f);</line>
+			</code>
+		</subSection>
+		<subSection anchor="inheritance">
+			<head>Inheritance</head>
+			<more>A JavaFX class can extend from exactly one Java or JavaFX classes, as well as
+			any number of mixins and Java interfaces. A class can override the 
+			methods and variables of the its super-classes.</more>
+			<code>
+				<line>class Customer <em>extends Person</em> {</line>
+				<line>    var customerNumber : Integer;<cmt>adds a new variable</cmt></line>
+				<line>    <em>override</em> var firstName = "Bob";<cmt><idf>override</idf> to change default</cmt></line>
+				<line><cmt>or provide a different <idf>on replace</idf></cmt></line>
+				<emptyLine/>
+				<line>    <em>override</em> function toFullName() {<cmt><idf>override</idf> to modify behaviour</cmt></line>
+				<line><cmt>calls super implementation:</cmt></line>
+				<line>        "{<em>Person.toFullName()</em>} (customer {customerNumber})"</line>
+				<line>    }</line>
+				<line>}</line>
+				<emptyLine/>
+				<line>def myCustomer = Customer {</line>
+				<line>    firstName: "Tom" lastName: "Miller" customerNumber: 3437</line>
+				<line>};</line>
+				<emptyLine/>
+				<line>def a : Person = myCustomer;</line>
+				<line>assert(a <em>instanceof</em> Person);<cmt>checks class of reference</cmt></line>
+				<line>assert(a <em>instanceof</em> Customer);<cmt>checks class of reference</cmt></line>
+				<line><strike>assert(a.customerNumber == 3437);</strike><cmt><idf>a</idf> declared Person, not Customer</cmt></line>
+				<line>assert((a <em>as Customer</em>).customerNumber == 3437);<cmt>casting</cmt></line>
+				<emptyLine/>
+				<line>var r2: String = "start";</line>
+				<line>class InitTesterA {</line>
+				<line>    var a = "vardefault" on replace { r2 = "{r2}-{a}" };</line>
+				<line>    init { r2 = "{r2}-initA" }</line>
+				<line>    postinit { r2 = "{r2}-postinitA" }</line>
+				<line>}</line>
+				<line>class InitTesterB extends InitTesterA {</line>
+				<line>    var b = "vardefault" on replace { r2 = "{r2}-{b}" };</line>
+				<line>    init { r2 = "{r2}-initB" }</line>
+				<line>    postinit { r2 = "{r2}-postinitB" }</line>
+				<line>}</line>
+				<line>var test2 = InitTesterB { a: "varinitA", b: "varinitB" };</line>
+				<line>assert(r2 == "start-varinitA-varinitB-initA-initB-postinitA-postinitB");</line>
+			</code>
+		</subSection>
+		<subSection anchor="mixins">
+			<head>Mixins</head>
+			<more>A mixin is a class that can be extended to add functionality to another class. A class can extend 
+			more than one mixin (but not more than one regular class). <br/>
+			You can think of mixins as a Java-like interface,
+			only with default implementations and the ability to add variables. Mixins can only be extended (or,
+			rather mixed into other classes), but not instantiated on their own.</more>
+			<code>
+				<line><em>mixin</em> class Counter {<cmt>defining a <idf>mixin</idf></cmt></line>
+				<line>    var counter: Integer;</line>
+				<line>    function countUp() { counter++; }</line>
+				<line>}</line>
+				<emptyLine/>
+				<line><em>mixin</em> class Greeter {<cmt>defining a second <idf>mixin</idf></cmt></line>
+				<line>    function greet(name: String): String { "Hello {name}!" }</line>
+				<line>}</line>
+				<emptyLine/>
+				<line>class GreetingCounter <em>extends Counter, Greeter</em> {<cmt>extending both mixins</cmt></line>
+				<line>    function countAndGreet(name: String) {</line>
+				<line>        "{greet(name)} You are visitor number {countUp()}."</line>
+				<line>    }</line>
+				<line>}</line>
+				<emptyLine/>
+				<line>def a : GreetingCounter = GreetingCounter{counter: 2};</line>
+				<line>assert(a.countAndGreet("Tim") == "Hello Tim! You are visitor number 2.");</line>
+				<emptyLine/>
+				<line><strike>def b = Counter{counter: 5};</strike><cmt>Mixins can not be instantiated</cmt></line>
+			</code>
+		</subSection>
+		<subSection anchor="abstract">
+			<head>Abstract</head>
+			<more>An <idf>abstract</idf> method is a method that has only a signature defined, but no
+			body. The body must be defined in a sub-class that overrides the abstract class.<br/>
+			Classes that contain <idf>abstract</idf> methods must be declared as
+			<idf>abstract</idf> (any other class can be <idf>abstract</idf> as well). Abstract
+			classes can not be instantiated directly, only their sub-classes.</more>
+			<code>
+				<line><em>abstract</em> class A {<cmt><idf>abstract</idf> class</cmt></line>
+				<line>    <em>abstract</em> function foo() : Void;<cmt><idf>abstract</idf> function</cmt></line>
+				<line>}</line> 
+				<line>class B extends A {<cmt>concrete sub-class</cmt></line>
+				<line>    <em>override</em> function foo() : Void { println("Hello"); }</line>
+				<line>}</line> 
+				<emptyLine/>
+				<line><strike>var a = A{};</strike><cmt><idf>abstract</idf> classes can't be created</cmt></line>
+				<line>var b = B{};</line>
+			</code>
+		</subSection>
+	</singleColumnSection>
+	
+	<singleColumnSection anchor="bindings">
+		<head>Bindings</head>
+		<subSection anchor="varbindings">
+			<head>Variable Bindings</head>
+			<more>Variable bindings allow you to define variables that automatically
+			assume the value of another variable or expression. It is not possible to modify
+			a bound variable.</more>
+			<code>
+				<line>var a = 5;</line>
+				<line>var b = <em>bind</em> a;<cmt><idf>b</idf> has now the value of<idf>a</idf></cmt></line>
+				<line>assert(b == 5);</line>
+				<line>a = 2;</line>
+				<line>assert(<em>b == 2</em>);<cmt>changes of <idf>a</idf> appear in <idf>b</idf></cmt></line>
+				<line><strike>b = 1;</strike><cmt>direct modification not allowed</cmt></line>
+				<line>var c = 3;</line>
+				<line><strike>b = bind c;</strike><cmt>binding only in initialization</cmt></line>
+				<line><em>def</em> d = bind a;<cmt><idf>def</idf> and <idf>var</idf> are equivalent for <idf>bind</idf></cmt></line>
+				<emptyLine/>
+				<line>def e = <em>bind a + c</em>;<cmt>binding to an expression <more>
+				Please note that the recalculation of a bound expression is lazy. If only 
+				one part of the expression changes, only this part will be recalculated. This
+				is important for side-effects in more complicated bound expressions.</more></cmt></line>
+				<line>assert(e == 5);</line>
+				<line>a = 5;</line>
+				<line>assert(e == 8);</line>
+				<line>c = 10;</line>
+				<line>assert(e == 15);</line>
+				<emptyLine/>
+				<line>def f = bind {<cmt><idf>bind</idf> block</cmt></line>
+				<line>    def x = if (a > 0) then 10 else -10;</line>
+				<line>    <strike>c = 10</strike><cmt>no side-effects allowed</cmt></line>
+				<line>    <strike>var y = 1;</strike><cmt>no variables allowed</cmt></line>
+				<line>    x * 10;</line>
+				<line>};</line>
+				<line>assert(f == 100);</line>
+			</code>
+		</subSection>
+		<subSection anchor="funcbound">
+			<head>Functions / bound</head>
+			<more>When binding functions, you need to differentiate between plain binding and binding
+			with the <idf>bound</idf> keyword. In the former case, the function will be reevaluated
+			if one of its argument changes. With the <idf>bound</idf> keyword, the function will
+			also be reevaluated if any of the variables used in the function have changed.</more>
+			<code>
+				<line>var v = 2;</line>
+				<line>var multiplicator = 10;</line>
+				<line>function mul(x) {<cmt>regular function</cmt></line>
+				<line>    x * multiplicator</line>
+				<line>}</line>
+				<line><em>bound</em> function mulBound(x) {<cmt><idf>bound</idf> function</cmt></line>
+				<line>    x * multiplicator</line>
+				<line>}</line>
+				<emptyLine/>
+				<line>def a = <em>bind mul(v)</em>;</line>
+				<line>def b = <em>bind mulBound(v)</em>;</line>
+				<line>assert(a == 20 and b == 20);</line>
+				<line>v = 3;<cmt>after argument changes all functions recalculate</cmt></line>
+				<line>assert(a == 30 and b == 30);</line>
+				<line>multiplicator = 5;<cmt>only the <idf>bound</idf> function changes</cmt></line>
+				<line>assert(a == 30 and <em>b == 15</em>);</line>
+				<emptyLine/>
+				<line>v = 3; multiplicator = 5;</line>
+				<line>def c = <em>bind mul(v) + mulBound(v)</em>;<cmt><idf>bound</idf> function in expression</cmt></line>
+				<line>assert(c == 30);</line>
+				<line>v = 4;</line>
+				<line>assert(c == 40);</line>
+				<line>multiplicator = 10;</line>
+				<line>assert(c == 60);<cmt>only the <idf>bound</idf> function recalculates</cmt></line>
+			</code>
+		</subSection>
+		<subSection anchor="bindobjs">
+			<head>Objects</head>
+			<more>You can use the <idf>bind</idf> operator to bind whole objects. 
+			Every time one of the arguments used to create the object changes, a new instance
+			will be created.</more>
+			<code>
+				<line>class Point {</line>
+				<line>    var x : Integer; var y : Integer;</line>
+				<line>}</line>
+				<line>var a = 5;</line>
+				<line>def p1 = <em>bind Point{x: a y: 2}</em>;<cmt><idf>bind</idf> object</cmt></line>
+				<line>assert(p1.x == 5);</line>
+				<line>def p1Old = p1;</line>
+				<line>a = 17;</line>
+				<line>assert(p1.x == 17);<cmt>whole object changed</cmt></line>
+				<line>assert(<em>not isSameObject(p1, p1Old)</em>);<cmt>new instance created</cmt></line>
+				<emptyLine/>
+				<line>def p2 = Point{x: <em>bind a</em> y: 2};<cmt><idf>bind</idf> property</cmt></line>
+				<line>assert(p2.x == 17);</line>
+				<line>def p2Old = p2;</line>
+				<line>a = 25;</line>
+				<line>assert(p2.x == 25);<cmt>property changed</cmt></line>
+				<line>assert(<em>isSameObject(p2, p2Old)</em>);<cmt>same old instance</cmt></line>
+			</code>
+		</subSection>
+	</singleColumnSection>
+	
+	
+	<singleColumnSection anchor="exceptions">
+		<head>Exceptions (try/catch/finally)</head>
+		<subSection anchor="throwcatch">
+			<head>Throwing and Catching</head>
+			<more>Exception in JavaFX work exactly like in Java, with one exception:
+			all exceptions are unchecked, thus you don't need to declare them in methods.
+			The <idf>throw</idf> and <idf>try</idf>/<idf>catch</idf>/<idf>finally</idf>
+			statements exist in JavaFX as well. Like in Java, every exception must
+			be a <idf>Throwable</idf>.</more>
+			<code>
+				<line>import java.lang.Exception;<cmt>JavaFX uses Java's Exception</cmt></line>
+				<line>class MyException <em>extends Exception</em> {<cmt>must extend <idf>Exception</idf> <more>You 
+				can define your own exceptions in JavaFX. All your classes need to
+				do is extend from Java's <idf>java.lang.Throwable</idf> or one of its
+				subclasses, such as <idf>java.lang.Exception</idf>.</more></cmt></line> 
+				<line>    var msg : String</line>
+				<line>}</line>
+				<emptyLine/>
+				<line>function testException() {<cmt>no exception declaration needed</cmt></line>
+				<line>    <em>throw</em> MyException{ msg: "got a problem" };</line>
+				<line>    <strike>assert(false);</strike><cmt>never reached</cmt></line>
+				<line>}</line>
+				<emptyLine/>
+				<line>var gotException = false;</line>
+				<line><em>try</em> {</line>
+				<line>    testException();</line>
+				<line>    <strike>assert(false);</strike><cmt>never reached!</cmt></line>
+				<line>}</line>
+				<line><em>catch (e : MyException) {</em><cmt>catches only <idf>MyException</idf></cmt></line>
+				<line>    gotException = true;</line>
+				<line>    assert(e.msg == "got a problem");</line>
+				<line>}</line>
+				<line>catch (e : java.lang.RuntimeException) {</line>
+				<line>    <strike>assert(false);</strike><cmt>never reached</cmt></line>
+				<line>}</line>
+				<line>assert(gotException);</line>
+				<emptyLine/>
+				<line>gotException = false;</line>
+				<line>try {</line>
+				<line>    throw MyException{ msg: "got another problem" };</line>
+				<line>    <strike>assert(false);</strike><cmt>never reached!</cmt></line>
+				<line>}</line>
+				<line>catch (<em>e</em>) {<cmt>catch all <idf>Throwable</idf></cmt></line>
+				<line>    gotException = true;</line>
+				<line>    assert((e as MyException).msg == "got another problem");</line>
+				<line>}</line>
+				<line>assert(gotException);</line>
+			</code>
+		</subSection>
+		<subSection anchor="finally">
+			<head>finally</head>
+			<more><idf>finally</idf> in a <idf>try</idf> statement defines
+			a code block that will always be executed after the <idf>try</idf>
+			statement has left, no matter how it has been left. Even if the
+			<idf>try</idf> block throws an exception or <idf>return</idf>s from
+			the function, the <idf>finally</idf> will always run.</more>
+			<code>
+				<line>var finallyCounter = 0;</line>
+				<line>function testFinally(a: Integer) : Boolean {</line>
+				<line>    try {</line>
+				<line>        if (a &lt; 0)</line> 
+				<line>            throw new java.lang.Exception("a was negative");</line>
+				<line>        if (a == 0)</line>
+				<line>            return false;</line>
+				<line>    }</line>
+				<line>    <em>finally</em> {</line>
+				<line>        finallyCounter++;<cmt>always invoked after leaving <idf>try</idf></cmt></line>
+				<line>    }</line>
+				<line>    return true;</line>
+				<line>}</line>
+				<emptyLine/>
+				<line>testFinally(1);</line>
+				<line>testFinally(0);</line>
+				<line>try { testFinally(-1); } catch (e) { /* ignore exception */ }</line>
+				<line>assert(finallyCounter == 3);</line>
+			</code>
+		</subSection>
+	</singleColumnSection>
+	
+
+	<singleColumnSection anchor="interop">
+		<head>Java Interoperability</head>
+		<subSection anchor="interop1">
+			<explanation>JavaFX has full access to all Java code. You can
+	         instantiate, extend and use all Java classes from JavaFX.</explanation>
+			<code>
+				<line>import <em>java.util.ArrayList</em>;<cmt>import Java class</cmt></line>
+				<line>def list = <em>new</em> ArrayList(3);<cmt>create new instance using <idf>new</idf></cmt></line>
+				<line>list.add("a"); list.add("b"); list.add("c");<cmt>call methods</cmt></line>
+				<line>var r;</line>
+				<line>for (i in <em>list</em>) <cmt><idf>for</idf> can use any <idf>Iterable</idf></cmt></line>
+				<line>    r = "{r}{i}";</line>
+				<line>assert(r == "abc");</line>
+				<emptyLine/>
+				<line>def t = new java.util.Date();<cmt>without import</cmt></line>
+				<line><strike>def ms = t.time;</strike><cmt><idf>getTime</idf> is no property</cmt></line>
+				<line>def ms = t.getTime();</line>
+				<emptyLine/>
+				<line>def f = new java.io.File("example.dat");</line>
+				<line>f.<em>&lt;&lt;delete>></em>();<cmt>escape syntax for keywords <more><idf>delete</idf> is a keyword
+				in JavaFX and thus it is not possible to easily call a method called <idf>delete</idf>. In order
+				to be able to use all Java methods and fields, even if they use JavaFX keywords, this
+				syntax can be used to escape those words.</more></cmt></line> 
+			</code>
+			<explanation>There is currently no direct support for creating and using JavaFX
+			classes from Java. You can start a JavaFX script from Java using the 
+			<link to="http://java.sun.com/javase/6/docs/technotes/guides/scripting/programmer_guide/index.html">Scripting API</link> 
+			though.	If you need to call JavaFX code from Java, you should write an
+			interface in Java and implement it in JavaFX.<br/>
+			</explanation>
+		</subSection>
+	</singleColumnSection>
+
+	
+	<singleColumnSection anchor="packagesandaccessmods">
+		<head>Packages and Access Modifiers</head>
+		<subSection anchor="packages">
+			<head>Packages</head>
+			<explanation>Packages allow you to structure your JavaFX files (.fx).
+You can put one or more source files in a directory, and then declare them
+to be part of a <idf>package</idf>. The directory name must be the name
+of the declared package.<br/>
+By default, all variables, classes and class members can not be accessed
+from other scripts. You need to use access modifiers like <idf>public</idf>
+to publish them to other scripts and packages. The following script
+<idf>animals/bird.fx</idf> defines a package and a public class with a 
+public property:</explanation>
+			<code>
+				<line><em>package</em> animals;<cmt>declaring <idf>package</idf></cmt></line>
+				<emptyLine/>
+				<line><em>public</em> class Bird {<cmt><idf>public</idf> class</cmt></line>
+				<line>    <em>public</em> var name : String;<cmt><idf>public</idf> property</cmt></line>
+				<line>}</line>
+			</code>
+			<explanation>To access the <idf>Bird</idf> class from outside the package, you
+need to specify the full name:</explanation>
+			<code>
+				<line>def myBird : <em>animals.Bird</em> = <em>animals.Bird</em> { name: "Big Bird" };</line>
+			</code>
+			<explanation>Alternatively, you must import the name at the beginning of the
+script and can then use the short name:</explanation>
+			<code> 
+				<line><em>import animals.Bird;</em></line>
+				<line>def myBird : <em>Bird</em> = <em>Bird</em> { name: "Big Bird" };</line>
+			</code>
+			<explanation>If you need several declarations from a package, you can also
+import them all. However, that makes it more difficult to find
+out where a declaration is coming from:</explanation>
+			<code>
+				<line><em>import animals.*;</em></line>
+				<line>def myBird : <em>Bird</em> = <em>Bird</em> { name: "Big Bird" };</line>
+			</code>
+		</subSection>
+		<subSection anchor="accessmods">
+			<head>Access Modifier</head>
+			<explanation>An access modifier can be put in front of a variable, function or class
+to make them available outside of the current script. By default, only the current
+script can access them. To give other scripts additional access, the following
+access modifiers are available:</explanation>
+			<code>
+				<line><em>package</em> var a;<cmt>all scripts in the same package have full access</cmt></line> 
+				<line><em>protected</em> var b;<cmt>subclasses and scripts in the same package have full access</cmt></line> 
+				<line><em>public</em> var c;<cmt>every script has full access</cmt></line> 
+				<line><em>public-read</em> var d;<cmt>all scripts can read, only the current script can write</cmt></line> 
+				<line><em>package public-read</em> var e;<cmt>all scripts can read, </cmt></line>
+				<line><cmt>only scripts in the same package can write</cmt></line> 
+				<line><em>protected public-read</em> var f;<cmt>all scripts can read, </cmt></line> 
+				<line><cmt>only the current script can write</cmt></line> 
+				<line><em>public-init</em> var g;<cmt>all script can read, all can set it in object initializer,</cmt></line> 
+				<line><cmt>only scripts in the same package and subclasses can write</cmt></line> 
+				<line><em>package public-init</em> var h;<cmt>all script can read, </cmt></line> 
+				<line><cmt>all can set it in object initializer, </cmt></line>
+				<line><cmt>only scripts in the same package can write</cmt></line> 
+				<line><em>protected public-init</em> var i;<cmt>all script can read, </cmt></line> 
+				<line><cmt>all can set it in object initializer, </cmt></line> 
+				<line><cmt>only scripts in the same package and subclasses can write</cmt></line> 
+			</code>
+		</subSection>
+	</singleColumnSection>
+	
+	
+	<singleColumnSection anchor="guifeatures">
+		<head>GUI Features</head>
+		<subSection anchor="keyvalue">
+			<head>KeyValue</head>
+			<more>The <idf>KeyValue</idf> object is used in JavaFX animations to specify
+			a value for a variable at a certain time, as well as the kind of interpolation
+			used for the transition. <idf>KeyValue</idf>s are almost always part of a
+			<idf>KeyFrame</idf>.</more>
+
+			<code>
+				<line>import javafx.animation.*;</line>
+				<line>var a = 0.0; var b = 5.0;</line>
+				<line>def kv1  = <em>a => 100.0</em>;<cmt>creates a KeyValue</cmt></line>
+				<line>assert(kv1 instanceof KeyValue);</line>
+				<line>assert(kv1.interpolate == Interpolator.LINEAR);<cmt>default <idf>Interpolator</idf></cmt></line>
+		 		<emptyLine/>
+				<line>def kv2  = b => 50.0 <em>tween Interpolator.EASEBOTH</em>;<cmt>sets <idf>Interpolator</idf></cmt></line>
+				<line>assert(kv2 instanceof KeyValue);</line>
+				<line>assert(kv2.interpolate == Interpolator.EASEBOTH);</line>
+			</code>
+		</subSection>
+		<subSection anchor="keyframe">
+			<head>KeyFrame</head>
+			<more>The <idf>KeyFrame</idf> object is used in JavaFX animations to specify
+			<idf>KeyValue</idf>s at the specified time of an animation. <idf>KeyFrame</idf>s
+			are usually part of a <idf>Timeline</idf> which will interpolate the values between
+			the frames.</more>
+			<code>
+				<line>import javafx.animation.*;</line>
+				<line>var x = 0;</line>
+				<line>def kf1 = <em>at(0s) { x => 0 }</em>;</line>
+				<line>assert(kf1 instanceof KeyFrame);</line>
+				<line>assert(kf1.time == 0s);</line>
+				<line>assert(sizeof kf1.values == 1);<cmt>contains <idf>x => 0</idf></cmt></line>
+		 		<emptyLine/>
+				<line>var y = 10; var z = 5;</line>
+				<line>def kf2 = <em>at(10s) { y => 0; z => 10 }</em>;<cmt><idf>KeyFrame</idf> with two <idf>KeyValues</idf></cmt></line>
+				<line>assert(kf2 instanceof KeyFrame);</line>
+				<line>assert(kf2.time == 10s);</line>
+				<line>assert(sizeof kf2.values == 2);<cmt>contains <idf>[y => 0, z => 10]</idf></cmt></line>
+			</code>		
+		</subSection>
+		<subSection anchor="localizedstrings">
+			<head>Localized Strings</head>
+			<explanation>JavaFX allows the localization of Strings in the source
+code. It will automatically look up translations of all localized strings.
+For this you need to provide a property file with translation for
+every supported language and every script file. For example,
+if you store your script in a file called <idf>myscript.fx</idf>, and
+you want to provide French (international 2-letter-code 'fr') and
+German ('de') translations, you also need two files <idf>myscript_fr.fxproperties</idf>
+and <idf>myscript_de.fxproperties</idf>. The format of the file is shown below.</explanation>
+			<code>
+				<line>def greetingMorning = <em>##</em>"Good Morning";<cmt><idf>##</idf> marks string as localized</cmt></line>
+				<line>def greetingEvening = ##<em>[greetEvening]</em>"Good Evening";<cmt>string named 'greetEvening'</cmt></line>
+				<emptyLine/>
+				<line><em>Content of myscript_de.properties:</em></line>
+				<line>"Good Morning" = "Guten Morgen"</line>
+				<line>"greetEvening" = "Guten Abend"</line>
+				<!--  TODO: localization parameters -->
+			</code>
+		</subSection>
+	</singleColumnSection>
+  </body>
+  <sidebar>
+  	<box>
+  		<title>Useful Links</title>
+  		<content>
+  			<link to="http://www.javafx.com">JavaFX.com</link><br/>
+  			<link to="http://openjfx.java.sun.com/current-build/doc/reference/JavaFXReference.html">JavaFX Reference</link><br/>
+  			<link to="http://java.sun.com/javafx/1.2/docs/api/">JavaFX 1.2 APIs</link><br/>
+  			<link to="http://java.sun.com/javafx/reference/">Sun JavaFX Documentation</link><br/>
+  			<link to="http://learnjavafx.typepad.com/">James Weaver's JavaFX Blog</link><br/>
+  		</content>
+  	</box>
+  </sidebar>
+  </article>
+</page>

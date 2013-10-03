@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:inc="http://tjansen.de/refPageInclude" xsi:schemaLocation="http://tjansen.de/refPage ../../../schemas/page.xsd ">
+
+  <path>/reference/webxml/</path>
+  <title>Web.xml for Servlet 3.0 Reference</title>
+  
+  <titleIntro>Reference for the web.xml deployment descriptor and WAR files, according to the servlet specification 3.0 (Java EE 6).</titleIntro>
+  
+  <license>cc-by-free-src</license>
+
+  <multipage/>
+
+  <docConfig>
+	<inc:includeContent file="../srcContent/shared/webxmldocs-2.4plus.inc.xml"/>
+  </docConfig> 
+  
+  <javadocConfig>
+	<baseURL>http://java.sun.com/javaee/5/docs/api/</baseURL>
+	<defaultPackage>javax.servlet</defaultPackage>
+  </javadocConfig>
+  
+  <article><body>
+
+	<singleColumnSection anchor="skeletons">
+	  	<head>Skeletons</head>
+		<subSection anchor="skeletons1">
+			<head>Skeleton</head>
+			<explanation>
+			This is the smallest possible <idf>web.xml</idf>. The <em><doc>version</doc> attribute must be adjusted</em> to match a
+			version supported by your container
+			<more>The servlet specification requires a web container to support older servlet versions. So "2.4" or "2.5" will still work in
+			3.0, but you can't use newer servlet features.</more>.
+			</explanation>
+			<config><tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee" <doc>version</doc>="<em>3.0</em>"</tag>
+    <cmt>Put declarations here</cmt>
+<ctag/></config>
+			<explanation>Inside the <tag>web-app</tag> element, the <em>declarations can have any order</em>. In elements containing text,
+<em>surrounding whitespace will be removed</em>.</explanation>
+
+			<explanation>For editing with an XML-aware editor it is often better to declare the schema as well. Find complete snippets for
+version 3.0 next.</explanation>
+		</subSection>
+
+		<collapsedSubSection anchor="skeletons30">
+			<head>Skeleton for 3.0</head>
+			<summary>Complete Web.xml Skeleton with Schema Declaration for Servlet 3.0</summary>
+			<content>
+				<config>&lt;?xml version="1.0" encoding="UTF-8"?>
+<tag>web-app <doc>xmlns</doc>="http://java.sun.com/xml/ns/j2ee"
+         <doc>xmlns:xsi</doc>="http://www.w3.org/2001/XMLSchema-instance"
+         <doc>xsi:schemaLocation</doc>="http://java.sun.com/xml/ns/j2ee
+                             http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd"
+         <doc>version</doc>="3.0"</tag>
+
+  <cmt>Put declarations here</cmt>
+
+<ctag/></config>
+			</content>
+		</collapsedSubSection>
+	</singleColumnSection>
+	
+	
+	
+	
+	<singleColumnSection anchor="elements">
+		<head>Elements</head>
+	
+		<subSection anchor="descriptions">
+			<head>Descriptions</head>
+			<config>
+TODO: Copy some parts from web.xml 2.x...
+TODO: Remove all JAX-RPC references from 2.x
+
+
+New Elements in 3.0:			
+filter/async-supported
+
+servlet/async-supported
+
+servlet/multipart-config
+
+session-config/cookie-config
+session-config/tracking-mode
+
+security-constraint/web-resource-collection/http-method-omission
+
+env-entry/mapped-name
+env-entry/injection-target
+env-entry/lookup-name
+
+ejb-ref/mapped-name
+ejb-ref/injection-target
+ejb-ref/lookup-name
+
+service-ref/mapped-name
+service-ref/injection-target
+service-ref/lookup-name
+
+resource-ref/mapped-name
+resource-ref/injection-target
+resource-ref/lookup-name
+
+resource-env-ref/mapped-name
+resource-env-ref/injection-target
+resource-env-ref/lookup-name
+
+message-destination-ref/mapped-name
+message-destination-ref/injection-target
+message-destination-ref/lookup-name
+
+persistence-context-ref
+
+persistence-unit-ref
+
+data-source
+
+post-construct
+
+pre-destroy
+
+<!-- 
+
+    <tag>handler-chains</tag>                                   <cmt>optional, only for JAX-WS</cmt>
+        <tag>handler-chain</tag>                                <cmt>one per handlerchain</cmt>
+            <cmt><em>choice</em>: only one of the next 3 restrictions is possible (or none)</cmt>
+            <tag>service-name-pattern xmlns:jf="http://jarfiller.com/ws"</tag> <cmt>optional</cmt>
+                jf:JF*                                          <cmt>filter service name</cmt>
+            <ctag/>
+            <tag>port-name-pattern</tag>                        <cmt>optional</cmt>
+                jf:JFPort*                                      <cmt>filter port name</cmt>
+            <ctag/>                                          
+            <tag>protocol-bindings</tag>                        <cmt>optional</cmt>
+                ##SOAP11_HTTP ##SOAP12_HTTP                     <cmt>filter protocol</cmt>
+            <ctag/>
+       
+            <tag>handler</tag>                                  <cmt>one per handler</cmt>
+                <tag>description</tag>My Handler<ctag/>                 <cmt>optional</cmt>
+                <tag ref="doc-handler-display-name">display-name</tag>handler1<ctag/>                  <cmt>optional</cmt>
+                <tag>handler-class</tag>com.jarfiller.example.WSHandler<ctag/>
+                <tag>soap-role</tag><ctag/>                          <cmt>optional, one per role</cmt>
+                <tag>port-name</tag><ctag/>                          <cmt>optional, one per port name</cmt>
+            <ctag/>
+       
+        <ctag/>
+    <ctag/>
+			 -->
+			</config>
+		</subSection>
+		
+		
+	</singleColumnSection>
+
+
+  </body>
+  <sidebar>
+  	  	<box>
+  		<title>Useful Links</title>
+  		<content>
+  			<link to="http://jcp.org/en/jsr/detail?id=315">Servlet 3.0 Specification / JSR</link><br/>
+  			<link to="http://jcp.org/aboutJava/communityprocess/mrel/jsr154/index.html">Servlet 2.5 Specification / JSR</link><br/>
+  			<br/>
+  			<link to="http://java.sun.com/javaee/6/docs/api/">JEE 6 API</link><br/>
+  		</content>
+  	</box>
+  </sidebar>
+  </article>
+</page>

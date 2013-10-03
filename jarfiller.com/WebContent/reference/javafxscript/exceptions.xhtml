@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:page="http://tjansen.de/refPage" xmlns:i="http://tjansen.de/internal"><head><title>Exceptions (try/catch/finally) - JavaFX Script Reference</title><meta http-equiv="X-UA-Compatible" content="chrome=1"/><meta http-equiv="content-language" content="en"/><link rel="shortcut icon" href="../../images/favicon.png" type="image/png"/><link rel="stylesheet" type="text/css" href="../../style/style.css"/><script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-6791190-2']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+})();
+</script><script type="text/javascript" src="../../js/all.js"/></head><body id="body"><div id="visibleContent"><div id="top"><a href="/"><img src="../../images/titlebar.png" alt="Jarfiller.com"/></a></div><div id="main"><div id="bodycolumn"><div class="yahbar"><div class="yahprev"><a href="bindings.xhtml">Prev</a></div><h3 class="yahhere"><a href="#" onclick="return navToggle();">JavaFX Script Reference / Exceptions (try/catch/finally)</a></h3><div class="yahnext"><a href="interop.xhtml">Next</a></div></div><h1 id="sec_exceptions" class="multipageTitle"><a name="exceptions">Exceptions (try/catch/finally)</a></h1><div class="subSecRow2" id="sec_throwcatch"><div class="subSecHead" id="sechd_throwcatch"><a name="throwcatch">Throwing and Catching</a><br/>(<a href="#" id="tl-d39688e3347" class="dottedTooltip" onclick="return tlClick('tl-d39688e3347','pp-d39688e3352');" onmouseover="return tlOver('tl-d39688e3347','pp-d39688e3352');" onmouseout="return tlOut('tl-d39688e3347','pp-d39688e3352');">more</a>)
+		</div><div class="subSecContent" id="seccnt_throwcatch"><pre class="subSecCode"><code>import java.lang.Exception;            <span class="cmt">// JavaFX uses Java's Exception</span>
+class MyException <em>extends Exception</em> {  <span class="cmt">// must extend <span class="idf">Exception</span> (<a href="#" id="tl-d39688e3387" class="dottedTooltip" onclick="return tlClick('tl-d39688e3387','pp-d39688e3387');" onmouseover="return tlOver('tl-d39688e3387','pp-d39688e3387');" onmouseout="return tlOut('tl-d39688e3387','pp-d39688e3387');">more</a>)</span>
+    var msg : String
+}
+
+function testException() {             <span class="cmt">// no exception declaration needed</span>
+    <em>throw</em> MyException{ msg: "got a problem" };
+    <span class="strike">assert(false);</span>                     <span class="cmt">// never reached</span>
+}
+
+var gotException = false;
+<em>try</em> {
+    testException();
+    <span class="strike">assert(false);</span>                     <span class="cmt">// never reached!</span>
+}
+<em>catch (e : MyException) {</em>              <span class="cmt">// catches only <span class="idf">MyException</span></span>
+    gotException = true;
+    assert(e.msg == "got a problem");
+}
+catch (e : java.lang.RuntimeException) {
+    <span class="strike">assert(false);</span>                     <span class="cmt">// never reached</span>
+}
+assert(gotException);
+
+gotException = false;
+try {
+    throw MyException{ msg: "got another problem" };
+    <span class="strike">assert(false);</span>                     <span class="cmt">// never reached!</span>
+}
+catch (<em>e</em>) {                            <span class="cmt">// catch all <span class="idf">Throwable</span></span>
+    gotException = true;
+    assert((e as MyException).msg == "got another problem");
+}
+assert(gotException);
+</code></pre></div></div><div class="subSecRow1" id="sec_finally"><div class="subSecHead" id="sechd_finally"><a name="finally">finally</a><br/>(<a href="#" id="tl-d39688e3531" class="dottedTooltip" onclick="return tlClick('tl-d39688e3531','pp-d39688e3536');" onmouseover="return tlOver('tl-d39688e3531','pp-d39688e3536');" onmouseout="return tlOut('tl-d39688e3531','pp-d39688e3536');">more</a>)
+		</div><div class="subSecContent" id="seccnt_finally"><pre class="subSecCode"><code>var finallyCounter = 0;
+function testFinally(a: Integer) : Boolean {
+    try {
+        if (a &lt; 0)
+            throw new java.lang.Exception("a was negative");
+        if (a == 0)
+            return false;
+    }
+    <em>finally</em> {
+        finallyCounter++;  <span class="cmt">// always invoked after leaving <span class="idf">try</span></span>
+    }
+    return true;
+}
+
+testFinally(1);
+testFinally(0);
+try { testFinally(-1); } catch (e) { /* ignore exception */ }
+assert(finallyCounter == 3);
+</code></pre></div></div><div class="yahbar"><div class="yahprev"><a href="bindings.xhtml">Prev<br/><span>Bindings</span></a></div><div class="yahhere"><a href="#" onclick="return navToggle();">JavaFX Script Reference / Exceptions (try/catch/finally)</a><br/><a href="/reference/javafxscript/"><span>Single Page Mode</span></a>, <a href="#" onclick="return navToggle();"><span>Show Table of Content</span></a></div><div class="yahnext"><a href="interop.xhtml">Next<br/><span>Java Interoperability</span></a></div></div></div><div id="sidecolumn">
+  	<div><h3>Useful Links</h3><div class="sidecolumnSubTitleLine"/>
+  			<a href="http://www.javafx.com">JavaFX.com</a><br/>
+  			<a href="http://openjfx.java.sun.com/current-build/doc/reference/JavaFXReference.html">JavaFX Reference</a><br/>
+  			<a href="http://java.sun.com/javafx/1.2/docs/api/">JavaFX 1.2 APIs</a><br/>
+  			<a href="http://java.sun.com/javafx/reference/">Sun JavaFX Documentation</a><br/>
+  			<a href="http://learnjavafx.typepad.com/">James Weaver's JavaFX Blog</a><br/>
+  		</div>
+  </div></div></div><div id="footer"><div id="footer-content"><div id="footer-left"><div class="footerLine"><a href="/">Home</a> - <a href="/about">About Jarfiller</a> - <a href="/imprint.xhtml">Imprint</a></div><div class="footerLine">Please send feedback and corrections to <a href="mailto:tim@tjansen.de">tim@<span style="display: none">got you</span>tjansen.de</a>.</div><div class="footerLine"><a href="http://www.twitter.com/timjansen">Follow</a> me on Twitter.</div><div class="copyrightLine">© 2010 Tim Jansen; content licensed under <a href="http://creativecommons.org/licenses/by/3.0/us/">cc-by</a>; example source code is public domain
+				</div></div><div id="footer-right"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="../../images/ext/cc-by-88x31.png"/></a></div></div></div><div id="navbar" onclick="return navToggle();" onmouseover="document.getElementById('navbar').className='mouseover';" onmouseout="document.getElementById('navbar').className='';"/><div id="navcontainer"><div id="navlinks"><div id="navclosebar"><a href="#" onclick="return navClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="navpositionbar" class="navpositionbar"/><h2 id="navtitle">JavaFX Script Reference</h2><a id="nav_basictypes" class="navseclink" href="basictypes.xhtml#basictypes">Basic Types</a><a id="nav_booleans" class="navsublink" href="basictypes.xhtml#booleans">Booleans and Comparisons</a><a id="nav_variables" class="navsublink" href="basictypes.xhtml#variables">Variables</a><a id="nav_integers" class="navsublink" href="basictypes.xhtml#integers">Integers</a><a id="nav_numbers" class="navsublink" href="basictypes.xhtml#numbers">Numbers (float)</a><a id="nav_strings" class="navsublink" href="basictypes.xhtml#strings">Strings</a><a id="nav_duration" class="navsublink" href="basictypes.xhtml#duration">Duration</a><a id="nav_sequences" class="navseclink" href="sequences.xhtml#sequences">Sequences</a><a id="nav_creatingseqs" class="navsublink" href="sequences.xhtml#creatingseqs">Creating sequences</a><a id="nav_seqreadbyslice" class="navsublink" href="sequences.xhtml#seqreadbyslice">Reading by index / slice</a><a id="nav_seqwriteindexslice" class="navsublink" href="sequences.xhtml#seqwriteindexslice">Writing by index / slice</a><a id="nav_seqselect" class="navsublink" href="sequences.xhtml#seqselect">Sequence Select Clause</a><a id="nav_seqinsert" class="navsublink" href="sequences.xhtml#seqinsert">Insert / Delete</a><a id="nav_conditionalsandloops" class="navseclink" href="conditionalsandloops.xhtml#conditionalsandloops">Conditionals and Loops</a><a id="nav_ifthenelse" class="navsublink" href="conditionalsandloops.xhtml#ifthenelse">if then else</a><a id="nav_for" class="navsublink" href="conditionalsandloops.xhtml#for">for</a><a id="nav_while" class="navsublink" href="conditionalsandloops.xhtml#while">while</a><a id="nav_break" class="navsublink" href="conditionalsandloops.xhtml#break">break</a><a id="nav_continue" class="navsublink" href="conditionalsandloops.xhtml#continue">continue</a><a id="nav_indexof" class="navsublink" href="conditionalsandloops.xhtml#indexof">indexof</a><a id="nav_functions" class="navseclink" href="functions.xhtml#functions">Functions</a><a id="nav_funcdefinition" class="navsublink" href="functions.xhtml#funcdefinition">Defining and Calling</a><a id="nav_closures" class="navsublink" href="functions.xhtml#closures">Closures and Anonymous Functions</a><a id="nav_classes" class="navseclink" href="classes.xhtml#classes">Classes</a><a id="nav_classdef" class="navsublink" href="classes.xhtml#classdef">Definition and Instantiating</a><a id="nav_objectinit" class="navsublink" href="classes.xhtml#objectinit">Object Initialization</a><a id="nav_complextrees" class="navsublink" href="classes.xhtml#complextrees">Complex Object Trees</a><a id="nav_objecteq" class="navsublink" href="classes.xhtml#objecteq">Object Equality</a><a id="nav_inheritance" class="navsublink" href="classes.xhtml#inheritance">Inheritance</a><a id="nav_mixins" class="navsublink" href="classes.xhtml#mixins">Mixins</a><a id="nav_abstract" class="navsublink" href="classes.xhtml#abstract">Abstract</a><a id="nav_bindings" class="navseclink" href="bindings.xhtml#bindings">Bindings</a><a id="nav_varbindings" class="navsublink" href="bindings.xhtml#varbindings">Variable Bindings</a><a id="nav_funcbound" class="navsublink" href="bindings.xhtml#funcbound">Functions / bound</a><a id="nav_bindobjs" class="navsublink" href="bindings.xhtml#bindobjs">Objects</a><a id="nav_exceptions" class="navseclink" href="#exceptions" onclick="if (event.button == 0) return goTo('#exceptions', true); else return true;">Exceptions (try/catch/finally)</a><a id="nav_throwcatch" class="navsublink" href="#throwcatch" onclick="if (event.button == 0) return goTo('#throwcatch', true); else return true;">Throwing and Catching</a><a id="nav_finally" class="navsublink" href="#finally" onclick="if (event.button == 0) return goTo('#finally', true); else return true;">finally</a><a id="nav_interop" class="navseclink" href="interop.xhtml#interop">Java Interoperability</a><a id="nav_interop1" class="navsublink" href="interop.xhtml#interop1"/><a id="nav_packagesandaccessmods" class="navseclink" href="packagesandaccessmods.xhtml#packagesandaccessmods">Packages and Access Modifiers</a><a id="nav_packages" class="navsublink" href="packagesandaccessmods.xhtml#packages">Packages</a><a id="nav_accessmods" class="navsublink" href="packagesandaccessmods.xhtml#accessmods">Access Modifier</a><a id="nav_guifeatures" class="navseclink" href="guifeatures.xhtml#guifeatures">GUI Features</a><a id="nav_keyvalue" class="navsublink" href="guifeatures.xhtml#keyvalue">KeyValue</a><a id="nav_keyframe" class="navsublink" href="guifeatures.xhtml#keyframe">KeyFrame</a><a id="nav_localizedstrings" class="navsublink" href="guifeatures.xhtml#localizedstrings">Localized Strings</a></div></div><div id="popups"><div id="pp-d39688e3352" class="tooltip">Exception in JavaFX work exactly like in Java, with one exception: all exceptions are unchecked, thus you don't need to declare them in methods. The <span class="idf">throw</span> and <span class="idf">try</span>/<span class="idf">catch</span>/<span class="idf">finally</span> statements exist in JavaFX as well. Like in Java, every exception must be a <span class="idf">Throwable</span>.</div><div id="pp-d39688e3387" class="tooltip">You can define your own exceptions in JavaFX. All your classes need to do is extend from Java's <span class="idf">java.lang.Throwable</span> or one of its subclasses, such as <span class="idf">java.lang.Exception</span>.</div><div id="pp-d39688e3536" class="tooltip"><span class="idf">finally</span> in a <span class="idf">try</span> statement defines a code block that will always be executed after the <span class="idf">try</span> statement has left, no matter how it has been left. Even if the <span class="idf">try</span> block throws an exception or <span class="idf">return</span>s from the function, the <span class="idf">finally</span> will always run.</div><div id="ttCloseBar" class="closeBar"><a href="#" onclick="return tlClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="topicCloseBar" class="closeBar"><a href="#" onclick="return tpcClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div></div></body></html>

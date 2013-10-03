@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:page="http://tjansen.de/refPage" xmlns:i="http://tjansen.de/internal"><head><title>Conditionals and Loops - JavaFX Script Reference</title><meta http-equiv="X-UA-Compatible" content="chrome=1"/><meta http-equiv="content-language" content="en"/><link rel="shortcut icon" href="../../images/favicon.png" type="image/png"/><link rel="stylesheet" type="text/css" href="../../style/style.css"/><script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-6791190-2']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+})();
+</script><script type="text/javascript" src="../../js/all.js"/></head><body id="body"><div id="visibleContent"><div id="top"><a href="/"><img src="../../images/titlebar.png" alt="Jarfiller.com"/></a></div><div id="main"><div id="bodycolumn"><div class="yahbar"><div class="yahprev"><a href="sequences.xhtml">Prev</a></div><h3 class="yahhere"><a href="#" onclick="return navToggle();">JavaFX Script Reference / Conditionals and Loops</a></h3><div class="yahnext"><a href="functions.xhtml">Next</a></div></div><h1 id="sec_conditionalsandloops" class="multipageTitle"><a name="conditionalsandloops">Conditionals and Loops</a></h1><div class="subSecRow2" id="sec_ifthenelse"><div class="subSecHead" id="sechd_ifthenelse"><a name="ifthenelse">if then else</a><br/>(<a href="#" id="tl-d39688e1508" class="dottedTooltip" onclick="return tlClick('tl-d39688e1508','pp-d39688e1513');" onmouseover="return tlOver('tl-d39688e1508','pp-d39688e1513');" onmouseout="return tlOut('tl-d39688e1508','pp-d39688e1513');">more</a>)
+		</div><div class="subSecContent" id="seccnt_ifthenelse"><pre class="subSecCode"><code>def a = 5;
+<em>if</em> (a &gt; 0) <em>then</em> assert(true);
+if (a &gt; 0) assert(true);               <span class="cmt">// <span class="idf">then</span> is optional</span>
+if (a &gt; 0) assert(true) <em>else</em> assert(false);
+var b;
+if (a &gt; 0) {                           <span class="cmt">// with block (curly braces)</span>
+    b = 1;
+}
+else {
+    b = -1;
+}
+assert(b == 1);
+
+var c <em>= if (b == 1) "foo" else "bar"</em>;  <span class="cmt">// <span class="idf">if/else</span> returns value</span>
+def d = if (b == 1) {
+    println("b is 1.");
+    <em>"foo";</em>                             <span class="cmt">// last expression in block will be returned</span>
+}
+else {
+    println("b is not 1;");
+    <em>"bar";</em>
+};
+assert(d == "foo");
+</code></pre></div></div><div class="subSecRow1" id="sec_for"><div class="subSecHead" id="sechd_for"><a name="for">for</a><br/>(<a href="#" id="tl-d39688e1626" class="dottedTooltip" onclick="return tlClick('tl-d39688e1626','pp-d39688e1631');" onmouseover="return tlOver('tl-d39688e1626','pp-d39688e1631');" onmouseout="return tlOut('tl-d39688e1626','pp-d39688e1631');">more</a>)
+		</div><div class="subSecContent" id="seccnt_for"><pre class="subSecCode"><code>var sum = 0;
+<em>for</em> (i in [1..4])                                    <span class="cmt">// iterates through a sequence</span>
+    sum += i;
+assert(sum == 10);
+
+def a <em>= for (i in [1..3]) i * i</em>;                     <span class="cmt">// returns a new sequence</span>
+assert(a == [1, 4, 9]);
+
+def b = for (i in [1..7] <em>where</em> i mod 2 != 0) i * i;  <span class="cmt">// restricts sequence</span>
+assert(b == [1, 9, 25, 49]);
+
+def c = for (i in [5..7]<em>, j in [1..3]</em>) i - j;        <span class="cmt">// two sequences in one loop (<a href="#" id="tl-d39688e1723" class="dottedTooltip" onclick="return tlClick('tl-d39688e1723','pp-d39688e1723');" onmouseover="return tlOver('tl-d39688e1723','pp-d39688e1723');" onmouseout="return tlOut('tl-d39688e1723','pp-d39688e1723');">more</a>)</span>
+assert(c == [4, 3, 2, 5, 4, 3, 6, 5, 4]);
+
+def d = for (i in [1..5] where i mod 2 != 0, j in [1..5] where i &lt;= j) i * j;
+assert(d == [1, 2, 3, 4, 5, 9, 12, 15, 25]);
+
+var i = 0;
+for (<em>i</em> in [1..5])                                    <span class="cmt">// <strong class="warn">creates new variable named <span class="idf">i</span></strong></span>
+    sum += i;
+assert(i == 0);                                      <span class="cmt">// <strong class="warn"><span class="idf">i</span> did not change</strong></span>
+</code></pre></div></div><div class="subSecRow2" id="sec_while"><div class="subSecHead" id="sechd_while"><a name="while">while</a><br/>(<a href="#" id="tl-d39688e1773" class="dottedTooltip" onclick="return tlClick('tl-d39688e1773','pp-d39688e1778');" onmouseover="return tlOver('tl-d39688e1773','pp-d39688e1778');" onmouseout="return tlOut('tl-d39688e1773','pp-d39688e1778');">more</a>)
+		</div><div class="subSecContent" id="seccnt_while"><pre class="subSecCode"><code>var a = 0; var b = 3;
+<em>while</em> (b &gt; 0)               <span class="cmt">// repeats a block while condition is true</span>
+    a = a + (b--);
+assert(a == 6);
+
+<span class="strike">def b = while (a &gt; 0) a--;</span>  <span class="cmt">// <span class="idf">while</span> returns <span class="idf">Void</span></span>
+</code></pre></div></div><div class="subSecRow1" id="sec_break"><div class="subSecHead" id="sechd_break"><a name="break">break</a><br/>(<a href="#" id="tl-d39688e1827" class="dottedTooltip" onclick="return tlClick('tl-d39688e1827','pp-d39688e1832');" onmouseover="return tlOver('tl-d39688e1827','pp-d39688e1832');" onmouseout="return tlOut('tl-d39688e1827','pp-d39688e1832');">more</a>)
+		</div><div class="subSecContent" id="seccnt_break"><pre class="subSecCode"><code>var a = ""; var b = ["abc", "d", "efg", "hij", "k", "lmnop", "qrs"];
+for (i in b) {
+    a = "{a}{i}";
+    if (a.length() &gt;= 10)
+        <em>break</em>;  <span class="cmt">// aborts the loop</span>
+}
+assert(a == "abcdefghij");
+
+var c = 0; var d = 0;
+while (c &lt;= 10) {
+    d += c * c;
+    if (d &gt; 100)
+        <em>break</em>;  <span class="cmt">// aborts the loop</span>
+    c++;
+}
+assert(d == 140);
+</code></pre></div></div><div class="subSecRow2" id="sec_continue"><div class="subSecHead" id="sechd_continue"><a name="continue">continue</a><br/>(<a href="#" id="tl-d39688e1907" class="dottedTooltip" onclick="return tlClick('tl-d39688e1907','pp-d39688e1912');" onmouseover="return tlOver('tl-d39688e1907','pp-d39688e1912');" onmouseout="return tlOut('tl-d39688e1907','pp-d39688e1912');">more</a>)
+		</div><div class="subSecContent" id="seccnt_continue"><pre class="subSecCode"><code>var a = ""; var b = ["abc", "d", "efg", "hij", "k", "lmnop", "qrs"];
+for (i in b) {
+    if (a.length() &gt;= 10)
+        <em>continue</em>;  <span class="cmt">// skips the rest of the current iteration</span>
+    a = "{a}{i}";
+}
+assert(a == "abcdefghij");
+
+var c = 0; var d = 0;
+while (c &lt;= 10) {
+    c++;
+    if (d &gt; 100)
+        <em>continue</em>;  <span class="cmt">// skips the rest of the current iteration</span>
+    d += c * c;
+}
+assert(d == 140);
+</code></pre></div></div><div class="subSecRow1" id="sec_indexof"><div class="subSecHead" id="sechd_indexof"><a name="indexof">indexof</a><br/>(<a href="#" id="tl-d39688e1986" class="dottedTooltip" onclick="return tlClick('tl-d39688e1986','pp-d39688e1991');" onmouseover="return tlOver('tl-d39688e1986','pp-d39688e1991');" onmouseout="return tlOut('tl-d39688e1986','pp-d39688e1991');">more</a>)
+		</div><div class="subSecContent" id="seccnt_indexof"><pre class="subSecCode"><code>var a = [];
+for (i in ["a", "b", "c"])
+    insert "{i}{<em>indexof i</em>}" into a;
+assert(a == ["a0", "b1", "c2"]);
+</code></pre></div></div><div class="yahbar"><div class="yahprev"><a href="sequences.xhtml">Prev<br/><span>Sequences</span></a></div><div class="yahhere"><a href="#" onclick="return navToggle();">JavaFX Script Reference / Conditionals and Loops</a><br/><a href="/reference/javafxscript/"><span>Single Page Mode</span></a>, <a href="#" onclick="return navToggle();"><span>Show Table of Content</span></a></div><div class="yahnext"><a href="functions.xhtml">Next<br/><span>Functions</span></a></div></div></div><div id="sidecolumn">
+  	<div><h3>Useful Links</h3><div class="sidecolumnSubTitleLine"/>
+  			<a href="http://www.javafx.com">JavaFX.com</a><br/>
+  			<a href="http://openjfx.java.sun.com/current-build/doc/reference/JavaFXReference.html">JavaFX Reference</a><br/>
+  			<a href="http://java.sun.com/javafx/1.2/docs/api/">JavaFX 1.2 APIs</a><br/>
+  			<a href="http://java.sun.com/javafx/reference/">Sun JavaFX Documentation</a><br/>
+  			<a href="http://learnjavafx.typepad.com/">James Weaver's JavaFX Blog</a><br/>
+  		</div>
+  </div></div></div><div id="footer"><div id="footer-content"><div id="footer-left"><div class="footerLine"><a href="/">Home</a> - <a href="/about">About Jarfiller</a> - <a href="/imprint.xhtml">Imprint</a></div><div class="footerLine">Please send feedback and corrections to <a href="mailto:tim@tjansen.de">tim@<span style="display: none">got you</span>tjansen.de</a>.</div><div class="footerLine"><a href="http://www.twitter.com/timjansen">Follow</a> me on Twitter.</div><div class="copyrightLine">© 2010 Tim Jansen; content licensed under <a href="http://creativecommons.org/licenses/by/3.0/us/">cc-by</a>; example source code is public domain
+				</div></div><div id="footer-right"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="../../images/ext/cc-by-88x31.png"/></a></div></div></div><div id="navbar" onclick="return navToggle();" onmouseover="document.getElementById('navbar').className='mouseover';" onmouseout="document.getElementById('navbar').className='';"/><div id="navcontainer"><div id="navlinks"><div id="navclosebar"><a href="#" onclick="return navClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="navpositionbar" class="navpositionbar"/><h2 id="navtitle">JavaFX Script Reference</h2><a id="nav_basictypes" class="navseclink" href="basictypes.xhtml#basictypes">Basic Types</a><a id="nav_booleans" class="navsublink" href="basictypes.xhtml#booleans">Booleans and Comparisons</a><a id="nav_variables" class="navsublink" href="basictypes.xhtml#variables">Variables</a><a id="nav_integers" class="navsublink" href="basictypes.xhtml#integers">Integers</a><a id="nav_numbers" class="navsublink" href="basictypes.xhtml#numbers">Numbers (float)</a><a id="nav_strings" class="navsublink" href="basictypes.xhtml#strings">Strings</a><a id="nav_duration" class="navsublink" href="basictypes.xhtml#duration">Duration</a><a id="nav_sequences" class="navseclink" href="sequences.xhtml#sequences">Sequences</a><a id="nav_creatingseqs" class="navsublink" href="sequences.xhtml#creatingseqs">Creating sequences</a><a id="nav_seqreadbyslice" class="navsublink" href="sequences.xhtml#seqreadbyslice">Reading by index / slice</a><a id="nav_seqwriteindexslice" class="navsublink" href="sequences.xhtml#seqwriteindexslice">Writing by index / slice</a><a id="nav_seqselect" class="navsublink" href="sequences.xhtml#seqselect">Sequence Select Clause</a><a id="nav_seqinsert" class="navsublink" href="sequences.xhtml#seqinsert">Insert / Delete</a><a id="nav_conditionalsandloops" class="navseclink" href="#conditionalsandloops" onclick="if (event.button == 0) return goTo('#conditionalsandloops', true); else return true;">Conditionals and Loops</a><a id="nav_ifthenelse" class="navsublink" href="#ifthenelse" onclick="if (event.button == 0) return goTo('#ifthenelse', true); else return true;">if then else</a><a id="nav_for" class="navsublink" href="#for" onclick="if (event.button == 0) return goTo('#for', true); else return true;">for</a><a id="nav_while" class="navsublink" href="#while" onclick="if (event.button == 0) return goTo('#while', true); else return true;">while</a><a id="nav_break" class="navsublink" href="#break" onclick="if (event.button == 0) return goTo('#break', true); else return true;">break</a><a id="nav_continue" class="navsublink" href="#continue" onclick="if (event.button == 0) return goTo('#continue', true); else return true;">continue</a><a id="nav_indexof" class="navsublink" href="#indexof" onclick="if (event.button == 0) return goTo('#indexof', true); else return true;">indexof</a><a id="nav_functions" class="navseclink" href="functions.xhtml#functions">Functions</a><a id="nav_funcdefinition" class="navsublink" href="functions.xhtml#funcdefinition">Defining and Calling</a><a id="nav_closures" class="navsublink" href="functions.xhtml#closures">Closures and Anonymous Functions</a><a id="nav_classes" class="navseclink" href="classes.xhtml#classes">Classes</a><a id="nav_classdef" class="navsublink" href="classes.xhtml#classdef">Definition and Instantiating</a><a id="nav_objectinit" class="navsublink" href="classes.xhtml#objectinit">Object Initialization</a><a id="nav_complextrees" class="navsublink" href="classes.xhtml#complextrees">Complex Object Trees</a><a id="nav_objecteq" class="navsublink" href="classes.xhtml#objecteq">Object Equality</a><a id="nav_inheritance" class="navsublink" href="classes.xhtml#inheritance">Inheritance</a><a id="nav_mixins" class="navsublink" href="classes.xhtml#mixins">Mixins</a><a id="nav_abstract" class="navsublink" href="classes.xhtml#abstract">Abstract</a><a id="nav_bindings" class="navseclink" href="bindings.xhtml#bindings">Bindings</a><a id="nav_varbindings" class="navsublink" href="bindings.xhtml#varbindings">Variable Bindings</a><a id="nav_funcbound" class="navsublink" href="bindings.xhtml#funcbound">Functions / bound</a><a id="nav_bindobjs" class="navsublink" href="bindings.xhtml#bindobjs">Objects</a><a id="nav_exceptions" class="navseclink" href="exceptions.xhtml#exceptions">Exceptions (try/catch/finally)</a><a id="nav_throwcatch" class="navsublink" href="exceptions.xhtml#throwcatch">Throwing and Catching</a><a id="nav_finally" class="navsublink" href="exceptions.xhtml#finally">finally</a><a id="nav_interop" class="navseclink" href="interop.xhtml#interop">Java Interoperability</a><a id="nav_interop1" class="navsublink" href="interop.xhtml#interop1"/><a id="nav_packagesandaccessmods" class="navseclink" href="packagesandaccessmods.xhtml#packagesandaccessmods">Packages and Access Modifiers</a><a id="nav_packages" class="navsublink" href="packagesandaccessmods.xhtml#packages">Packages</a><a id="nav_accessmods" class="navsublink" href="packagesandaccessmods.xhtml#accessmods">Access Modifier</a><a id="nav_guifeatures" class="navseclink" href="guifeatures.xhtml#guifeatures">GUI Features</a><a id="nav_keyvalue" class="navsublink" href="guifeatures.xhtml#keyvalue">KeyValue</a><a id="nav_keyframe" class="navsublink" href="guifeatures.xhtml#keyframe">KeyFrame</a><a id="nav_localizedstrings" class="navsublink" href="guifeatures.xhtml#localizedstrings">Localized Strings</a></div></div><div id="popups"><div id="pp-d39688e1513" class="tooltip"><span class="idf">if/then/else</span> work almost like in any other language. However, unlike in Java, if you have an <span class="idf">else</span> it also returns a value. This replaces Java's ternary operator (<span class="idf">a ? b : c</span>).</div><div id="pp-d39688e1631" class="tooltip"><span class="idf">for</span> iterates over a sequence or a Java <span class="idf">Iterable</span>. The iteration variable (before <span class="idf">in</span>) is automatically declared for the scope of the <span class="idf">for</span> loop (variables of the same name outside the <span class="idf">for</span> scope will not be modified). The code block following the <span class="idf">for</span> will be executed once for each element of the sequence or <span class="idf">Iterable</span>.<br/> In JavaFX, <span class="idf">for</span> is not a stand-alone statement, but an expression that returns a sequence containing the return values of the executed blocks.<br/> The execution of a <span class="idf">for</span> loop can be interrupted using <span class="idf">break</span>.</div><div id="pp-d39688e1723" class="tooltip">if there are two or more <span class="idf">in</span>-clauses in a <span class="idf">for</span> loop, the right-most clause is the inner loop.</div><div id="pp-d39688e1778" class="tooltip"><span class="idf">while</span> in JavaFX works like in most other languages: first the boolean argument given in parentheses is evaluated. If it is true, the following code block is executed and afterwards it starts all over again. As soon as the argument is false, <span class="idf">while</span> skips the rest of the block and the program continues with the following statement.<br/> The execution of a <span class="idf">for</span> loop can be interrupted using <span class="idf">break</span>.</div><div id="pp-d39688e1832" class="tooltip"><span class="idf">break</span> can be used to abort the execution of the innermost <span class="idf">for</span> or <span class="idf">while</span> loop.</div><div id="pp-d39688e1912" class="tooltip"><span class="idf">continue</span> can be used to skip the remaining code of the innermost <span class="idf">for</span> or <span class="idf">while</span> loop, and to start the next iteration.</div><div id="pp-d39688e1991" class="tooltip"><span class="idf">indexof</span> is a special operator that only works with the iteration variable of <span class="idf">for</span> loops and the sequence select clause. It is returns the current index (the first index is 0).</div><div id="ttCloseBar" class="closeBar"><a href="#" onclick="return tlClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="topicCloseBar" class="closeBar"><a href="#" onclick="return tpcClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div></div></body></html>

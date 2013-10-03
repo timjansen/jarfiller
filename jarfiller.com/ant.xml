@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jarfiller-site" default="build" basedir=".">
+
+	<target name="processPages">
+		<!-- Root XML files -->
+		<xslt basedir="srcContent/" includes="*.xml" excludes="**/*.inc.xml" destdir="buildTmp/" 
+			style="templates/include.xslt"
+			extension=".including.xml">
+			<classpath location="processors/saxon9he.jar" />
+		</xslt>
+		
+		<!-- Categorized XML file -->
+		<xslt basedir="srcContent/" includes="*/*/*.xml */*.xml" excludes="**/*.inc.xml" destdir="buildTmp/" 
+					style="templates/include.xslt">
+				<classpath location="processors/saxon9he.jar" />
+				<regexpmapper from="^(.*?)([a-z0-9]+-)?[a-z0-9]+\.xml$$" to="\1index.including.xml" />
+		</xslt>
+
+		<!-- Page processing -->
+		<xslt basedir="buildTmp/" includes="**/*.including.xml" destdir="WebContent/" 
+					style="templates/page.xslt"
+					extension=".xhtml">
+				<classpath location="processors/saxon9he.jar" />
+			<regexpmapper from="^(.*)\.including\.xml$$" to="\1.xhtml" />
+		</xslt>
+	</target>
+
+	<target name="processPagesMultipage" depends="processPages">
+		<!-- Multi-Page processing -->
+		<xslt basedir="buildTmp/" includes="*/**/*.including.xml" destdir="WebContent/" 
+					style="templates/page.xslt"
+					extension=".xhtml">
+			<classpath location="processors/saxon9he.jar" />
+			<regexpmapper from="^(.*)\.including\.xml$$" to="\1.deleteme.xhtml" />
+			<param name="multipageEnabled" expression="true"/>
+			<param name="multipagePath" expression="/Users/tim/Documents/work/workspace/jarfiller.com/WebContent"/>
+		</xslt>
+		
+		<!-- Delete broken pages -->
+		<delete>
+		    <fileset dir="WebContent/">
+		    	  <include name="**/*.deleteme.xhtml"/>
+		    </fileset>
+		</delete>
+	</target>
+
+	<target name="processStatic">
+		<!--Process JavaScript -->
+	    <apply verbose="true" executable="java" parallel="false" failonerror="true">
+	        <fileset dir="srcContent/" includes="*/*.jss"/>
+	        <arg line="-jar"/>
+	        <arg path="processors/yuicompressor-2.4.2.jar"/>
+	        <arg line="--line-break 2000 -o"/> 
+	        <mapper type="glob" from="*.js" to="WebContent/*.js"/>
+	        <targetfile/>
+	        <srcfile/>
+	    </apply>
+
+
+		<!--Process CSS -->
+	    <apply verbose="true" executable="java" parallel="false" failonerror="true">
+	        <fileset dir="srcContent/" includes="*/*.css"/>
+	        <arg line="-jar"/>
+	        <arg path="processors/yuicompressor-2.4.2.jar"/>
+	        <arg line="-o"/>
+	        <mapper type="glob" from="*.css" to="WebContent/*.css"/>
+	        <targetfile/>
+	        <srcfile/>
+	    </apply>
+		
+		<!-- Unprocessed static content -->
+		<copy todir="WebContent/" includeemptydirs="false">
+		    <fileset dir="srcContent/">
+		    	  <include name="**/*.txt"/>
+		    	  <include name="**/*.html"/>
+			      <include name="**/*.png"/>
+			      <include name="**/*.jpeg"/>
+			      <include name="**/*.svg"/>
+				  <include name="**/*.js"/>
+		    </fileset>
+		</copy>
+	</target>
+
+	<target name="build" depends="processPages,processStatic"/>
+	<target name="buildWithMultipage" depends="processPagesMultipage,processStatic"/>
+
+</project>

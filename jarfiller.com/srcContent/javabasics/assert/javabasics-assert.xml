@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tjansen.de/refPage ../../../schemas/page.xsd ">
+
+  <path>/javabasics/assert/</path>
+  <title>Java Basics: Assert</title>
+  <titleIntro>Learn how to read and use assertions in Java</titleIntro>
+   
+  <license>cc-by-free-src</license>
+   
+  <multipage/>
+   
+  <javadocConfig>
+	<baseURL>http://java.sun.com/javase/6/docs/api/</baseURL>
+	<defaultPackage>java.lang</defaultPackage>
+  </javadocConfig>
+
+  <article><body>
+
+	<singleColumnSection anchor="overview">
+	  	<head>Overview</head>
+		<subSection anchor="intro">
+			<head>Intro</head>
+			<explanation>
+			The <idf>assert</idf> statement lets you <em>document and test assumptions</em> about your program. 
+			You do so by writing boolean <em>expressions that should always be <idf>true</idf></em>. 
+			If they don't, and you have <em>enabled</em> the execution of your assumptions, the assertion will throw an
+			<javadoc>AssertionError</javadoc>. JarFiller uses assertions a lot, as it is a quick and concise 
+			way of showing the reader the expected result of an operation.
+			</explanation>
+		</subSection>
+		<collapsedSubSection anchor="usecases">
+			<head>Use cases</head>
+			<summary>When to use assert?</summary>
+			<content>
+				<explanation>Use <idf>assert</idf> when..</explanation>
+				<list>
+					<li>you want to <em>show assumptions</em> to the source code's reader</li>
+					<li>you want to <em>check at runtime</em> that an assumption is true</li> 
+				</list>
+				<explanation>
+				Do <em>not</em> use <idf>assert</idf> when..</explanation>
+				<list>
+					<li>checking arguments of public methods. Any assumption about arguments is part of their
+					contract, and if it is not fulfilled, you should throw an appropriate exception
+					(e.g. <javadoc>IllegalArgumentException</javadoc>)</li>
+					<li>you expect that the assertion may actually be false sometimes. Then you use a 
+					regular <idf>if</idf> statement and throw an exception on error.</li> 
+				</list>
+			</content>
+		</collapsedSubSection>
+		<subSection anchor="requirements">
+			<head>Requirements</head>
+			<explanation>Java supports the <idf>assert</idf> statement <em>since version 1.4</em> (in other words, practically forever).</explanation>
+		</subSection>		
+	</singleColumnSection>
+	
+	<singleColumnSection anchor="assertsyntax">
+		<head>Assert Syntax</head>
+		<subSection anchor="syntax">
+			<head>Syntax</head>
+			<explanation>
+			The syntax of assertions is very simple. You just write the <em><idf>assert</idf> keyword followed by the expression</em>. For example:
+			</explanation>
+			<code>
+					<line>assert 2 + 2 == 4;</line>
+			</code>
+			<explanation>
+			The assertion's expression will <em>only be executed if assertions have been enabled</em> <more>In order to execute
+			assertion's, invoke the <idf>java</idf> launcher with <em>the <idf>-ea</idf> option</em>. See below for more details</more>. 
+			By default, they are disabled. If assertions are enabled and the expression is <idf>false</idf>, an <em><javadoc>AssertionError</javadoc></em>
+			will be thrown.
+			</explanation>
+			<explanation>You can add a second expression argument expression to the <idf>assert</idf> statement, separated by a colon (':') from the first argument. 
+			Its value will be shown to the user if the assertion failed and is used to show the wrong value or cause of the error:
+			</explanation>
+			<code>
+				<line>String a = "abcdefg";</line>
+				<line>assert a.contains("c")<em> : a</em>;</line>
+			</code>
+			<explanation>
+				If <idf>a</idf> would not contain a "c" (which obviously can never happen in this example), the assertion would
+				abort the execution by throwing an <javadoc>AssertionError</javadoc> and specify the value of <idf>a</idf> as reason.
+			</explanation>
+		</subSection>
+		<subSection anchor="syntaxexample">
+			<head>Examples</head>
+			<explanation>Compute length of the hypotenuse (<link to="http://en.wikipedia.org/wiki/Pythagorean_theorem">Pythagorean theorem</link>):</explanation>
+			<code>
+				<line>static double getLengthOfHypotenuse(double a, double b) {</line>
+				<line>    double squareSum = a*a + b*b;</line>
+				<line>    <em>assert squareSum >= 0</em>;<cmt>always positive <more>Squares of numbers are always positive, and thus their sum is
+				always positive. The assertions just verifies this (simple) assumption. It is important that the value of <idf>squareSum</idf> is always
+				positive, as <idf>Math.sqrt</idf> does not return a meaningful result for negative numbers.</more></cmt></line>
+				<line>    return Math.sqrt(squareSum);</line>
+				<line>}</line>
+			</code>
+
+			<explanation>Split string into space-separated words, capitalize the words, and put the string together:</explanation>
+			<code>
+				<line>String capitalizeWords(String sentence) {</line>
+				<line>    if (sentence.trim().length() == 0) <cmt>no empty sentences <more>If an empty string is given to the <idf>split</idf>
+				method below, it returns an array containing an empty string. As the code in the <idf>for</idf> loop can not handle
+				this, this case will be handled here by just returning the input to the caller.</more></cmt></line>
+				<line>        return sentence;</line>
+				<emptyLine/>
+				<line>    String r = "";</line>
+				<line>    for (String word: sentence.trim().split("\\s+")) { <cmt>split into words <more>The <idf>split</idf> method
+				splits a string into an array of substrings which were separated by the given regular expression. <idf>"\\s+"</idf>
+				is a regular expression that represents one or more whitespace characters (such as space or tab). The <idf>trim</idf>
+				method removes all whitespace at the front and end of the string, because otherwise <idf>split</idf> would
+				return an empty string for them. The result is, that the <idf>for</idf> loop runs for each word of the sentence</more></cmt></line>
+				<line>        <em>assert word.length() >= 1;</em><cmt>no empty strings <more>The following statement depends on 
+				<idf>word</idf> having at least one character. By using the right regular expression in the <idf>split</idf> method
+				and trimming the string, the method makes sure that all <idf>word</idf> processed in the <idf>for</idf> loop
+				are not empty. The assertion documents this and also allows testing this assumption.</more></cmt></line>
+				<line>        r += Character.toUpperCase(word.charAt(0)) + word.substring(1) + " ";</line>
+				<line>    }</line>
+				<line>    return r.trim();</line>
+				<line>}</line>
+			</code>
+
+			<explanation>Return an opening hour for the given date - 8 for weekdays, 9 on Saturday, 11 on Sunday:</explanation> 
+			<code>
+				<line>static int getOpeningHour(Date date) {</line>
+				<line>	  Calendar cal = new GregorianCalendar();</line>
+				<line>    cal.setTime(date);</line>
+				<line>    int weekday = cal.get(Calendar.DAY_OF_WEEK);</line>
+				<emptyLine/>
+				<line>    if (weekday >= Calendar.MONDAY &amp;&amp; weekday &lt;= Calendar.FRIDAY)</line>
+				<line>        return 8;</line>
+				<line>    else if (weekday == Calendar.SATURDAY)</line>
+				<line>        return 9;</line>
+				<line>    else if (weekday == Calendar.SUNDAY)</line>
+				<line>        return 11;</line>
+				<line>    else {</line>
+				<line>        <em>assert false</em>;<cmt>all days considered? <more>Another typical use of assertions is
+				to use them with <idf>false</idf> argument at the end of a complex <idf>if</idf> statement
+				(or <idf>switch</idf>/<idf>case</idf> statement) to make sure that no case has been 
+				forgotten. The <idf>assert false</idf> will always fail, and thus it is written into lines 
+				which should never be reached.</more></cmt></line>
+				<line>        return 0;<cmt>still needed <more>The <idf>assert</idf> in the previous line will only
+				be checked if assertions have been turned on in the Java runtime. The <idf>return</idf> will be executed
+				when assertions have been turned off. In real-life, this should never happen - provided that you
+				thoroughly tested your program with enabled assertions.</more></cmt></line>
+				<line>    }</line>
+				<line>}</line>
+			</code>
+		</subSection>
+		<subSection anchor="sizeeffects">
+			<head>Side-effects</head>
+			<explanation>Side-effects are assertions that modify data and thus influence the rest of the program. Then
+			the program may behave differently depending on whether assertions are enabled or not. 
+			<em>Side-effects should be avoided</em>. The following line shows a simple <idf>assert</idf> statement with
+			side-effect:</explanation>
+			<code>
+				<line>int a = 4;</line>
+				<line>assert <em>a++</em> != 0;<cmt><warn>bad: side-effect</warn></cmt></line>
+				<line>System.out.println("a=" + a);</line>
+			</code>
+			<explanation>Depending on whether assertions are enabled or not, the program will either print "a=4" or "a=5".</explanation> 
+		</subSection>
+	</singleColumnSection>
+
+	<singleColumnSection anchor="enabling">
+		<head>Enabling Assertions</head>
+		<subSection anchor="runtime">
+			<head>Runtime</head>
+			<explanation>Java will only execute assertions if you <em>enable them with the <idf>-ea</idf> option</em>:</explanation>
+			<console>> java -ea ClassToRun
+			</console>
+			<explanation>Unlike other programming languages, it is not possible in Java to tell the compiler to exclude 
+			assertions from the binary. <idf>javac</idf> will always compile them into the classes.
+			</explanation>
+			<explanation>The Java runtime can also be configured to execute assertions only for specific packages or
+			classes. See the <link to="http://java.sun.com/javase/6/docs/technotes/tools/windows/java.html">Java launcher documentation</link> 
+			for more details.</explanation>
+			
+		</subSection>
+	</singleColumnSection>
+	
+  </body>
+  <sidebar>
+  	  	<box>
+  		<title>Useful Links</title>
+  		<content>
+  			<link to="http://java.sun.com/javase/6/docs/technotes/guides/language/assert.html">Programming with Assertions (Java Documentation)</link><br/>
+  			<link to="http://en.wikipedia.org/wiki/Assertion_(computing)">Assertions on Wikipedia</link><br/>
+  		</content>
+  	</box>
+  </sidebar>
+  </article>
+</page>

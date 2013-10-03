@@ -1,0 +1,1355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tjansen.de/refPage ../../../schemas/page.xsd ">
+
+  <path>/guide/jms/</path>
+  <title>JMS Guide</title>
+  <titleIntro>Send and receive asynchronous messages in Java using the Java Messaging Service</titleIntro>
+ 
+  <license>cc-by-free-src</license>
+ 
+ <multipage/>
+ 
+  <javadocConfig>
+	<baseURL>http://java.sun.com/javaee/5/docs/api/</baseURL>
+	<defaultPackage>javax.jms</defaultPackage>
+	<defaultAnnotationPackage>javax.annotation</defaultAnnotationPackage>
+	<shortcuts>
+		<shortcut name="createSession" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Connection.html#createSession(boolean, int)"/>
+		<shortcut name="createConnection" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/ConnectionFactory.html#createConnection()"/>
+		<shortcut name="createQueue" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createQueue(java.lang.String)"/>
+		<shortcut name="createTopic" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createTopic(java.lang.String)"/>
+		<shortcut name="createProducer" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createProducer(javax.jms.Destination)"/>
+		<shortcut name="createTextMessage" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createTextMessage(java.lang.String)"/>
+		<shortcut name="createBytesMessage" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createBytesMessage()"/>
+		<shortcut name="createMapMessage" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createMapMessage()"/>
+		<shortcut name="createObjectMessage" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createObjectMessage(java.io.Serializable)"/>
+		<shortcut name="createStreamMessage" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createStreamMessage()"/>
+		<shortcut name="createMessage" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createMessage()"/>
+		<shortcut name="Session.AUTO_ACKNOWLEDGE" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#AUTO_ACKNOWLEDGE"/>
+		<shortcut name="AUTO_ACKNOWLEDGE" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#AUTO_ACKNOWLEDGE"/>
+		<shortcut name="Session.CLIENT_ACKNOWLEDGE" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#CLIENT_ACKNOWLEDGE"/>
+		<shortcut name="CLIENT_ACKNOWLEDGE" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#CLIENT_ACKNOWLEDGE"/>
+		<shortcut name="DUPS_OK_ACKNOWLEDGE" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#DUPS_OK_ACKNOWLEDGE"/>
+		<shortcut name="createConsumer" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createConsumer(javax.jms.Destination)"/>
+		<shortcut name="send" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/MessageProducer.html#send(javax.jms.Message)"/>
+		<shortcut name="close" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Connection.html#close()"/>
+		<shortcut name="start" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Connection.html#start()"/>
+		<shortcut name="receive" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/MessageConsumer.html#receive()"/>
+		<shortcut name="getText" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/TextMessage.html#getText()"/>
+		<shortcut name="setMessageListener" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/MessageConsumer.html#setMessageListener(javax.jms.MessageListener)"/>
+		<shortcut name="unsubscribe" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#unsubscribe(java.lang.String)"/>
+		<shortcut name="createDurableSubscriber" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createDurableSubscriber(javax.jms.Topic, java.lang.String)"/>
+		<shortcut name="setClientID" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Connection.html#setClientID(java.lang.String)"/>
+		<shortcut name="matches" uri="http://java.sun.com/javaee/5/docs/api/"/>
+		<shortcut name="getDouble" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/MapMessage.html#getDouble(java.lang.String)"/>
+		<shortcut name="getInt" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/MapMessage.html#getInt(java.lang.String)"/>
+		<shortcut name="getString" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/MapMessage.html#getString(java.lang.String)"/>
+		<shortcut name="setDouble" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/MapMessage.html#setDouble(java.lang.String, double)"/>
+		<shortcut name="setInt" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/MapMessage.html#setInt(java.lang.String, int)"/>
+		<shortcut name="setString" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/MapMessage.html#setString(java.lang.String, java.lang.String)"/>
+		<shortcut name="readDouble" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/StreamMessage.html#getDouble()"/>
+		<shortcut name="readInt" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/StreamMessage.html#getInt()"/>
+		<shortcut name="readString" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/StreamMessage.html#getString()"/>
+		<shortcut name="writeDouble" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/StreamMessage.html#setDouble(double)"/>
+		<shortcut name="writeInt" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/StreamMessage.html#setInt(int)"/>
+		<shortcut name="writeString" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/StreamMessage.html#setString(java.lang.String)"/>
+		<shortcut name="getObject" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/ObjectMessage.html#getObject()"/>
+		<shortcut name="Date" uri="http://java.sun.com/javase/6/docs/api/java/util/Date.html"/>
+		<shortcut name="readBytes" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/BytesMessage.html#readBytes(byte[])"/>
+		<shortcut name="writeBytes" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/BytesMessage.html#writeBytes(byte[])"/>
+		<shortcut name="getBodyLength" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/BytesMessage.html#getBodyLength()"/>
+		<shortcut name="getJMSMessageID" uri="http://java.sun.com/javaee/5/docs/apijavax/jms/Message.html#getJMSMessageID()"/>
+		<shortcut name="getJMSReplyTo" uri="http://java.sun.com/javaee/5/docs/apijavax/jms/Message.html#getJMSReplyTo()"/>
+		<shortcut name="setJMSCorrelationID" uri="http://java.sun.com/javaee/5/docs/apijavax/jms/Message.html#setJMSCorrelationID(java.lang.String)"/>
+		<shortcut name="setJMSPriority" uri="http://java.sun.com/javaee/5/docs/apijavax/jms/Message.html#setJMSPriority(int)"/>
+		<shortcut name="setStringProperty" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Message.html#setStringProperty(java.lang.String, java.lang.String)"/>
+		<shortcut name="getStringProperty" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Message.html#getStringProperty(java.lang.String)"/>
+		<shortcut name="setIntProperty" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Message.html#setIntProperty(java.lang.String, int)"/>
+		<shortcut name="getIntProperty" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Message.html#getIntProperty(java.lang.String)"/>
+		<shortcut name="getPropertyNames" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Message.html#getPropertyNames()"/>
+		<shortcut name="Enumeration" uri="http://java.sun.com/javase/6/docs/api/java/util/Enumeration.html"/>
+		<shortcut name="hasMoreElements" uri="http://java.sun.com/javase/6/docs/api/java/util/Enumeration.html#hasMoreElements()"/>
+		<shortcut name="nextElement" uri="http://java.sun.com/javase/6/docs/api/java/util/Enumeration.html#nextElement()"/>
+		<shortcut name="ByteArrayOutputStream" uri="http://java.sun.com/javase/6/docs/api/java/io/ByteArrayOutputStream.html"/>
+		<shortcut name="ByteArrayInputStream" uri="http://java.sun.com/javase/6/docs/api/java/io/ByteArrayInputStream.html"/>
+		<shortcut name="toByteArray" uri="http://java.sun.com/javase/6/docs/api/java/io/ByteArrayOutputStream.html#toByteArray()"/>
+		<shortcut name="Document" uri="http://java.sun.com/javase/6/docs/api/org/w3c/dom/Document.html"/>
+		<shortcut name="DocumentBuilder" uri="http://java.sun.com/javase/6/docs/api/javax/xml/parsers/DocumentBuilder.html"/>
+		<shortcut name="DocumentBuilderFactory" uri="http://java.sun.com/javase/6/docs/api/javax/xml/parsers/DocumentBuilderFactory.html"/>
+		<shortcut name="JAXBContext" uri="http://java.sun.com/javase/6/docs/api/javax/xml/bind/JAXBContext.html"/>
+		<shortcut name="Marshaller" uri="http://java.sun.com/javase/6/docs/api/javax/xml/bind/Marshaller.html"/>
+		<shortcut name="createMarshaller" uri="http://java.sun.com/javase/6/docs/api/javax/xml/bind/JAXBContext.html#createMarshaller()"/>
+		<shortcut name="marshal" uri="http://java.sun.com/javase/6/docs/api/javax/xml/bind/Marshaller.html#marshal(java.lang.Object, java.io.OutputStream)"/>
+		<shortcut name="Unmarshaller" uri="http://java.sun.com/javase/6/docs/api/javax/xml/bind/Unmarshaller.html"/>
+		<shortcut name="createUnmarshaller" uri="http://java.sun.com/javase/6/docs/api/javax/xml/bind/JAXBContext.html#createUnmarshaller()"/>
+		<shortcut name="unmarshal" uri="http://java.sun.com/javase/6/docs/api/javax/xml/bind/Unmarshaller.html#unmarshal(java.io.InputStream)"/>
+		<shortcut name="createBrowser" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createBrowser(javax.jms.Queue)"/>
+		<shortcut name="getEnumeration" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/QueueBrowser.html#getEnumeration()"/>
+		<shortcut name="createTemporaryQueue" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Session.html#createTemporaryQueue()"/>
+		<shortcut name="setJMSReplyTo" uri="http://java.sun.com/javaee/5/docs/api/javax/jms/Message.html#setJMSReplyTo(javax.jms.Destination)"/>
+		<shortcut name="@MessageDriven" uri="http://java.sun.com/javaee/5/docs/api/javax/ejb/MessageDriven.html"/>
+		<shortcut name="activationConfig" uri="http://java.sun.com/javaee/5/docs/api/javax/ejb/MessageDriven.html#activationConfig()"/>
+		<shortcut name="@ActivationConfigProperty" uri="http://java.sun.com/javaee/5/docs/api/javax/ejb/ActivationConfigProperty.html"/>
+		<shortcut name="propertyName" uri="http://java.sun.com/javaee/5/docs/api/javax/ejb/ActivationConfigProperty.html#propertyName()"/>
+		<shortcut name="propertyValue" uri="http://java.sun.com/javaee/5/docs/api/javax/ejb/ActivationConfigProperty.html#propertyValue()"/>
+		<shortcut name="mappedName" uri="http://java.sun.com/javaee/5/docs/api/javax/annotation/Resource.html#mappedName()"/>
+		<shortcut name="lookup" uri="http://java.sun.com/javase/6/docs/api/javax/naming/Context.html#lookup(java.lang.String)"/>
+		<shortcut name="Hashtable" uri="http://java.sun.com/javase/6/docs/api/java/util/Hashtable.html"/>
+		<shortcut name="InitialContext" uri="http://java.sun.com/javase/6/docs/api/javax/naming/InitialContext.html"/>
+		<shortcut name="Context" uri="http://java.sun.com/javase/6/docs/api/javax/naming/Context.html"/>
+	</shortcuts>
+  </javadocConfig>
+  
+  <article>
+  <body>
+
+	<singleColumnSection anchor="jmsoverview">
+	  	<head>Overview</head>
+		<subSection anchor="intro">
+			<head>Intro</head>
+			<explanation>
+				The Java Message Service (JMS) allows Java applications to <em>send and receive messages asynchronously</em>. It can
+				be used for <em>communication between server applications</em>, but also within an application to postpone tasks or to distribute them 
+				to components.<br/>
+				In order to use JMS, you usually need some sort of messaging provider. This can be a stand-alone server, such 
+				as <link to="http://activemq.apache.org/">ActiveMQ</link> or 
+				<link to="http://www-01.ibm.com/software/integration/wmq/">Websphere MQ</link>, or a messaging implementation that
+				is part of an application server like the
+				<link to="http://www.jboss.org/jbossas/">JBoss Application Server</link>. The latter is often the easiest solution,
+				as long as sender and receiver both run inside the same application server.
+			</explanation>
+		</subSection>
+		<collapsedSubSection anchor="usecases">
+			<head>Use Cases</head>
+			<summary>When should JMS be used?</summary>
+			<content>
+				<explanation>Use JMS when..</explanation>
+				<list>
+					<li>you want to <em>exchange messages reliably</em> between servers in the same network <more>The main advantage
+					of JMS over technologies such as RMI, CORBA and Web Services is that JMS is designed for reliability
+					and can be integrated into transactions. This makes it the technology of choice for many server
+					applications. Using it in clients is not common though, as many JMS implementations don't work
+					well through firewalls, and because complex client/server protocols are more difficult to implement using JMS. JMS
+					works best when your messages are very simple.</more></li>
+					<li>or, inside an application server, you want to <em>split up work into smaller chunks</em> <more>Many
+						EJB application servers ship with built-in JMS messaging support. In EJB application servers,
+						a task can not run indefinitely. If an operation runs too long, the server assumes that it hangs and
+						will try to abort it. You can avoid this problem by splitting your work into smaller pieces
+						and send yourself a message for each piece of work. This will reduce the running time of the
+						tasks, and possibly it also helps you to parallelize your workload, as several messages can 
+						then be processed simultaneously.</more></li>
+					<li>there is a direct connection between the message server and its clients (no firewalls etc)</li>
+				</list>
+				<miniHeadline>Alternatives</miniHeadline>
+				<explanation>
+					The main alternative to JMS are <em><link to="http://en.wikipedia.org/wiki/Remote_procedure_call">RPC</link> systems</em> that allow you to invoke
+					functions on remote systems. For <link to="http://en.wikipedia.org/wiki/Client-server">client/server</link> models they are almost always 
+					easier to use.
+					On the other hand, making a message exchange reliable can be quite a challenge with RPCs.  </explanation> 
+				<list>
+					<li><link to="http://en.wikipedia.org/wiki/SOAP_(protocol)">SOAP</link> with <link to="http://en.wikipedia.org/wiki/JAX-WS">JAX-WS</link> is 
+					the right choice when you need to get through web proxies and firewalls, or when interoperability with non-Java systems 
+					is important.</li>
+					<li><link to="http://en.wikipedia.org/wiki/Java_remote_method_invocation">RMI</link>, Java's built-in RPC mechanism, will get you started
+					quickly and requires little initial effort. It works with Java endpoints only though, and there are some serious
+					problems you need to consider <more>RMI's protocol is not very firewall-friendly, and if you can't be sure that client and server run the 
+					same version of your application, RMI can be quite complicated. Also, RMI is notoriously difficult to debug.
+					Unlike SOAP, whose text-based messages can be easily viewed with a plethora of tools and whose HTTP transport can checked
+					with every web browser, debugging RMI is mostly trial and error.</more>.</li>
+					<li><link to="http://en.wikipedia.org/wiki/Corba">CORBA</link>, either via Java's CORBA APIs or with RMI-IIOP, is old and complicated. 
+					Don't use unless you are required to.</li>
+				</list>
+				
+			</content>
+		</collapsedSubSection>
+		<collapsedSubSection anchor="requirements">
+			<head>Requirements</head>
+			<summary>What do you need for JMS?</summary>
+			<content>
+				<explanation>For JMS you need...</explanation>
+				<list>
+					<li><em>a messaging server</em>, for example <link to="http://activemq.apache.org/">ActiveMQ</link> or 
+						<link to="http://www-01.ibm.com/software/integration/wmq/">Websphere MQ</link>. Or a messaging
+						engine integrated into an application server such as <link to="http://www.jboss.org/jbossas/">JBoss</link>'. 
+						There are also some peer-to-peer JMS system, e.g. 
+						<link to="http://sourceforge.net/projects/mantaray/">Mantaray</link>.</li>
+					<li>a <em>JMS provider</em> for your server (basically a driver for your server)</li>
+				</list>
+				
+			</content>
+		</collapsedSubSection>
+		<subSection anchor="destinations">
+			<head>Destinations</head>
+			<explanation><em>Destinations</em> are the things you send messages to and receive messages from. There are two kinds of destination
+			defined in the JMS standard:</explanation>
+			<list><li><em>Queues</em> allow only one receiver per message. If the message is read and acknowledged, it will be
+			removed from the queue.</li>
+			<li><em>Topics</em> allow several subscribers to receive messages. A message stays in the <idf>Topic</idf> until all subscribers read and 
+			acknowledged it <more>There are two kinds of subscribers for topics:<br/>
+			<em>Nondurable subscribers</em> only get those messages
+			that are published while the subscriber is keeping its connection open and stays subscribed.<br/><em>Durable 
+			subscribers</em> will also receive messages sent while they were offline.<br/><br/><warn>Note:</warn> if you send a message
+			to a Topic without any subscribers, it will be discarded immediately.</more>.</li></list>
+			<explanation>
+			Both topics and queues have in common that there can be several senders, and that messages will always be received in the
+			order they have been sent.
+			</explanation>
+		</subSection>		
+	</singleColumnSection>
+	
+	<singleColumnSection anchor="standaloneclient">
+		<head>Sending and Receiving Messages (Standalone Client)</head>
+		<subSection anchor="sending">
+			<head>Sending a message</head>
+			<more>Sending a message requires several steps. First you need to obtain a <javadoc>ConnectionFactory</javadoc>,
+			which must be set up in a provider-specific way. Then you create the <javadoc>Connection</javadoc>, create a <javadoc>Session</javadoc>
+			for the <javadoc>Connection</javadoc>, and finally a <javadoc>MessageProducer</javadoc>. The <javadoc>MessageProducer</javadoc>
+			allows you to send the messages.<br/>
+			This section's example shows you how to send a message to a ActiveMQ server.</more>
+			<code>
+					<line><javadoc>ConnectionFactory</javadoc> factory = </line>
+					<line>  new ActiveMQConnectionFactory("tcp://localhost:61616");<cmt><warn>ActiveMQ-specific</warn> <more id="more-activemq-confact">
+					Creating a <idf>ConnectionFactory</idf> is always JMS-provider specific.
+					The JMS Specification suggests that an administrator should configure a JMS <idf>ConnectionFactory</idf>
+					and put it in a JNDI namespace where the application can obtain it. For small applications this usually too complicated, 
+					so most JMS providers offer a simple way to create ConnectionFactories as alternative.<br/>
+					This example shows how to set up the <idf>ConnectionFactory</idf> for <em>ActiveMQ</em>, for a server 
+					running on <idf>localhost</idf> without authentication.
+					</more></cmt></line>
+					<emptyLine/>
+					<line><javadoc>Connection</javadoc> con = factory.<javadoc>createConnection</javadoc>();</line>
+					<emptyLine/>
+					<line>try {</line>
+					<line>  <javadoc>Session</javadoc> session = </line>
+					<line>      con.<javadoc>createSession</javadoc>(false, <javadoc>Session.AUTO_ACKNOWLEDGE</javadoc>);<cmt>non-transacted session <more id="more-createsession-aa">The
+					first argument of the <idf>createSession</idf> method specifies
+					whether the <javadoc>Session</javadoc> will be transacted or not. Transacted sessions send messages and acknowledge message reception only after a
+					<idf>commit</idf>. The second argument specifies the way messages will be acknowledged if the <idf>Session</idf>
+					is not transacted (for transacted sessions it will be ignored). <idf>AUTO_ACKNOWLEDGE</idf>
+					means that the messages will be acknowledged automatically upon reception. <idf>CLIENT_ACKNOWLEDGE</idf>
+					allows manual acknowledgement. This is important for receiving messages, as messages will only be removed from the queue after the reception has
+					been acknowledged. For this example, which only sends a message, it does not matter.</more></cmt></line>
+					<emptyLine/>
+					<line>  <javadoc>Queue</javadoc> queue = session.<javadoc>createQueue</javadoc>("test.queue");<cmt><warn>only specifies queue name</warn> <more id="more-createqueue">
+					The <idf>Queue</idf> object only specifies the name of the queue to use, but <em>does not create it in the server</em>. 
+					The exact details of how <idf>createQueue</idf> works is JMS provider specific. In a complex setup, the <idf>Queue</idf>
+					object should be taken from the JNDI context, just like the <idf>ConnectionFactory</idf>.<br/>
+					Note that some messaging servers, like Websphere MQ, require you to create the queues in the server using their
+					administrative tools before you can put any messages into them. Others, like ActiveMQ, create new queues
+					dynamically as soon as they receive a message for a queue that does not exist yet.</more></cmt></line>
+					<emptyLine/>
+					<line>  <javadoc>MessageProducer</javadoc> producer = session.<javadoc>createProducer</javadoc>(queue);</line>
+					<line>  <javadoc>Message</javadoc> msg = session.<javadoc>createTextMessage</javadoc>("hello queue");<cmt>text message <more id="more-textmessage">While
+					this <idf>Message</idf> is a simple text message, JMS provides other message types. They will be shown later.</more></cmt></line>
+					<line>  producer.<em><javadoc>send</javadoc></em>(msg);</line>
+					<line>}</line>
+					<line>finally {</line>
+					<line>  con.<javadoc>close</javadoc>();<cmt>free all resources <more id="more-close-con">In order to free any acquired resources
+					you should always <idf>close</idf> any <idf>Connection</idf>s, <idf>Session</idf>s and <idf>MessageProducer</idf>s that you created.<br/>
+					The <idf>close</idf> methods close constituent objects as well, so <em>closing the Connection is sufficient</em> in this example.</more></cmt></line>
+					<line>}</line>
+			</code>
+		</subSection>
+		
+		<subSection anchor="polling">
+			<head>Polling for messages</head>
+			<more>Polling a message requires several steps. First you need to obtain a <javadoc>ConnectionFactory</javadoc>,
+			which must be set up in a provider-specific way. Then you create the <javadoc>Connection</javadoc>, create a <javadoc>Session</javadoc>
+			for the <javadoc>Connection</javadoc>, and finally a <javadoc>MessageConsumer</javadoc>. The <javadoc>MessageConsumer</javadoc>
+			allows you to poll for messages.<br/>
+			This section's example runs indefinitely to read messages from a ActiveMQ server and print them.</more>
+			<code>
+					<line><javadoc>ConnectionFactory</javadoc> factory = </line>
+					<line>  new ActiveMQConnectionFactory("tcp://localhost:61616");<cmt><warn>ActiveMQ-specific</warn> <more ref="more-activemq-confact"/></cmt></line>
+					<emptyLine/>
+					<line><javadoc>Connection</javadoc> con = factory.<javadoc>createConnection</javadoc>();</line>
+					<emptyLine/>
+					<line>try {</line>
+					<line>  <javadoc>Session</javadoc> session = </line>
+					<line>      con.<javadoc>createSession</javadoc>(false, <javadoc>Session.AUTO_ACKNOWLEDGE</javadoc>);<cmt>non-transacted session <more id="more-createsession-aa-rec">The
+					first argument of the <idf>createSession</idf> method specifies
+					whether the <javadoc>Session</javadoc> will be transacted or not. Transacted sessions send messages and acknowledge message reception only after a
+					<idf>commit</idf>. The second argument specifies the way messages will be acknowledged if the <idf>Session</idf>
+					is not transacted (for transacted sessions it will be ignored). <idf>AUTO_ACKNOWLEDGE</idf>
+					means that the messages will be acknowledged automatically upon reception. <idf>CLIENT_ACKNOWLEDGE</idf>
+					allows manual acknowledgement.</more></cmt></line>
+					<emptyLine/>
+					<line>  <javadoc>Queue</javadoc> queue = session.<javadoc>createQueue</javadoc>("test.queue");<cmt>only specifies queue name <more ref="more-createqueue"/></cmt></line>
+					<emptyLine/>
+					<line>  <javadoc>MessageConsumer</javadoc> consumer = session.<javadoc>createConsumer</javadoc>(queue);</line>
+					<emptyLine/>
+					<line>  con.<em><javadoc>start</javadoc></em>();<cmt>start the connection <more id="more-start-con">After you have set up your application, you must call <idf>start</idf>
+					before you can receive any messages. You can also call <idf>stop</idf> on the connection if the application should not receive
+					messages anymore. Note that this is mostly important when you use a <idf>MessageListener</idf>.</more></cmt></line>
+					<line>  while (true) {<cmt>run forever</cmt></line>
+					<line>    <javadoc>Message</javadoc> msg = <em>consumer.<javadoc>receive</javadoc></em>(); <cmt>blocking! <more>
+					<idf>receive</idf> waits until a message is in the queue and then returns it. Other methods in <idf>MessageConsumer</idf> allow
+					you to wait for a specified amount of time for a message, return immediately if there is no message, or allow you to set a <idf>MessageListener</idf>
+					that is notified asynchronously (in a separate thread).</more></cmt></line>
+					<line>    if (! (msg instanceof <javadoc>TextMessage</javadoc>))</line>
+					<line>      throw new RuntimeException("Expected a TextMessage");</line>
+					<line>    <javadoc>TextMessage</javadoc> tm = (<javadoc>TextMessage</javadoc>) msg;</line>
+					<line>    System.out.println(tm.<javadoc>getText</javadoc>()); <cmt>print message content</cmt></line>
+					<line>  }</line>
+					<line>}</line>
+					<line>finally {</line>
+					<line>  con.<javadoc>close</javadoc>();<cmt>free all resources <more ref="more-close-con"/></cmt></line>
+					<line>}</line>
+			</code>
+		</subSection>
+		
+		<subSection anchor="messagelistener">
+			<head>Using a MessageListener</head>
+			<more>Instead of polling, you can also implement the <idf>MessageListener</idf> interface. Once you 
+			registered an instance of <idf>MessageListener</idf> for the <javadoc>Session</javadoc>, its <idf>onMessage</idf> method will be invoked every time you
+			receive a message. This happens asynchronously, not in the thread that started the connections. Thus if you go this
+			way without the help of an application server, you need to be sure that your application is <em>thread-safe</em>.<br/>
+			This section's example runs indefinitely to read messages from a ActiveMQ server and print them.</more>
+			<code>
+					<line><javadoc>ConnectionFactory</javadoc> factory = </line>
+					<line>  new ActiveMQConnectionFactory("tcp://localhost:61616");<cmt><warn>ActiveMQ-specific</warn> <more ref="more-activemq-confact"/></cmt></line>
+					<emptyLine/>
+					<line><javadoc>Connection</javadoc> con = factory.<javadoc>createConnection</javadoc>();</line>
+					<emptyLine/>
+					<line>try {</line>
+					<line>  <javadoc>Session</javadoc> session = </line>
+					<line>      con.<javadoc>createSession</javadoc>(false, <javadoc>Session.AUTO_ACKNOWLEDGE</javadoc>);<cmt>non-transacted session <more ref="more-createsession-aa-rec"/></cmt></line>
+					<emptyLine/>
+					<line>  <javadoc>Queue</javadoc> queue = session.<javadoc>createQueue</javadoc>("test.queue");<cmt>only specifies queue name <more ref="more-createqueue"/></cmt></line>
+					<emptyLine/>
+					<line>  <javadoc>MessageConsumer</javadoc> consumer = session.<javadoc>createConsumer</javadoc>(queue);</line>
+					<emptyLine/>
+					<line>  consumer.<javadoc><em>setMessageListener</em></javadoc>(new <javadoc>MessageListener</javadoc>() {</line>
+					<line>    public void <javadoc><em>onMessage</em></javadoc>(<javadoc>Message</javadoc> msg) {</line>
+					<line>      try {</line>
+					<line>        if (! (msg instanceof <javadoc>TextMessage</javadoc>))</line>
+					<line>          throw new RuntimeException("no text message");</line>
+					<line>        <javadoc>TextMessage</javadoc> tm = (<javadoc>TextMessage</javadoc>) msg;</line>
+					<line>        System.out.println(tm.<javadoc>getText</javadoc>());<cmt>print message</cmt></line>
+					<line>      }</line>
+					<line>      catch (<javadoc>JMSException</javadoc> e) {</line>
+					<line>        System.err.println("Error reading message");</line>
+					<line>      }</line>
+					<line>    }</line>
+					<line>  });</line>
+					<emptyLine/>
+					<line>  con.<em><javadoc>start</javadoc></em>();<cmt>start the connection <more>After you have set up your application, 
+					you must call <idf>start</idf> before you can receive any messages. You can also call <idf>stop</idf> on the connection 
+					if the application should not receive messages anymore.</more></cmt></line>
+					<line>  Thread.sleep(60 * 1000);<cmt>receive messages for 60s <more>The <idf>MessageListener</idf> set above is working
+					asynchronously. Thus, while this thread is sleeping, the JMS provider will invoke the <idf>MessageListener</idf>
+					for every incoming message.</more></cmt></line>
+					<line>finally {</line>
+					<line>  con.<javadoc>close</javadoc>();<cmt>free all resources <more ref="more-close-con"/></cmt></line>
+					<line>}</line>
+			</code>
+		</subSection>
+		
+		<collapsedSubSection anchor="jndi">
+			<head>JNDI</head>
+			<summary>Getting the ConnectionFactory via JNDI</summary>
+			<content>
+				<explanation>The only (relatively) non-implementation-specific way to obtain the JMS 
+				implementation's <javadoc>ConnectionFactory</javadoc> and <javadoc>Destination</javadoc>s is to <em>get them
+				from a JNDI server</em>. This is usually only possibly if you write your program as client for an application server.
+				The following example shows how to do this with JBoss:
+				</explanation>
+				<code>
+					<line><javadoc>Hashtable</javadoc>&lt;String,String> env = new <javadoc>Hashtable</javadoc>&lt;String, String>();</line>
+					<line>env.put("java.naming.factory.initial",<cmt><warn>JBoss-specific</warn> <more>Note that for
+					other application servers you need different values in your environment. </more></cmt></line>
+					<line>        "org.jnp.interfaces.NamingContextFactory");</line>
+					<line>env.put("java.naming.provider.url", "jnp://localhost:1099");<cmt>host address</cmt></line>
+					<line>env.put("java.naming.factory.url.pkgs", </line>
+					<line>        "org.jboss.naming:org.jnp.interfaces");</line>
+					<line><javadoc>Context</javadoc> ctx = new <javadoc>InitialContext</javadoc>(env);</line>
+					<emptyLine/>
+					<line><javadoc>ConnectionFactory</javadoc> factory = (<javadoc>ConnectionFactory</javadoc>)</line>
+					<line>           ctx.<javadoc>lookup</javadoc>("<em>/ConnectionFactory</em>");<cmt>obtain factory <more>Retrieves
+					the <idf>ConnectionFactory</idf> from the JNDI server. "/ConnectionFactory" is the JNDI name of the
+					factory, as configured in the server.</more></cmt></line>
+					<line><javadoc>Queue</javadoc> queue = (<javadoc>Queue</javadoc>) </line>
+					<line>           ctx.<javadoc>lookup</javadoc>("<em>/queue/JarfillerQueue</em>");<cmt>obtain queue <more>Retrieves
+					the <idf>Queue</idf> from the JNDI server. "/queue/JarfillerQueue" is the JNDI name of the
+					queue object, as configured in the server.</more></cmt></line>
+					<line><abstract>...</abstract></line>
+				</code>				
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="activemqsetup">
+			<head>ActiveMQ Setup</head>
+			<summary>How to set up ActiveMQ</summary>
+			<content>
+				<explanation>Setting up a ActiveMQ server is fairly easy:</explanation>
+				<list>
+					<li>Download a ActiveMQ distribution from <link to="http://activemq.apache.org">activemq.apache.org</link> and unpack it somewhere</li>
+					<li>You can start the server immediately, running unsecured on localhost, using the script <idf>bin/activemq</idf></li>
+					<li>When it is running, you can access your local server's console on <link to="http://localhost:8161/admin/">http://localhost:8161/admin/</link></li>
+					<li>Configure it by modifying <idf>conf/activemq.xml</idf></li>
+				</list>
+				<explanation>In order to compile and run the client, just include the JAR files from the server's <idf>lib</idf> directory
+				in your CLASSPATH.</explanation>
+			</content>
+		</collapsedSubSection>
+
+		<collapsedSubSection anchor="webspheremqsetup">
+			<head>Websphere MQ Setup</head>
+			<summary>How to set up Websphere MQ</summary>
+			<content>
+				<explanation>Setting up a client for a Websphere MQ server is similar to ActiveMQ. You only need to create a 
+				<javadoc to="http://publib.boulder.ibm.com/infocenter/wmqv6/v6r0/topic/com.ibm.mq.csqzaw.doc/uj27600_.htm">MQConnectionFactory</javadoc>
+				instance and configure it. The configuration of Websphere MQ is a bit more complicated that ActiveMQ's, because you need to create a
+				queue manager and a channel in the server, and then specify it in the client. But once the client has obtained 
+				the <javadoc>ConnectionFactory</javadoc>, the usage is exactly like
+				Active MQ's:</explanation>
+				<code>
+					<line>import com.ibm.mq.jms.*;</line>
+					<line><abstract>...</abstract></line>
+					<line><javadoc to="http://publib.boulder.ibm.com/infocenter/wmqv6/v6r0/topic/com.ibm.mq.csqzaw.doc/uj27600_.htm">MQConnectionFactory</javadoc> factory = <javadoc to="http://publib.boulder.ibm.com/infocenter/wmqv6/v6r0/topic/com.ibm.mq.csqzaw.doc/uj27620_.htm">new MQConnectionFactory</javadoc>();</line>
+					<line>factory.<javadoc to="http://publib.boulder.ibm.com/infocenter/wmqv6/v6r0/topic/com.ibm.mq.csqzaw.doc/uj28480_.htm">setHostName</javadoc>("localhost"); <cmt>server IP address / name</cmt></line>
+					<line>factory.<javadoc to="http://publib.boulder.ibm.com/infocenter/wmqv6/v6r0/topic/com.ibm.mq.csqzaw.doc/uj28880_.htm">setTransportType</javadoc>(<javadoc to="http://publib.boulder.ibm.com/infocenter/wmqv6/v6r0/topic/com.ibm.mq.csqzaw.doc/uj31870_.htm">JMSC.MQJMS_TP_CLIENT_MQ_TCPIP</javadoc>); <cmt>for TCP/IP</cmt></line>
+					<line>factory.<javadoc to="http://publib.boulder.ibm.com/infocenter/wmqv6/v6r0/topic/com.ibm.mq.csqzaw.doc/uj28370_.htm">setChannel</javadoc>("my.channel"); <cmt>server connection channel to use</cmt></line>
+					<line>factory.<javadoc to="http://publib.boulder.ibm.com/infocenter/wmqv6/v6r0/topic/com.ibm.mq.csqzaw.doc/uj28650_.htm">setQueueManager</javadoc>("my.queue.manager"); <cmt>queue manager to use</cmt></line>
+				</code>
+				<explanation>In order to compile and run the client, you only need two JAR files: <idf>com.ibm.mq.jar</idf> and <idf>com.ibm.mq.jms.jar</idf>.
+				Both should ship with the Websphere MQ client distributions.</explanation>
+			</content>
+		</collapsedSubSection>
+	</singleColumnSection>
+	
+	
+	
+	<singleColumnSection anchor="sendingreceivingejb3">
+		<head>Sending and Receiving Messages in EJB 3 Applications</head>
+		<subSection anchor="sendingejb3">				
+			<head>Sending Messages</head>
+			<more>The easiest way to send a message in a EJB 3 session bean is to <em>let the container
+			inject references</em> for <idf>ConnectionFactory</idf> and <idf>Destination</idf> into your session bean.
+			You can use them exactly like in stand-alone clients.<br/>
+			Unfortunately the injection is a bit container-specific: most containers allow you to specify the global JNDI name 
+			of the <idf>@Resource</idf> in the <idf>mappedName</idf> property. Those that don't (like Websphere AS) require
+			you to write a container-specific deployment descriptor and do the mapping there.</more>
+			<code>
+				<line><plainCmt>MySenderLocal.java: the interface of the sending bean</plainCmt></line>
+				<line>@Local</line>
+				<line>public interface MySenderLocal {</line>
+				<line>  void sendMessage(String txt) throws <javadoc>JMSException</javadoc>;</line>
+				<line>}</line>
+				<emptyLine/>
+			</code>
+			<code>
+				<line><plainCmt>MySenderLocal.java: implementation of MySenderLocal</plainCmt></line>
+				<line>@Stateless</line>
+				<line>public class MySender implements MySenderLocal {</line>
+				<emptyLine/>
+				<line>  <em><javadoc>@Resource</javadoc>(<javadoc>mappedName</javadoc>="/ConnectionFactory")</em><cmt>inject <idf>ConnectionFactory</idf> <more>This
+				annotation let's the container inject the reference to the <idf>ConnectionFactory</idf> into the bean.
+				"/ConnectionFactory" is the JNDI name configured in the server (in JBoss it is the default name
+				for its own JMS implementation).<br/>
+				<warn>Note:</warn> the <idf>mappedName</idf> property is not very
+				portable. Some application servers (most notably Websphere AS) do not support it.</more></cmt></line>
+				<line>  private <javadoc>ConnectionFactory</javadoc> factory;</line>
+				<emptyLine/>
+				<line>  <em><javadoc>@Resource</javadoc>(<javadoc>mappedName</javadoc>="/queue/JarfillerQueue")</em><cmt>inject <idf>Queue</idf> <more>This
+				annotation let's the container inject the reference to the <idf>Queue</idf> into the bean.
+				"/queue/JarfillerQueue" is the JNDI name configured in the server.<br/>
+				<warn>Note:</warn> the <idf>mappedName</idf> property is not very
+				portable. Some application servers (most notably Websphere AS) do not support it.</more></cmt></line>
+				<line>  private <javadoc>Queue</javadoc> target;</line>
+				<emptyLine/>
+				<line>  <plainCmt>Sends the given string as text message:</plainCmt></line>
+				<line>  public void <em>sendMessage(String txt)</em> throws <javadoc>JMSException</javadoc> {</line>
+				<line>    <javadoc>Connection</javadoc> con = factory.<javadoc>createConnection</javadoc>();</line>
+				<line>    try {</line>
+				<line>      <javadoc>Session</javadoc> session = con.<javadoc>createSession</javadoc>(false, <javadoc>Session.AUTO_ACKNOWLEDGE</javadoc>);</line>
+				<line>      <javadoc>MessageProducer</javadoc> producer = session.<javadoc>createProducer</javadoc>(target);</line>
+				<line>      producer.<javadoc>send</javadoc>(session.<javadoc>createTextMessage</javadoc>(txt));</line>
+				<line>    }</line>
+				<line>    finally {</line>
+				<line>      con.<javadoc>close</javadoc>();</line>
+				<line>    }</line>
+				<line>  }</line>
+				<line>}</line>
+			</code>
+		</subSection>
+		
+		<subSection anchor="receivingejb3">
+			<head>Receiving messages</head>
+			<more>In order to receive messages in an EJB container, create a <idf>Message Driven Bean</idf> (MDB). 
+			It implements the <idf>MessageListener</idf> interface which will be invoked every time a message is received.</more>
+			<code>
+				<line><javadoc><em>@MessageDriven</em></javadoc>(<cmt><em>Message-driven bean</em> (MDB)</cmt></line>
+				<line>  <javadoc>activationConfig</javadoc> = { <javadoc>@ActivationConfigProperty</javadoc>( <cmt>activation configuration <more>The activation
+				configuration defines when the message-driven bean will be called. It contains properties as name/value pairs.
+				The most important properties are "destinationType" which specifies whether the destination is a queue or a topic
+				("javax.jms.Topic"), and the "destination" with the destination's JNDI name.</more></cmt></line>
+				<line>    <javadoc>propertyName</javadoc> = "destinationType", </line>
+				<line>    <javadoc>propertyValue</javadoc> = "javax.jms.Queue"</line>
+				<line>    ),</line>
+				<line>    <javadoc>@ActivationConfigProperty</javadoc>(</line>
+				<line>    <javadoc>propertyName</javadoc> = "destination", </line>
+				<line>    <javadoc>propertyValue</javadoc> = "<em>/queue/JarfillerQueue</em>"<cmt>destination's JNDI name</cmt></line>
+				<line>  ) })</line>
+				<line>public class MyMDB implements <javadoc><em>MessageListener</em></javadoc> {</line>
+				<emptyLine/>
+				<line>  public void <javadoc>onMessage</javadoc>(<javadoc>Message</javadoc> message) {<cmt>process message here</cmt></line>
+				<line>    <javadoc>TextMessage</javadoc> textMsg = (<javadoc>TextMessage</javadoc>) message;</line>
+				<line>    try {</line>
+				<line>      System.out.println("Got message: " + textMsg.getText());</line>
+				<line>    }</line>
+				<line>    catch (<javadoc>JMSException</javadoc> e) {</line>
+				<line>      System.out.println("Error retrieving message content");</line>
+				<line>    }</line>
+				<line>  }</line>
+				<line>}</line>
+			</code>
+		</subSection>
+		
+		<collapsedSubSection anchor="jbosssetup">
+			<head>JBoss 5.x Setup</head>
+			<summary>How to set up JBoss 5.x</summary>
+			<content>
+				<explanation>Before you can deploy the message-driven bean and the sender bean from the previous
+				examples in a <link to="http://www.jboss.org/jbossas/">JBoss Application Server</link>, you need to 
+				<em>configure JBoss Messaging</em>. In the default profile, the <javadoc>ConnectionFactory</javadoc> is already
+				set up and available under the JNDI name "/ConnectionFactory". You can find this setting in the file
+				"server/<abstract>&lt;profile-name></abstract>/deploy/messaging/connection-factories-service.xml".<br/>
+				You only need to declare your queue (or, generally speaking, your destinations). The usual place to
+				do this is the file "server/<abstract>&lt;profile-name></abstract>/deploy/messaging/jbossmq-destination-service.xml".
+				If the file does not exist, just create it. If it does exist, just <em>add the following <idf>&lt;mbean></idf> element 
+				to <idf>jbossmq-destination-service.xml</idf></em>.<br/>
+				In order to create a single queue with the JNDI	name "/queue/JarfillerQueue", the file should look like this:</explanation>
+				<code>
+					<line>&lt;server></line>
+					<line>  &lt;mbean code="org.jboss.mq.server.jmx.Queue"</line>
+					<line>         name="jboss.mq.destination:service=Queue,<em>name=JarfillerQueue</em>"></line>
+					<line>    &lt;depends optional-attribute-name="DestinationManager"></line>
+					<line>       jboss.mq:service=DestinationManager</line>
+					<line>    &lt;/depends></line>
+					<line>  &lt;/mbean></line>
+					<line>&lt;/server></line>
+				</code>
+				<explanation>
+					The prefix "/queue/" of the JNDI name comes from the file "messaging-service.xml".
+				</explanation>
+			</content>
+		</collapsedSubSection>
+		
+	</singleColumnSection>
+
+	<singleColumnSection anchor="topics">
+		<head>Using Topics</head>
+		<subSection anchor="sendingtopics">
+			<head>Sending Topic Messages</head>
+			<explanation><em>Sending messages to a <javadoc>Topic</javadoc> is identical to sending them to a <javadoc>Queue</javadoc></em>. Just obtain a 
+			<javadoc>Topic</javadoc> instead of the <javadoc>Queue</javadoc>. If you are writing a stand-alone
+			client, use <javadoc>createTopic</javadoc> instead of <javadoc>createQueue</javadoc> to get the <javadoc>Topic</javadoc> instance.</explanation>
+		</subSection>
+		<subSection anchor="receivingtopics">
+			<head>Receiving Topic Messages</head>
+			<more>In order to receive messages from a <idf>Topic</idf>, you need to be to be subscribed to the <idf>Topic</idf>.
+			This is simpler than it sounds - for a nondurable subscription you only create a <idf>MessageConsumer</idf> as
+			you would for a queue. Note that with a nondurable subscription you only receive those messages sent ("published" in 
+			JMS speak) while you are subscribed	to the <idf>Topic</idf>.</more>
+			<code>
+				<line><javadoc>Connection</javadoc> con = <abstract>...</abstract>;</line>
+				<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+				<line><javadoc>Topic</javadoc> topic = <abstract>...</abstract>;</line>
+				<emptyLine/>
+				<line><javadoc>MessageConsumer</javadoc> consumer = session.<javadoc><em>createConsumer</em></javadoc>(topic);<cmt><em>subscribe</em> <more>Listening to a <idf>Topic</idf>
+				is called 'subscribing' to it. Since JMS 1.1 topics and queues use the same methods, and thus this terminology
+				does not appear in the API anymore.</more></cmt></line>
+				<line>con.<em><javadoc>start</javadoc></em>();<cmt>start the connection</cmt></line>
+			</code>
+			<explanation>
+				Now you have a <annotated><title>non-durable subscription</title><explanation><idf>Non-durable subscription</idf> means that you only receive messages
+				sent while you are connected, but not those published while you were offline. If you want them as well you
+				need a <idf>durable</idf> subscription, shown later.</explanation></annotated>. You can either poll for or listen 
+				to messages, as you would on a queue.<br/>
+				In order to end the non-durable subscription, close either the <javadoc>MessageConsumer</javadoc> or the whole
+				<javadoc>Connection</javadoc>:
+			</explanation>
+			<code>				
+				<line>consumer.<javadoc to="javax/jms/MessageConsumer.html#close()">close</javadoc>();<cmt><em>unsubscribe</em> (nondurable only)</cmt></line>
+			</code>
+		</subSection>
+
+		<subSection anchor="durablesubscription">
+			<head>Durable Subscription</head>
+			<more>In order to receive a <idf>Topic</idf>s messages even if temporarily disconnected, you must 
+			create a durable subscription. This is easy to do: instead of <idf>createConsumer</idf> call
+			<idf>createDurableSubscriber</idf>. It takes a string as additional argument, which must be a unique
+			name for your subscription. In addition to that, you must also 
+			identify your client by setting your client ID.<br/>
+			Now every time you connect with the same combination of strings, you will be connected to the same 
+			subscription. Any messages that have been sent to the topic while disconnected will be received when connecting
+			again. To end the subscription <idf>Session</idf> provides an <idf>unsubscribe</idf> method.</more>
+			<code>
+				<line><javadoc>Connection</javadoc> con = <abstract>...</abstract>;</line>
+				<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+				<line><javadoc>Topic</javadoc> topic = <abstract>...</abstract>;</line>
+				<line>con.<javadoc><em>setClientID</em></javadoc>("JmsTest");<cmt>required! <more>In order to use durable subscriptions,
+				the client must identify itself in the <idf>Connection</idf>. In this case the client ID has been set explicitly.<br/>
+				Alternatively, if you get the <idf>ConnectionFactory</idf> via JNDI, your JMS provider may also allow you
+				to to pre-configure a client ID in the <idf>ConnectionFactory</idf>. This is often a better solution.</more></cmt></line>
+				<emptyLine/>
+				<line><javadoc>MessageConsumer</javadoc> consumer = session.<javadoc><em>createDurableSubscriber</em></javadoc>(queue, "<em>s1</em>");<cmt>subscribe <more>In order to
+				create a durable subscription you must also specify a name for your subscription (here "s1"). This allows you to re-connect to the
+				same subscription by specifying the same name again.</more></cmt></line>
+				<line>con.<javadoc>start</javadoc>();</line>
+			</code>
+			<explanation>
+				Now you have a <annotated><title>durable subscription</title><explanation>With a <idf>durable</idf> subscription 
+				your client	can receive	messages published while the client was offline. It will get them the next time it connects
+				with the same client ID and subscription name.</explanation></annotated>. If you used the <em>same client 
+				ID and subscription name</em> again, you connect to an existing subscription.
+				Otherwise you create a new one.<br/>
+				The subscription exists until you explicitly unsubscribe by calling the <javadoc>unsubscribe</javadoc> method. 
+				Closing the <javadoc>MessageConsumer</javadoc> does not end the durable subscription.
+			</explanation>
+		</subSection>
+
+		<subSection anchor="endingsubscription">
+			<head>Cancelling a subscription</head>
+			<explanation>A durable subscription must be explicitly unsubscribed (non-durable subscriptions
+			end automatically after closing).</explanation>
+			<code>
+				<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+				<line>session.<javadoc><em>unsubscribe</em></javadoc>("s1");<cmt>no open <javadoc>MessageConsumer</javadoc> allowed here <more>Unsubscribes from the durable subscription
+				with the given name. <warn>You must close your <idf>MessageConsumer</idf> before you do this.</warn></more></cmt></line>
+			</code>
+		</subSection>
+	</singleColumnSection>
+
+	<singleColumnSection anchor="messagetypes">
+		<head>Message Types</head>
+		<subSection anchor="textmessages">
+			<head>TextMessage</head>
+			<explanation>The <javadoc>TextMessage</javadoc> contains <em>a string</em>. If you want to communicate with non-JMS systems, text messages are often the 
+			right choice (with XML in a <javadoc>BytesMessage</javadoc> being the main alternative), as they are supported almost everywhere and 
+			are not JMS- or Java-specific.</explanation>
+			<code>
+				<line><plainCmt>Create message</plainCmt></line>
+				<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+				<line><javadoc>TextMessage</javadoc> msg = session.<javadoc><em>createTextMessage</em></javadoc>("some text here");</line>
+				<emptyLine/>
+				<line><plainCmt>Read message</plainCmt></line>
+				<line>String text = msg.<javadoc>getText</javadoc>();</line>
+			</code>
+		</subSection>
+		<subSection anchor="mapmessages">
+			<head>MapMessage</head>
+			<explanation>The <javadoc>MapMessage</javadoc> allows you to store <em>name/value pairs</em>. The names are always
+			strings, and the values can be either Java primitives, strings or byte arrays. The pairs do not have an order.</explanation>
+			<code>
+				<line><plainCmt>Create message</plainCmt></line>
+				<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+				<line><javadoc>MapMessage</javadoc> msg = session.<javadoc><em>createMapMessage</em></javadoc>();</line>
+				<line>msg.<javadoc>setString</javadoc>("title", "Thriller");</line>
+				<line>msg.<javadoc>setInt</javadoc>("releaseYear", 1982);</line>
+				<line>msg.<javadoc>setDouble</javadoc>("millionsSold", 110.3);</line>
+				<emptyLine/>
+				<line><plainCmt>Read message</plainCmt></line>
+				<line>int releaseYear = msg.<javadoc>getInt</javadoc>("releaseYear");<cmt>can be read in any order</cmt></line>
+				<line>String title = msg.<javadoc>getString</javadoc>("title");</line>
+				<line>double millionsSold = msg.<javadoc>getDouble</javadoc>("millionsSold");</line>
+			</code>
+		</subSection>
+		<subSection anchor="streammessages">
+			<head>StreamMessage</head>
+			<explanation>The <javadoc>StreamMessage</javadoc> allows you to store a <em>stream of Java number and string values</em>. When received,
+			the values must be read in exactly the same order as they have been written.
+			</explanation>
+			<code>
+				<line><plainCmt>Create message</plainCmt></line>
+				<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+				<line><javadoc>StreamMessage</javadoc> msg = session.<javadoc><em>createStreamMessage</em></javadoc>();</line>
+				<line>msg.<javadoc>writeString</javadoc>("Thriller");</line>
+				<line>msg.<javadoc>writeInt</javadoc>(1982);</line>
+				<line>msg.<javadoc>writeDouble</javadoc>(110.3);</line>
+				<emptyLine/>
+				<line><plainCmt>Read message</plainCmt></line>
+				<line>String title = msg.<javadoc>readString</javadoc>();<cmt>must be read <em>in the same order as written</em></cmt></line>
+				<line>int releaseYear = msg.<javadoc>readInt</javadoc>();</line>
+				<line>double millionsSold = msg.<javadoc>readDouble</javadoc>();</line>
+			</code>
+		</subSection>
+		<subSection anchor="objectmessages">
+			<head>ObjectMessage</head>
+			<explanation>The <javadoc>ObjectMessage</javadoc> allows you to store any <em><annotated><title>serializable Java object</title><explanation>'serializable' means
+			that it implements Java's <idf>Serializable</idf> interface and follows the usual rules for serialization.</explanation></annotated></em>. 
+			</explanation>
+			<code>
+				<line><plainCmt>Create message</plainCmt></line>
+				<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+				<line><javadoc>Date</javadoc> obj = new <javadoc>Date</javadoc>();<cmt>the object to send</cmt></line>
+				<line><javadoc>ObjectMessage</javadoc> msg = session.<javadoc><em>createObjectMessage</em></javadoc>(obj);</line>
+				<emptyLine/>
+				<line><plainCmt>Read message</plainCmt></line>
+				<line><javadoc>Date</javadoc> d = (<javadoc>Date</javadoc>) msg.<javadoc>getObject</javadoc>();</line>
+			</code>
+		</subSection>
+		<subSection anchor="bytesmessages">
+			<head>BytesMessage</head>
+			<explanation>The <javadoc>BytesMessage</javadoc> is the raw equivalent of the <javadoc>StreamMessage</javadoc>. It 
+			allows you to write the bytes directly in a server-specific format. Its mostly useful for <em>transmitting byte arrays</em>.
+			</explanation>
+			<code>
+				<line><plainCmt>Create message</plainCmt></line>
+				<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+				<line>byte[] blob = <abstract>...</abstract>;<cmt>any binary data</cmt></line>
+				<line><javadoc>BytesMessage</javadoc> msg = session.<javadoc><em>createBytesMessage</em></javadoc>();</line>
+				<line>msg.<javadoc>writeBytes</javadoc>(blob);</line>
+				<emptyLine/>
+				<line><plainCmt>Read message</plainCmt></line>
+				<line>byte[] newBlob = new byte[(int) msg.<javadoc>getBodyLength</javadoc>()];</line>  
+				<line>msg.<javadoc>readBytes</javadoc>();</line>
+			</code>
+		</subSection>
+		<subSection anchor="emptymessages">
+			<head>Empty Messages</head>
+			<explanation>It is also possible to create untyped messages without content (they may still contain
+			header data and properties). This may be useful, for example, if the message should only trigger an
+			action and does not need any additional data.
+			</explanation>
+			<code>
+				<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+				<line><javadoc>Message</javadoc> msg = session.<javadoc><em>createMessage</em></javadoc>();</line>
+			</code>
+		</subSection>
+	</singleColumnSection>
+
+
+
+
+	<singleColumnSection anchor="howto" multipage="true">
+		<head>How to...</head>
+		<collapsedSubSection anchor="messageheaders">
+			<head>Message Headers</head>
+			<summary>How to use Message Headers</summary>
+			<content>
+				<explanation>Beside their payload, JMS <javadoc>Message</javadoc>s also have a number of <em>header fields</em> for
+				the message receiver. Some of them have be set by the message sender, while others are
+				set by the JMS provider (they will be ignored if the sender sets those).</explanation>
+				<table>
+					<head>
+						<cell>Field Name</cell>
+						<cell>Set by..</cell>
+						<cell>Always set?</cell>
+						<cell>Description</cell>
+					</head>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSDestination()">JMSDestination</javadoc></cell>
+						<cell>JMS</cell>
+						<cell>yes</cell>
+						<cell>Name of the <javadoc>Destination</javadoc> the message was sent to</cell>
+					</row>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSDeliveryMode()">JMSDeliveryMode</javadoc></cell>
+						<cell>JMS</cell>
+						<cell>yes</cell>
+						<cell>Defines <javadoc>DeliveryMode</javadoc> <more>The delivery mode can be either <idf>PERSISTENT</idf> or
+						<idf>NON_PERSISTENT</idf>. In the latter case, the JMS provider may not store the message and it may be lost
+						e.g. if the provider crashed or is restarted. The delivery mode can be configured as parameter to
+						<idf>MessageProducer</idf>'s <idf>send</idf> method. Some JMS implementations also allow setting a defaults.</more></cell>
+					</row>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSMessageID()">JMSMessageID</javadoc></cell>
+						<cell>JMS</cell>
+						<cell>yes</cell>
+						<cell>Unique message id <more>The message ID is a provider-generated string that allows you to identify
+						the message. It will always start with "ID:".</more></cell>
+					</row>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSTimestamp()">JMSTimestamp</javadoc></cell>
+						<cell>JMS</cell>
+						<cell>yes</cell>
+						<cell>Time when message was sent by client</cell>
+					</row>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSCorrelationID()">JMSCorrelationID</javadoc></cell>
+						<cell>Sender</cell>
+						<cell>no</cell>
+						<cell>Link from response message to request <more>The JMSCorrelationID is a string set by the message sender
+						which is typically used for responses to a request message. It should allow you to identify the request message
+						that caused the response. By convention, it should contain the JMSMessageID of the request.
+						However, the sender is allowed to put any other string here. <br/>Please note that the <idf>Message</idf> interface
+						also provides a method <idf>setJMSCorrelationIDAsBytes</idf> which allows you to set a byte array
+						instead of a string. </more></cell>
+					</row>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSReplyTo()">JMSReplyTo</javadoc></cell>
+						<cell>Sender</cell>
+						<cell>no</cell>
+						<cell><javadoc>Destination</javadoc> to reply to <more>The sender of a request message can use this
+						header field to specify which <idf>Destination</idf> the recipient should sent its reply to. JMS only
+						transmits this field, but does not do anything with it (thus the recipient is free to ignore it).</more></cell>
+					</row>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSRedelivered()">JMSRedelivered</javadoc></cell>
+						<cell>JMS</cell>
+						<cell>yes</cell>
+						<cell>Signals that this message was already sent before <more>If this header is set to <idf>true</idf>, 
+						JMS re-sends a message that may have been sent before, but for some reason the delivery has to be
+						repeated. A likely reason for this is that the client did not acknowledge the message.</more></cell>
+					</row>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSType()">JMSType</javadoc></cell>
+						<cell>Sender</cell>
+						<cell>no</cell>
+						<cell>Describes the type of message <more>This field allows the sender to specify a 
+						definition of the message format for the receiver and the JMS provider. For regular providers this is never 
+						needed, but some JMS implementations may use of this feature.</more></cell>
+					</row>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSExpiration()">JMSExpiration</javadoc></cell>
+						<cell>JMS</cell>
+						<cell>no</cell>
+						<cell>Time at which message expires <more>If not 0, specifies the time at which the message expires. 
+						The expiration date can be indirectly set by specifying a time-to-live value in 
+						<idf>MessageProducer</idf>'s <idf>send</idf> method. Note that you actually may receive expired messages,
+						JMS does not guarantee that they won't be delivered.</more></cell>
+					</row>
+					<row>
+						<cell><javadoc to="javax/jms/Message.html#getJMSPriority()">JMSPriority</javadoc></cell>
+						<cell>JMS</cell>
+						<cell>no</cell>
+						<cell>Priority 0 (lowest) - 9 (highest) <more>When messages have different priorities, the JMS provider
+						should try to deliver messages with higher priority first. However, the JMS standard does not require
+						that all implementations actually do this.</more></cell>
+					</row>
+				</table>
+				
+				<explanation>There are simple getters and setters for all header fields:
+				</explanation>
+				<code>
+					<line><javadoc>Message</javadoc> msg = <abstract>...</abstract></line>
+					<emptyLine/>
+					<line><plainCmt>Setting a header:</plainCmt></line>
+					<line>msg.<javadoc><em>setJMSPriority</em></javadoc>(9);</line>
+					<emptyLine/>
+					<line><plainCmt>Reading a header:</plainCmt></line>
+					<line>String msgId = msg.<javadoc><em>getJMSMessageID</em></javadoc>();</line>
+				</code>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="messageproperties">
+			<head>Message Properties</head>
+			<summary>How to read and set Message Properties</summary>
+			<content>
+				<explanation>Message properties allow the sender to <em>add name/value pairs</em> to any <javadoc>Message</javadoc> (except
+				<javadoc>BytesMessage</javadoc>). They work like a <idf>Map</idf>. The names are always strings, the values can be 
+				either strings or number primitives.<br/>
+				Message properties are mostly useful for message selectors. Otherwise, if you want to send a message with name/value
+				pairs, use a <javadoc>MapMessage</javadoc>.</explanation>
+				<code>
+					<line><javadoc>Message</javadoc> msg = <abstract>...</abstract></line>
+					<emptyLine/>
+					<line><plainCmt>Setting message properties</plainCmt></line>
+					<line>msg.<javadoc>setStringProperty</javadoc>("title", "Thriller");</line>
+					<line>msg.<javadoc>setIntProperty</javadoc>("releaseYear", 1982);</line>
+					<emptyLine/>
+					<line><plainCmt>Reading message properties</plainCmt></line>
+					<line>String title = msg.<javadoc>getStringProperty</javadoc>("title");</line>
+					<line>int releaseYear = msg.<javadoc>getIntProperty</javadoc>("releaseYear");</line>
+					<line>String yearAsString = msg.<javadoc><em>getStringProperty</em></javadoc>("releaseYear");<cmt>auto-conversion <more>You can 
+					use <idf>getStringProperty</idf> to read any property, even numbers. Non-string properties will be automatically
+					converted. Similarly, numbers will be automatically upconverted if the target number type
+					is larger than the property's. For example, you can read a <idf>byte</idf> as <idf>int</idf>,
+					but not an <idf>int</idf> as <idf>byte</idf>.</more></cmt></line>
+					<emptyLine/>
+					<line><plainCmt>List all properties</plainCmt></line>
+					<line><javadoc>Enumeration</javadoc>&lt;String> e = (<javadoc>Enumeration</javadoc>&lt;String>) msg.<javadoc>getPropertyNames</javadoc>();</line>
+					<line>while (e.<javadoc>hasMoreElements</javadoc>()) {</line>
+					<line>  String name = e.<javadoc>nextElement</javadoc>();</line>
+					<line>  System.out.println(name + "=" + msg.<javadoc>getStringProperty</javadoc>(name));</line>
+					<line>}</line>
+				</code>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="selectors">
+			<head>Message Selectors</head>
+			<summary>How to use Message Selectors to filter messages</summary>
+			<content>
+				<explanation><idf>Message Selectors</idf> allow you to <em>filter the messages that a <javadoc>MessageConsumer</javadoc>
+				will receive</em>. The filter is a relatively complex language that mimics the <em>syntax of an SQL WHERE clause</em>.
+				The selector can use all message headers and properties for filtering, but can not use the message content.<br/>
+				Selectors are mostly useful for <javadoc>Topic</javadoc>s that broadcast a very large number of messages to its
+				subscribers.</explanation>
+				
+				<explanation>They way selectors work depends on the destination type:</explanation>
+				<list><li>On <javadoc>Queue</javadoc>s, only messages that match the selector will be returned. Others stay 
+				in the queue (and thus can be read by a <javadoc>MessageConsumer</javadoc> with different selector).</li>
+				<li>On <javadoc>Topic</javadoc>s, messages that do not match the selector will be ignored as if they have not
+				been published.</li></list>
+				
+				
+				<explanation>
+				In order to create a selection, you need to pass it to the 
+				<javadoc to="javax/jms/Session.html#createConsumer(javax.jms.Destination, java.lang.String)">createConsumer</javadoc> 
+				or <javadoc to="javax/jms/Session.html#createDurableSubscriber(javax.jms.Topic, java.lang.String, java.lang.String, boolean)">createDurableSubscriber</javadoc> invocation:
+				</explanation>
+				<code>
+					<line><javadoc>Session</javadoc> session = <abstract>...</abstract></line>
+					<line><javadoc>MessageConsumer</javadoc> consumer = session.<javadoc to="javax/jms/Session.html#createConsumer(javax.jms.Destination, java.lang.String)">createConsumer</javadoc>(queue, "<em>releaseYear &lt; 1980</em>");</line>
+				</code>
+				
+				<explanation>The following SQL elements are allowed in the filter:</explanation>
+				<table>
+					<head>
+						<cell>Element</cell>
+						<cell>Description</cell>
+						<cell>Example Selector</cell>
+					</head>
+					<row>
+						<cell>Header Fields</cell>
+						<cell>Any headers except <idf>JMSDestination</idf>, <idf>JMSExpiration</idf> and <idf>JMSReplyTo</idf></cell>
+						<cell><em>JMSPriority</em> = 9</cell>
+					</row>
+					<row>
+						<cell>Properties</cell>
+						<cell>Message properties that follow Java identifier naming</cell>
+						<cell><em>releaseYear</em> = 1982</cell>
+					</row>
+					<row>
+						<cell>String Literals</cell>
+						<cell>String literals in single quotes, duplicate to escape </cell>
+						<cell>title = <em>'Sam''s'</em></cell>
+					</row>
+					<row>
+						<cell>Number Literals</cell>
+						<cell>Numbers in Java syntax (int and double)</cell>
+						<cell>releaseYear = <em>1982</em></cell>
+					</row>
+					<row>
+						<cell>Boolean Literals</cell>
+						<cell><idf>TRUE</idf> and <idf>FALSE</idf></cell>
+						<cell>isAvailable = <em>TRUE</em></cell>
+					</row>
+					<row>
+						<cell>( )</cell>
+						<cell>Brackets</cell>
+						<cell><em>(</em>releaseYear &lt; 1980<em>)</em> OR <em>(</em>releaseYear > 1989<em>)</em></cell>
+					</row>
+					<row>
+						<cell><idf>AND</idf>, <idf>OR</idf>, <idf>NOT</idf></cell>
+						<cell>Logical operators</cell>
+						<cell>(releaseYear &lt; 1980) <em>AND NOT</em> (title = 'Thriller')</cell>
+					</row>
+					<row>
+						<cell>=, &lt;>, &lt;, &lt;=, >, >=</cell>
+						<cell>Comparison operators</cell>
+						<cell>(releaseYear <em>&lt;</em> 1980) AND (title <em>&lt;></em> 'Thriller')</cell>
+					</row>
+					<row>
+						<cell><idf>LIKE</idf></cell>
+						<cell>String comparison with wildcards '_' and '%' <more>'_' stands for a single character.
+						'%' stands for any sequence of characters, including an empty sequence. Both wildcards can be anywhere
+						in the string.</more></cell>
+						<cell>title <em>LIKE</em> 'Thrill<em>%</em>'</cell>
+					</row>
+					<row>
+						<cell><idf>IN</idf></cell>
+						<cell>Find value in set of strings <more>The <idf>IN</idf> operator allows you to specify
+						a set of strings. It returns true only if the first operand is in the set.<br/>
+						<warn>Note!</warn> The <idf>IN</idf> operator works only on sets of strings, not on numbers.</more></cell>
+						<cell>title <em>IN</em> ('Off the wall', 'Thriller', 'Bad')</cell>
+					</row>
+					<row>
+						<cell><idf>BETWEEN</idf></cell>
+						<cell>Check whether number is in range (both numbers inclusive) <more>The <idf>BETWEEN</idf> operator allows 
+						you to check whether the first operand is between two numbers. "a BETWEEN n AND m" is equivalent to
+						"a >= n AND a &lt;= m".
+						<warn>Note!</warn> The <idf>BETWEEN</idf> operator works on numbers, not strings.</more></cell>
+						<cell>releaseYear <em>BETWEEN</em> 1980 <em>AND</em> 1989</cell>
+					</row>
+					<row>
+						<cell><idf>IS NULL</idf>, <idf>IS NOT NULL</idf></cell>
+						<cell>Check whether value is null or not null.</cell>
+						<cell>releaseYear <em>IS NOT NULL</em></cell>
+					</row>
+					<row>
+						<cell>*, +, -, /</cell>
+						<cell>Arithmetic operators</cell>
+						<cell>releaseYear <em>*</em> 2 > 2000 <em>-</em> 20</cell>
+					</row>
+				</table>
+				
+				<explanation>
+				Some more examples of message consumers with selectors:
+				</explanation>
+				<code>
+					<line><javadoc>Session</javadoc> session = <abstract>...</abstract></line>
+					<line><javadoc>MessageConsumer</javadoc> consumer1 = session.<javadoc to="javax/jms/Session.html#createConsumer(javax.jms.Destination, java.lang.String)">createConsumer</javadoc>(queue, </line>
+					<line>                       "(releaseYear &lt; 1980) OR (releaseYear > 1989)");</line>
+					<emptyLine/>
+					<line><javadoc>MessageConsumer</javadoc> consumer2 = session.<javadoc to="javax/jms/Session.html#createConsumer(javax.jms.Destination, java.lang.String)">createConsumer</javadoc>(queue, </line>
+					<line>                       "(releaseYear BETWEEN 1980 AND 1989) AND title LIKE 'Michael%'");</line>
+					<emptyLine/>
+					<line><javadoc>MessageConsumer</javadoc> consumer3 = session.<javadoc to="javax/jms/Session.html#createConsumer(javax.jms.Destination, java.lang.String)">createConsumer</javadoc>(queue, </line>
+					<line>                       "(releaseYear = 1982) OR (title = 'Thriller')");</line>
+					<emptyLine/>
+					<line><javadoc>MessageConsumer</javadoc> consumer4 = session.<javadoc to="api/javax/jms/Session.html#createDurableSubscriber(javax.jms.Topic, java.lang.String, java.lang.String, boolean)">createDurableConsumer</javadoc>(queue, </line>
+					<line>                       "title IN ('Off the wall', 'Thriller', 'Bad')");</line>
+				</code>
+				
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="xml">
+			<head>XML in JMS</head>
+			<summary>How to send and receive XML messages with DOM or JAXB</summary>
+			<content>
+				<explanation>It is very common to send XML in JMS messages. Unfortunately, JMS does not support this 
+				directly. The best way to do create XML messages is to <em>write the XML document into
+				a <javadoc>BytesMessage</javadoc></em> or <javadoc>StreamMessage</javadoc>. Another common practice is to 
+				put the XML into a <javadoc>TextMessage</javadoc>, but this can be tricky to get right <more>Reading an
+				XML document into a string is easy if you know which character set it is using. But if you don't,
+				you would need to parse the XML prolog to find out.<br/>
+				Also, most XML APIs don't support serializing into a String.</more>.
+				</explanation>
+				<miniHeadline>Sending and Receiving XML with DOM</miniHeadline>
+				<code>
+					<line>Session session = <abstract>...</abstract>;</line>
+					<emptyLine/>
+					<line><plainCmt>Write DOM document into message</plainCmt></line>
+					<line><em><javadoc>Document</javadoc> doc</em> = <abstract>...</abstract>;<cmt>input document</cmt></line>
+					<line><javadoc>ByteArrayOutputStream</javadoc> baos = new <javadoc>ByteArrayOutputStream</javadoc>();</line>
+					<line><javadoc to="javax/xml/transform/Transformer.html">Transformer</javadoc> transformer = <javadoc to="javax/xml/transform/TransformerFactory.html">TransformerFactory</javadoc>.<javadoc to="javax/xml/transform/TransformerFactory.html#newInstance()">newInstance</javadoc>().<javadoc to="javax/xml/transform/TransformerFactory.html#newTransformer()">newTransformer</javadoc>();</line>
+					<line>transformer.<javadoc to="javax/xml/transform/Transformer.html#transform(javax.xml.transform.Source, javax.xml.transform.Result)">transform</javadoc>(new <javadoc to="javax/xml/transform/dom/DOMSource.html">DOMSource</javadoc>(doc), new <javadoc to="javax/xml/transform/stream/StreamResult.html">StreamResult</javadoc>(baos));</line> 
+					<emptyLine/>
+					<line><javadoc>BytesMessage</javadoc> msg = session.<javadoc>createBytesMessage</javadoc>();</line>
+					<line>msg.<javadoc>writeBytes</javadoc>(baos.toByteArray());</line>
+					<emptyLine/>
+					<line><plainCmt>Read DOM document from message</plainCmt></line>
+					<line>byte[] content = new byte[(int) msg.<javadoc>getBodyLength</javadoc>()];</line>
+					<line>msg.<javadoc>readBytes</javadoc>(content);</line>
+					<emptyLine/>
+			    	<line><javadoc>DocumentBuilder</javadoc> builder =  <javadoc>DocumentBuilderFactory</javadoc>.<javadoc to="javax/xml/parsers/DocumentBuilderFactory.html#newInstance()">newInstance</javadoc>().<javadoc to="javax/xml/parsers/DocumentBuilderFactory.html#newDocumentBuilder()">newDocumentBuilder</javadoc>();</line>
+			    	<line><em><javadoc>Document</javadoc> msgDoc</em> = builder.<javadoc to="javax/xml/parsers/DocumentBuilder.html#parse(java.io.InputStream)">parse</javadoc>(new <javadoc>ByteArrayInputStream</javadoc>(content));<cmt>result</cmt></line>
+				</code>
+				<miniHeadline>Sending and Receiving XML with JAXB</miniHeadline>
+				<code>
+					<line>Session session = <abstract>...</abstract>;</line>
+					<line>JAXBContext ctx = <abstract>...</abstract>;</line>
+					<emptyLine/>
+					<line><plainCmt>Write JAXB document into message</plainCmt></line>
+					<line><em><javadoc>Object</javadoc> doc</em> = <abstract>...</abstract>;<cmt>input document</cmt></line>
+					<line><javadoc>ByteArrayOutputStream</javadoc> baos = new <javadoc>ByteArrayOutputStream</javadoc>();</line>
+					<line><javadoc>Marshaller</javadoc> marshaller = ctx.<javadoc>createMarshaller</javadoc>();</line>
+					<line>marshaller.<javadoc>marshal</javadoc>(doc, baos);</line>
+					<emptyLine/>
+					<line><javadoc>BytesMessage</javadoc> msg = session.<javadoc>createBytesMessage</javadoc>();</line>
+					<line>msg.<javadoc>writeBytes</javadoc>(baos.toByteArray());</line>
+					<emptyLine/>
+					<line><plainCmt>Read JAXB document from message</plainCmt></line>
+					<line>byte[] content = new byte[(int) msg.<javadoc>getBodyLength</javadoc>()];</line>
+					<line>msg.<javadoc>readBytes</javadoc>(content);</line>
+					<emptyLine/>
+					<line><javadoc>Unmarshaller</javadoc> unmarshaller = ctx.<javadoc>createUnmarshaller</javadoc>();</line>
+					<line><em>Object msgDoc</em> = unmarshaller.<javadoc>unmarshal</javadoc>(new <javadoc>ByteArrayInputStream</javadoc>(content));<cmt>result</cmt></line>
+				</code>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="achknowledgement">
+			<head>Acknowledgement</head>
+			<summary>How to control acknowledgement</summary>
+			<content>
+				<explanation>
+				So far, all examples created the <javadoc>Session</javadoc> in <javadoc>AUTO_ACKNOWLEDGE</javadoc> mode. This means
+				that a message is automatically acknowledged when the client either polls it or the <javadoc>MessageListener</javadoc>
+				is called with the message as argument. The effect of the acknowledgement is that the message is removed
+				from the queue and you won't receive it again. However, this is not always desired. If processing the message fails,
+				for whatever reason, you may want it to stay in the queue and process it later. Then you should switch to <em><javadoc>CLIENT_ACKNOWLEDGE</javadoc>,
+				which requires calling the method <javadoc to="javax/jms/Message.html#acknowledge()">Message.acknowledge</javadoc></em> for 
+				every received message. If you don't call it, you will receive the message again.			 
+				</explanation>
+				<code>
+					<line><javadoc>Connection</javadoc> con = <abstract>...</abstract>;</line>
+					<line><javadoc>Queue</javadoc> queue = <abstract>...</abstract>;</line>
+					<line><javadoc>Session</javadoc> session = con.<javadoc>createSession</javadoc>(false, <javadoc><em>Session.CLIENT_ACKNOWLEDGE</em></javadoc>);</line>
+					<line><javadoc>MessageConsumer</javadoc> consumer = session.<javadoc>createConsumer</javadoc>(queue);</line>
+					<emptyLine/>
+					<line>con.<javadoc>start</javadoc>();</line>
+					<line>while (true) {</line>
+					<line>  <javadoc>Message</javadoc> msg = consumer.<javadoc>receive</javadoc>();</line>
+					<line>  <plainCmt>do something with the message...</plainCmt></line>
+					<line>  msg.<javadoc to="javax/jms/Message.html#acknowledge()"><em>acknowledge</em></javadoc>();</line>
+					<line>}</line>
+				</code>
+				<explanation>Beside <javadoc>AUTO_ACKNOWLEDGE</javadoc> and <javadoc>CLIENT_ACKNOWLEDGE</javadoc> there
+				is also a third mode called <javadoc>DUPS_OK_ACKNOWLEDGE</javadoc>. It works like <javadoc>CLIENT_ACKNOWLEDGE</javadoc>,
+				requiring you to acknowledge explicitly, but in this mode it may sometimes happen that you receive an already acknowledged
+				message again. The advantage of this mode is that it may be faster when you receive a large number of messages.</explanation>
+				
+				<explanation>Note: with <em>message-driven beans</em> you don't need to care about the acknowledgement mode. 
+				They run neither in <javadoc>AUTO_ACKNOWLEDGE</javadoc> nor in
+				<javadoc>CLIENT_ACKNOWLEDGE</javadoc> mode, but inside a <em>transaction</em> (enabled using  
+				<javadoc>createSession</javadoc>'s first argument). The message is acknowledged when the EJB's transaction
+				is committed.</explanation>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="browsing">
+			<head>Browsing Queues</head>
+			<summary>How to browse the messages in a queue</summary>
+			<content>
+				<explanation>Browsing a queue's message is easy. Just <em>create a <javadoc>QueueBrowser</javadoc></em> for it, then
+				call <javadoc>getEnumeration</javadoc> to get the messages.
+				</explanation>
+				
+				<code>
+					<line><javadoc>Connection</javadoc> con = <abstract>...</abstract>;</line>
+					<line><javadoc>Queue</javadoc> queue = <abstract>...</abstract>;</line>
+					<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+					<emptyLine/>
+					<line><javadoc>QueueBrowser</javadoc> browser = session.<javadoc><em>createBrowser</em></javadoc>(queue);</line>
+					<line>con.<javadoc>start</javadoc>();<cmt>don't forget this!</cmt></line>
+					<emptyLine/>
+					<line><javadoc>Enumeration</javadoc>&lt;<javadoc>Message</javadoc>> e = (<javadoc>Enumeration</javadoc>&lt;<javadoc>Message</javadoc>>) browser.<javadoc><em>getEnumeration</em></javadoc>();</line>
+					<line>while (e.<javadoc>hasMoreElements</javadoc>()) {</line>
+					<line>  <javadoc>Message</javadoc> msg = e.<javadoc>nextElement</javadoc>();</line>
+					<line>  System.out.println("Found " + msg.<javadoc>getJMSMessageID</javadoc>());</line>
+					<line>}</line>
+				</code>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="authentication">
+			<head>Authentication</head>
+			<summary>How to authenticate a connection</summary>
+			<content>
+				<explanation>For whatever reason, it seems to be not very common to require authentication for messaging servers,
+				but JMS supports authentication, of course. Just <em>pass username and password to 
+				<javadoc to="javax/jms/ConnectionFactory.html#createConnection(java.lang.String, java.lang.String)">createConnection</javadoc></em>:
+				</explanation>
+				 <code>
+				 	<line><plainCmt>Example with ActiveMQ ConnectionFactory</plainCmt></line>
+					<line><javadoc>ConnectionFactory</javadoc> factory = new ActiveMQConnectionFactory("tcp://localhost:61616");</line>
+					<line><javadoc>Connection</javadoc> con = factory.<javadoc to="javax/jms/ConnectionFactory.html#createConnection(java.lang.String, java.lang.String)">createConnection</javadoc>("<em>username</em>", "<em>password</em>");</line>
+				</code>
+				<explanation>When you use JMS in an application server, you will usually configure the authentication in the server.</explanation>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="temporaryqueues">
+			<head>Temporary Queues</head>
+			<summary>How to Create Temporary Queues or Topics</summary>
+			<content>
+				<explanation>It is possible to create a temporary queue or topic that will exist <em>as long as
+				the current connection is open or until you call <javadoc to="javax/jms/TemporaryQueue.html#delete()">delete</javadoc></em>. Only the connection that created the queue or topic can receive
+				messages from it, but other connections may send messages. A common use of temporary queues is to use them for 
+				receiving responses to a request message. For this you pass the temporary queue in the 
+				<javadoc to="javax/jms/Message.html#getJMSReplyTo()">JMSReplyTo</javadoc> header field.</explanation>
+				<code>
+					<line><javadoc>Queue</javadoc> queue = <abstract>...</abstract>;</line>
+					<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>
+					<emptyLine/>
+					<line><plainCmt>Create temporary queue for response</plainCmt></line>
+					<line><javadoc>Queue</javadoc> tmpQueue = session.<javadoc><em>createTemporaryQueue</em></javadoc>();</line>
+					<line><javadoc>MessageProducer</javadoc> producer = session.<javadoc>createProducer</javadoc>(queue);</line>
+					<emptyLine/>
+					<line><javadoc>Message</javadoc> msg = session.<javadoc>createTextMessage</javadoc>("how are you?");</line>
+					<line>msg.<javadoc><em>setJMSReplyTo</em></javadoc>(tmpQueue);<cmt>use temporary queue as response channel</cmt></line>
+					<emptyLine/>
+					<line>producer.<javadoc>send</javadoc>(msg);</line>
+				</code>
+				<explanation>The message's receiver must take the destination from the 
+				<javadoc to="javax/jms/Message.html#getJMSReplyTo()">JMSReplyTo</javadoc> property and send the reply to this
+				channel. Meanwhile sender of the original message needs to listen to the temporary queue, waiting for the response.
+				When the temporary queue is not needed anymore, it should be deleted using <javadoc to="javax/jms/TemporaryQueue.html#delete()">delete</javadoc>, 
+				unless the connection is closed anyway.</explanation>
+				<explanation><em>Note</em>: temporary queues can <em>not be used with message-driven beans</em>, as they don't support configuring the
+				queue after deployment.</explanation>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="requestresponse">
+			<head>Request / Response</head>
+			<summary>How to send a response to a message (Request/Reply)</summary>
+			<content>
+				<explanation>In messaging systems it is not that common that the receiver of a message sends
+				a response, but it is possible and JMS supports this with the 
+				<em><javadoc to="javax/jms/Message.html#getJMSReplyTo()">JMSReplyTo</javadoc> and
+				<javadoc to="javax/jms/Message.html#getJMSCorrelationID()">JMSCorrelationID</javadoc> header fields</em>.
+				Often temporary queues are used to send the reply, but you can also use a regular queue.
+				</explanation>
+				<explanation>The following snippet sends a message, creates a temporary queue
+				for the response and then waits for it:</explanation>
+				<code>
+					<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>					
+					<line><javadoc>Queue</javadoc> queue = <abstract>...</abstract>;</line>
+					<emptyLine/>
+					<line><javadoc>MessageProducer</javadoc> producer = session.<javadoc>createProducer</javadoc>(queue);</line>
+					<line><javadoc>Queue</javadoc> tmpQueue = session.<javadoc><em>createTemporaryQueue</em></javadoc>();</line>
+					<line><javadoc>MessageConsumer</javadoc> consumer = session.<javadoc>createConsumer</javadoc>(<em>tmpQueue</em>);</line>
+					<emptyLine/>
+					<line><plainCmt>Send request</plainCmt></line>
+					<line><javadoc>Message</javadoc> request = session.<javadoc>createTextMessage</javadoc>("how are you?");</line>
+					<line>request.<javadoc><em>setJMSReplyTo</em></javadoc>(<em>tmpQueue</em>);</line>
+					<line>producer.<javadoc>send</javadoc>(request);</line>
+					<emptyLine/>
+					<line><plainCmt>Wait for response</plainCmt></line>
+					<line><javadoc>Message</javadoc> reply = consumer.<javadoc>receive</javadoc>();</line>
+					<line><javadoc>TextMessage</javadoc> tm = (<javadoc>TextMessage</javadoc>) reply;</line>
+					<line>System.out.println("Got reply: " + tm.<javadoc>getText</javadoc>());</line>
+				</code>
+				<explanation>This snippet shows how to respond to messages:</explanation>
+				<code>
+					<line><javadoc>Connection</javadoc> con = <abstract>...</abstract>;</line>
+					<line><javadoc>Session</javadoc> session = <abstract>...</abstract>;</line>					
+					<line><javadoc>Queue</javadoc> queue = <abstract>...</abstract>;</line>
+					<emptyLine/>
+					<line><javadoc>MessageConsumer</javadoc> consumer = session.<javadoc>createConsumer</javadoc>(queue);</line>
+					<line><javadoc>MessageProducer</javadoc> producer = session.<javadoc>createProducer</javadoc>(<em>null</em>);<cmt>no default queue <more>Actually the <idf>Destination</idf> that
+					you pass to the producer is just a default destination. You can create a <idf>MessageProducer</idf> without default destination,
+					and use the second <idf>send</idf> overload shown below to send to another destination.</more></cmt></line>
+					<line>con.start();</line>
+					<emptyLine/>
+					<line>while (true) {</line>
+					<line>  <javadoc>Message</javadoc> request = consumer.<javadoc>receive</javadoc>();</line> 
+					<line>  <javadoc>TextMessage</javadoc> tm = (<javadoc>TextMessage</javadoc>) request;</line>
+					<line>  System.out.println("Got request: " + tm.<javadoc>getText</javadoc>());</line>
+					<emptyLine/>
+					<line>  <javadoc>TextMessage</javadoc> reply = session.<javadoc>createTextMessage</javadoc>("great");</line>
+					<line>  reply.<javadoc><em>setJMSCorrelationID</em></javadoc>(request.<javadoc>getJMSMessageID</javadoc>());<cmt>link messages <more>The JMSCorrelationID
+					field allows you to specify that your message is related to the message whose ID you specify. It's up to the client
+					to interpret the field though (in the snippet above the client ignores it).</more></cmt></line>
+					<line>  producer.<javadoc to="javax/jms/MessageProducer.html#send(javax.jms.Destination, javax.jms.Message)"><em>send</em></javadoc>(request.<javadoc><em>getJMSReplyTo</em></javadoc>(), reply);<cmt>send reply over temporary queue</cmt></line>
+					<line>}</line>
+				</code>
+			</content>
+		</collapsedSubSection>
+	
+		<collapsedSubSection anchor="deliveryoptions">
+			<head>Delivery Options</head>
+			<summary>How to Control Message Delivery (Delivery Mode, Time-to-live and Priority)</summary>
+			<content>
+				<explanation>JMS provides three ways of influencing the delivery of messages: <em>delivery mode, priority and time-to-live</em>.</explanation>
+				<list><li>
+				The delivery mode can be either <javadoc to="javax/jms/DeliveryMode.html#NON_PERSISTENT">PERSISTENT</javadoc> or
+				<javadoc to="javax/jms/DeliveryMode.html#NON_PERSISTENT">NON_PERSISTENT</javadoc>. A persistent message's delivery
+				is guaranteed. A non-persistent message may not arrive in some cases, for example when the messaging
+				server is being shut down before the delivery. The advantage of non-persistent messages is that they may be faster.</li>
+				<li>Messages with higher priority can arrive earlier than messages with lower priority.</li>
+				<li>Time-to-live timeouts can prevent the delivery of messages that are older than a configurable amount of time. </li>
+				</list>
+				<explanation>Delivery mode, priority and timeout are <em>best-effort services</em>. JMS providers should do their best to implement 
+				them, but it is not required that they always work as you may expect. For example, JMS allows
+				the delivery of an expired message.
+				</explanation><explanation>
+				In order to set a message's delivery options, there are variants of the <javadoc>send</javadoc>
+				method that allow setting them for each message. Alternatively you could also set defaults in 
+				the <javadoc>MessageProducer</javadoc>. If you don't do this either, implementation-specific
+				defaults are taken (which can usually be configured somewhere).
+				</explanation>
+				<code>
+					<line><javadoc>MessageProducer</javadoc> producer = <abstract>...</abstract>;</line>
+					<line><javadoc>Message</javadoc> msg = <abstract>...</abstract>;</line>
+					<emptyLine/>
+					<line>producer.<javadoc to="javax/jms/MessageProducer.html#send(javax.jms.Message, int, int, long)">send</javadoc>(msg, </line>
+					<line>              <javadoc to="javax/jms/DeliveryMode.html#NON_PERSISTENT"><em>DeliveryMode.NON_PERSISTENT</em></javadoc>,<cmt>delivery mode</cmt></line>
+					<line>              <em>4</em>,<cmt>priority (0-9, 9 is highest)</cmt></line>
+					<line>              <em>1000*60</em>);<cmt>time-to-live in milliseconds(here: 60 seconds)</cmt></line>
+				</code>
+				<explanation>
+				The receiver can find out with which options a message has been sent by looking at the 
+				<javadoc to="javax/jms/Message.html#getJMSDeliveryMode()">JMSDeliveryMode</javadoc>, 
+				<javadoc to="javax/jms/Message.html#getJMSExpiration()">JMSExpiration</javadoc> and
+				<javadoc to="javax/jms/Message.html#getJMSPriority()">JMSPriority</javadoc>
+				header fields.
+				</explanation>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="activationproperties">
+			<head>MDB Activation</head>
+			<summary>How to Configure a Message-Driven Bean (Activation Properties, Durable Subscriptions)</summary>
+			<content>
+				<explanation>The message-driven bean (MDB) example above shows only the two required properties,
+				<idf>destination</idf> and <idf>destinationType</idf>. Here is a complete list of all properties that are
+				specified by the <link to="http://java.sun.com/j2ee/connector/">JCA 1.5 specification</link> 
+				(some implementations support additional properties):</explanation>
+				<table>
+					<head><cell>Name</cell><cell>Description</cell><cell>Default</cell></head>
+					<row><cell>destination</cell><cell>Destination to listen to (<em>required</em>)</cell><cell>-</cell></row>
+					<row><cell>destinationType</cell><cell>Destination type, "<em>javax.jms.Queue</em>" or "<em>javax.jms.Topic</em>" (<em>required</em>)</cell><cell>-</cell></row>
+					<row><cell>messageSelector</cell><cell>A message selector</cell><cell>-</cell></row>
+					<row><cell>acknowledgeMode</cell><cell>"<em>Auto-acknowledge</em>" for reliable messaging or "<em>Dups-ok-acknowledge</em>" for faster 
+					messaging with possible duplicates</cell><cell>"Auto-acknowledge"</cell></row>
+					<row><cell>subscriptionDurability</cell><cell>"<em>Durable</em>" for durable subscriptions, or "<em>NonDurable</em>" for non-durable; <em><idf>Durable</idf> requires the <idf>clientId</idf> and <idf>subscriptionName</idf> properties</em></cell><cell>"NonDurable"</cell></row>
+					<row><cell>clientId</cell><cell>The client id for durable subscriptions (required if durable)</cell><cell>-</cell></row>
+					<row><cell>subscriptionName</cell><cell>The name of the durable subscription (required if durable)</cell><cell>-</cell></row>
+				</table>
+				
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="concurrency">
+			<head>Concurrency</head>
+			<summary>How to use JMS in multi-threaded applications</summary>
+			<content>
+				<explanation>The JMS specification states that <em>only <javadoc>ConnectionFactory</javadoc>, <javadoc>Connection</javadoc>
+				and <javadoc>Destination</javadoc>s (<javadoc>Queue</javadoc> and <javadoc>Topic</javadoc>) are thread-safe</em>. 
+				The other classes, especially <javadoc>Session</javadoc> and the objects created by <javadoc>Session</javadoc>, can not
+				be shared by threads without synchronization or other precautions.<br/>
+				Note that the <javadoc to="javax/jms/MessageListener.html#onMessage(javax.jms.Message)">onMessage</javadoc> method
+				of the <javadoc><em>MessageListener</em></javadoc> interface will also run in its own thread. Thus it can use the 
+				<javadoc>Connection</javadoc> it has been created for, but it <em>needs its own <javadoc>Session</javadoc></em>.
+				</explanation>
+			</content>
+		</collapsedSubSection>
+		
+		<collapsedSubSection anchor="classes10">
+			<head>JMS 1.0 Classes</head>
+			<summary>How to Use QueueConnectionFactory, QueueConnection, QueueSession...</summary>
+			<content>
+				<explanation>This tutorial describes the latest version of JMS, version 1.1 from April 2002. Version 1.1
+				simplified the API and offers replacements for most 1.0 classes. Earlier versions of JMS had
+				separate classes for queues and topics. Thus there was no <javadoc>Connection</javadoc>, 
+				but instead only <javadoc>QueueConnection</javadoc> and <javadoc>TopicConnection</javadoc>.
+				Similarly, there was a <javadoc>QueueConnectionFactory</javadoc>, <javadoc>QueueSession</javadoc>, 
+				a <javadoc>QueueReceiver</javadoc>, a <javadoc>QueueSender</javadoc> and equivalents for
+				topics.<br/>
+				<em>In JMS 1.1 they are obsolete</em>, but still supported for backward compatibility. For some reason you 
+				can still see people using them frequently. Probably because it seems to be so tempting to use a 
+				<javadoc>QueueConnectionFactory</javadoc> instead of a <javadoc>ConnectionFactory</javadoc> when you
+				only use queues.</explanation>
+			</content>
+		</collapsedSubSection>
+		
+	</singleColumnSection>
+
+	<singleColumnSection anchor="andnow">
+		<head>And now...?</head>
+		<subSection anchor="nextsteps">
+			<head>Next Steps</head>
+			<explanation>This tutorial intends to give you a quick start on using JMS, and maybe give answers for some questions
+			that are hard to figure out. But now you are on you own. If you need to find out more, try to find
+			it in the <link to="http://java.sun.com/javaee/5/docs/api/javax/jms/package-summary.html">API Documents</link>.
+			For a more thorough understanding of JMS you should take the time to read 
+			the <link to="http://java.sun.com/products/jms/docs.html">JMS Specification</link>.
+			 </explanation>
+		</subSection>
+	</singleColumnSection>
+  </body>
+  
+  <sidebar>
+    	<box>
+  		<title>Useful Links</title>
+  		<content>
+  			<link to="http://java.sun.com/products/jms/">JMS Homepage</link><br/>
+  			<link to="http://en.wikipedia.org/wiki/Java_Message_Service">JMS on Wikipedia</link><br/>
+  			<link to="http://java.sun.com/javaee/5/docs/api/javax/jms/package-summary.html">javax.jms API Docs</link><br/>
+  			<link to="http://java.sun.com/products/jms/docs.html">JMS Specification</link><br/>
+  		</content>
+  	</box>
+  </sidebar>
+  </article>
+</page>
+
+

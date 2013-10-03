@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tjansen.de/refPage ../schemas/page.xsd ">
+  <path>/</path>
+  <root></root>
+  
+  <title>Jarfiller - Tutorials and References for Java Developers</title>
+  <metaDescription>Java tutorials and references. Topics: JAXB, JMS, JAR, JavaFX, web.xml ...</metaDescription>
+  <metaKeywords>java reference, java tutorial, java, reference, tutorial, jee, j2ee, jee5, jee6, javafx, jar, jarfiller</metaKeywords>
+  <styleSheet>style/startpage.css</styleSheet>
+   
+  <html><div id="contentDiv" xmlns="http://www.w3.org/1999/xhtml">
+  	<table id="naviTable">
+  		<tr>
+  		<td class="naviLeftCol"><h2 class="naviHead">Guides</h2>
+  		<p class="nop"><a href="guide/jaxb/">JAXB Guide</a> <span class="naviLinkExpl"> - XML Processing with JAXB</span><br/>
+  		<a href="guide/jms/">JMS Guide</a> <span class="naviLinkExpl"> - asynchronous (MQ) messaging</span><br/>
+  		<a href="guide/servlet25/">Servlet 2.5 Guide</a> <span class="naviLinkExpl"> - basic web applications</span><br/></p>
+  		</td>
+  		<td><h2 class="naviHead">Java Basics</h2>
+  		<p class="nop"><a href="javabasics/assert/">Java Basics: Assertions</a> <span class="naviLinkExpl"> - how to use the <span class="idf">assert</span> Statement</span><br/>
+  		<a href="javabasics/jar/">Java Basics: JAR</a> <span class="naviLinkExpl"> - how to create JAR files</span><br/>
+  		<a href="javabasics/regexp/">Java Basics: Regular Expressions</a> <span class="naviLinkExpl"> - how to write Regular Expressions</span><br/></p>
+  		</td>
+  		</tr>
+  		<tr>
+  		<td class="naviLeftCol"><h2 class="naviHead">References</h2>
+  		<p class="nop"><a href="reference/webxml2x/">Web.xml Reference</a> <span class="naviLinkExpl"> - for Servlet 2.4/2.5</span><br/>
+  		<a href="reference/javafxscript/">JavaFX Script Reference</a><br/></p>
+  		</td>
+  		<td><h2 class="naviHead">About Jarfiller</h2>
+  		<p class="nop"><a href="about/">About Jarfiller</a> <span class="naviLinkExpl"> - preface</span><br/></p>
+  		</td>
+  		</tr>
+  	</table>
+  	
+  	<hr/> 
+  	<div>
+  		<h2 class="naviHead">What's special about Jarfiller?</h2>
+  		<ul>
+  			<li><span class="big">Fewer words</span> 
+				<ul class="arrow"><li>Jarfiller shows things <span class="em">by example</span>, uses real code where possible</li></ul></li>
+  			<li><span class="big">Show the essentials</span>
+				<ul class="arrow"><li>The most important <span class="em">facts are highlighted</span>, so you can easily find them</li></ul></li>
+  			<li><span class="big">Details where you need them</span>
+				<ul class="arrow"><li>Popups give additional <span class="em">information where needed</span></li>
+				<li>Examples <span class="em">link to API</span> documentation</li></ul></li>
+  			<li><span class="big">Understand, don't imitate</span>
+				<ul class="arrow"><li>Jarfiller does not focus on walk-through examples, but on <span class="em">explaining</span> the topic</li></ul></li>
+  		</ul> 
+  	</div>
+
+  	<hr/>
+	<h2 class="naviHead">Last Changes Log</h2>
+  	<p class="nop">2011/11/20: Minor fix in JAXB Guide<br/>
+2010/06/23: Added Table of Contents to all pages, many site improvements<br/>
+2010/05/07: Published the Servlet 2.5 Guide<br/>
+2010/03/23: Published the Web.xml for Servlet 2.x Reference<br/>
+2010/03/19: New cut&amp;paste friendly popups, new font, many small content improvements<br/>
+2010/03/03: Published the JMS Guide<br/>
+2010/02/21: Published the JAXB Guide, JavaFX Script Reference, and Java Basics: Assertions, JAR and Regular Expressions<br/>
+  	</p>
+  	
+  	<hr/>
+  	<h2 class="naviHead">Upcoming</h2>
+  	<p class="nop">
+  		Sorry, currently not working on new material.
+  	</p>
+  
+
+  </div>
+    </html>
+
+  
+</page>

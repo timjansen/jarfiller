@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://tjansen.de/refPage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tjansen.de/refPage ../../../schemas/page.xsd ">
+
+  <path>/javabasics/beans/</path>
+  <title>Java Basics: Practical Guide to Beans and POJOs</title>
+  <titleIntro></titleIntro>
+   
+  <license>cc-by-free-src</license>
+   
+  <multipage/>
+   
+  <javadocConfig>
+	<baseURL>http://java.sun.com/javase/6/docs/api/</baseURL>
+	<defaultPackage>java.lang</defaultPackage>
+  </javadocConfig>
+
+  <article><body>
+
+	<singleColumnSection anchor="overview">
+	  	<head>Overview</head>
+		<subSection anchor="intro">
+			<head>Intro</head>
+			<explanation>
+			</explanation>
+		</subSection>
+		<collapsedSubSection anchor="usecases">
+			<head>Use cases</head>
+			<summary>When to use assert?</summary>
+			<content>
+				<explanation>
+- what is a bean today?
+- what are POJOs?
+- history of beans: beans are not GUI components anymore
+- explain properties: getter/setter mechanisms
+- explain bean reflection
+- explain apache commons / beanutils
+- dependency injection
+- beans in spring and similar containers
+- beans and multithreading (don't!)
+
+Beans with annotations:
+- EJBs (3.x)
+- JPA
+- JSF backing bean?
+
+Older beans:
+- EJBs (1.x/2.x)
+- Swing GUI beans
+				</explanation>
+			</content>
+		</collapsedSubSection>
+		<subSection anchor="requirements">
+			<head>Requirements</head>
+			<explanation>Java supports the <idf>assert</idf> statement <em>since version 1.4</em> (in other words, practically forever).</explanation>
+		</subSection>		
+	</singleColumnSection>
+		
+  </body>
+  <sidebar>
+  	  	<box>
+  		<title>Useful Links</title>
+  		<content>
+  		</content>
+  	</box>
+  </sidebar>
+  </article>
+</page>
