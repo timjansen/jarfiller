@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:page="http://tjansen.de/refPage" xmlns:i="http://tjansen.de/internal"><head><title>Bindings - JavaFX Script Reference</title><meta http-equiv="X-UA-Compatible" content="chrome=1"/><meta http-equiv="content-language" content="en"/><link rel="shortcut icon" href="../../images/favicon.png" type="image/png"/><link rel="stylesheet" type="text/css" href="../../style/style.css"/><script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-6791190-2']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+})();
+</script><script type="text/javascript" src="../../js/all.js"/></head><body id="body"><div id="visibleContent"><div id="top"><a href="/"><img src="../../images/titlebar.png" alt="Jarfiller.com"/></a></div><div id="main"><div id="bodycolumn"><div class="yahbar"><div class="yahprev"><a href="classes.xhtml">Prev</a></div><h3 class="yahhere"><a href="#" onclick="return navToggle();">JavaFX Script Reference / Bindings</a></h3><div class="yahnext"><a href="exceptions.xhtml">Next</a></div></div><h1 id="sec_bindings" class="multipageTitle"><a name="bindings">Bindings</a></h1><div class="subSecRow1" id="sec_varbindings"><div class="subSecHead" id="sechd_varbindings"><a name="varbindings">Variable Bindings</a><br/>(<a href="#" id="tl-d39688e2977" class="dottedTooltip" onclick="return tlClick('tl-d39688e2977','pp-d39688e2982');" onmouseover="return tlOver('tl-d39688e2977','pp-d39688e2982');" onmouseout="return tlOut('tl-d39688e2977','pp-d39688e2982');">more</a>)
+		</div><div class="subSecContent" id="seccnt_varbindings"><pre class="subSecCode"><code>var a = 5;
+var b = <em>bind</em> a;      <span class="cmt">// <span class="idf">b</span> has now the value of<span class="idf">a</span></span>
+assert(b == 5);
+a = 2;
+assert(<em>b == 2</em>);      <span class="cmt">// changes of <span class="idf">a</span> appear in <span class="idf">b</span></span>
+<span class="strike">b = 1;</span>               <span class="cmt">// direct modification not allowed</span>
+var c = 3;
+<span class="strike">b = bind c;</span>          <span class="cmt">// binding only in initialization</span>
+<em>def</em> d = bind a;      <span class="cmt">// <span class="idf">def</span> and <span class="idf">var</span> are equivalent for <span class="idf">bind</span></span>
+
+def e = <em>bind a + c</em>;  <span class="cmt">// binding to an expression (<a href="#" id="tl-d39688e3060" class="dottedTooltip" onclick="return tlClick('tl-d39688e3060','pp-d39688e3060');" onmouseover="return tlOver('tl-d39688e3060','pp-d39688e3060');" onmouseout="return tlOut('tl-d39688e3060','pp-d39688e3060');">more</a>)</span>
+assert(e == 5);
+a = 5;
+assert(e == 8);
+c = 10;
+assert(e == 15);
+
+def f = bind {       <span class="cmt">// <span class="idf">bind</span> block</span>
+    def x = if (a &gt; 0) then 10 else -10;
+    <span class="strike">c = 10</span>           <span class="cmt">// no side-effects allowed</span>
+    <span class="strike">var y = 1;</span>       <span class="cmt">// no variables allowed</span>
+    x * 10;
+};
+assert(f == 100);
+</code></pre></div></div><div class="subSecRow2" id="sec_funcbound"><div class="subSecHead" id="sechd_funcbound"><a name="funcbound">Functions / bound</a><br/>(<a href="#" id="tl-d39688e3118" class="dottedTooltip" onclick="return tlClick('tl-d39688e3118','pp-d39688e3123');" onmouseover="return tlOver('tl-d39688e3118','pp-d39688e3123');" onmouseout="return tlOut('tl-d39688e3118','pp-d39688e3123');">more</a>)
+		</div><div class="subSecContent" id="seccnt_funcbound"><pre class="subSecCode"><code>var v = 2;
+var multiplicator = 10;
+function mul(x) {                   <span class="cmt">// regular function</span>
+    x * multiplicator
+}
+<em>bound</em> function mulBound(x) {        <span class="cmt">// <span class="idf">bound</span> function</span>
+    x * multiplicator
+}
+
+def a = <em>bind mul(v)</em>;
+def b = <em>bind mulBound(v)</em>;
+assert(a == 20 and b == 20);
+v = 3;                              <span class="cmt">// after argument changes all functions recalculate</span>
+assert(a == 30 and b == 30);
+multiplicator = 5;                  <span class="cmt">// only the <span class="idf">bound</span> function changes</span>
+assert(a == 30 and <em>b == 15</em>);
+
+v = 3; multiplicator = 5;
+def c = <em>bind mul(v) + mulBound(v)</em>;  <span class="cmt">// <span class="idf">bound</span> function in expression</span>
+assert(c == 30);
+v = 4;
+assert(c == 40);
+multiplicator = 10;
+assert(c == 60);                    <span class="cmt">// only the <span class="idf">bound</span> function recalculates</span>
+</code></pre></div></div><div class="subSecRow1" id="sec_bindobjs"><div class="subSecHead" id="sechd_bindobjs"><a name="bindobjs">Objects</a><br/>(<a href="#" id="tl-d39688e3246" class="dottedTooltip" onclick="return tlClick('tl-d39688e3246','pp-d39688e3251');" onmouseover="return tlOver('tl-d39688e3246','pp-d39688e3251');" onmouseout="return tlOut('tl-d39688e3246','pp-d39688e3251');">more</a>)
+		</div><div class="subSecContent" id="seccnt_bindobjs"><pre class="subSecCode"><code>class Point {
+    var x : Integer; var y : Integer;
+}
+var a = 5;
+def p1 = <em>bind Point{x: a y: 2}</em>;       <span class="cmt">// <span class="idf">bind</span> object</span>
+assert(p1.x == 5);
+def p1Old = p1;
+a = 17;
+assert(p1.x == 17);                   <span class="cmt">// whole object changed</span>
+assert(<em>not isSameObject(p1, p1Old)</em>);  <span class="cmt">// new instance created</span>
+
+def p2 = Point{x: <em>bind a</em> y: 2};       <span class="cmt">// <span class="idf">bind</span> property</span>
+assert(p2.x == 17);
+def p2Old = p2;
+a = 25;
+assert(p2.x == 25);                   <span class="cmt">// property changed</span>
+assert(<em>isSameObject(p2, p2Old)</em>);      <span class="cmt">// same old instance</span>
+</code></pre></div></div><div class="yahbar"><div class="yahprev"><a href="classes.xhtml">Prev<br/><span>Classes</span></a></div><div class="yahhere"><a href="#" onclick="return navToggle();">JavaFX Script Reference / Bindings</a><br/><a href="/reference/javafxscript/"><span>Single Page Mode</span></a>, <a href="#" onclick="return navToggle();"><span>Show Table of Content</span></a></div><div class="yahnext"><a href="exceptions.xhtml">Next<br/><span>Exceptions (try/catch/finally)</span></a></div></div></div><div id="sidecolumn">
+  	<div><h3>Useful Links</h3><div class="sidecolumnSubTitleLine"/>
+  			<a href="http://www.javafx.com">JavaFX.com</a><br/>
+  			<a href="http://openjfx.java.sun.com/current-build/doc/reference/JavaFXReference.html">JavaFX Reference</a><br/>
+  			<a href="http://java.sun.com/javafx/1.2/docs/api/">JavaFX 1.2 APIs</a><br/>
+  			<a href="http://java.sun.com/javafx/reference/">Sun JavaFX Documentation</a><br/>
+  			<a href="http://learnjavafx.typepad.com/">James Weaver's JavaFX Blog</a><br/>
+  		</div>
+  </div></div></div><div id="footer"><div id="footer-content"><div id="footer-left"><div class="footerLine"><a href="/">Home</a> - <a href="/about">About Jarfiller</a> - <a href="/imprint.xhtml">Imprint</a></div><div class="footerLine">Please send feedback and corrections to <a href="mailto:tim@tjansen.de">tim@<span style="display: none">got you</span>tjansen.de</a>.</div><div class="footerLine"><a href="http://www.twitter.com/timjansen">Follow</a> me on Twitter.</div><div class="copyrightLine">© 2010 Tim Jansen; content licensed under <a href="http://creativecommons.org/licenses/by/3.0/us/">cc-by</a>; example source code is public domain
+				</div></div><div id="footer-right"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="../../images/ext/cc-by-88x31.png"/></a></div></div></div><div id="navbar" onclick="return navToggle();" onmouseover="document.getElementById('navbar').className='mouseover';" onmouseout="document.getElementById('navbar').className='';"/><div id="navcontainer"><div id="navlinks"><div id="navclosebar"><a href="#" onclick="return navClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="navpositionbar" class="navpositionbar"/><h2 id="navtitle">JavaFX Script Reference</h2><a id="nav_basictypes" class="navseclink" href="basictypes.xhtml#basictypes">Basic Types</a><a id="nav_booleans" class="navsublink" href="basictypes.xhtml#booleans">Booleans and Comparisons</a><a id="nav_variables" class="navsublink" href="basictypes.xhtml#variables">Variables</a><a id="nav_integers" class="navsublink" href="basictypes.xhtml#integers">Integers</a><a id="nav_numbers" class="navsublink" href="basictypes.xhtml#numbers">Numbers (float)</a><a id="nav_strings" class="navsublink" href="basictypes.xhtml#strings">Strings</a><a id="nav_duration" class="navsublink" href="basictypes.xhtml#duration">Duration</a><a id="nav_sequences" class="navseclink" href="sequences.xhtml#sequences">Sequences</a><a id="nav_creatingseqs" class="navsublink" href="sequences.xhtml#creatingseqs">Creating sequences</a><a id="nav_seqreadbyslice" class="navsublink" href="sequences.xhtml#seqreadbyslice">Reading by index / slice</a><a id="nav_seqwriteindexslice" class="navsublink" href="sequences.xhtml#seqwriteindexslice">Writing by index / slice</a><a id="nav_seqselect" class="navsublink" href="sequences.xhtml#seqselect">Sequence Select Clause</a><a id="nav_seqinsert" class="navsublink" href="sequences.xhtml#seqinsert">Insert / Delete</a><a id="nav_conditionalsandloops" class="navseclink" href="conditionalsandloops.xhtml#conditionalsandloops">Conditionals and Loops</a><a id="nav_ifthenelse" class="navsublink" href="conditionalsandloops.xhtml#ifthenelse">if then else</a><a id="nav_for" class="navsublink" href="conditionalsandloops.xhtml#for">for</a><a id="nav_while" class="navsublink" href="conditionalsandloops.xhtml#while">while</a><a id="nav_break" class="navsublink" href="conditionalsandloops.xhtml#break">break</a><a id="nav_continue" class="navsublink" href="conditionalsandloops.xhtml#continue">continue</a><a id="nav_indexof" class="navsublink" href="conditionalsandloops.xhtml#indexof">indexof</a><a id="nav_functions" class="navseclink" href="functions.xhtml#functions">Functions</a><a id="nav_funcdefinition" class="navsublink" href="functions.xhtml#funcdefinition">Defining and Calling</a><a id="nav_closures" class="navsublink" href="functions.xhtml#closures">Closures and Anonymous Functions</a><a id="nav_classes" class="navseclink" href="classes.xhtml#classes">Classes</a><a id="nav_classdef" class="navsublink" href="classes.xhtml#classdef">Definition and Instantiating</a><a id="nav_objectinit" class="navsublink" href="classes.xhtml#objectinit">Object Initialization</a><a id="nav_complextrees" class="navsublink" href="classes.xhtml#complextrees">Complex Object Trees</a><a id="nav_objecteq" class="navsublink" href="classes.xhtml#objecteq">Object Equality</a><a id="nav_inheritance" class="navsublink" href="classes.xhtml#inheritance">Inheritance</a><a id="nav_mixins" class="navsublink" href="classes.xhtml#mixins">Mixins</a><a id="nav_abstract" class="navsublink" href="classes.xhtml#abstract">Abstract</a><a id="nav_bindings" class="navseclink" href="#bindings" onclick="if (event.button == 0) return goTo('#bindings', true); else return true;">Bindings</a><a id="nav_varbindings" class="navsublink" href="#varbindings" onclick="if (event.button == 0) return goTo('#varbindings', true); else return true;">Variable Bindings</a><a id="nav_funcbound" class="navsublink" href="#funcbound" onclick="if (event.button == 0) return goTo('#funcbound', true); else return true;">Functions / bound</a><a id="nav_bindobjs" class="navsublink" href="#bindobjs" onclick="if (event.button == 0) return goTo('#bindobjs', true); else return true;">Objects</a><a id="nav_exceptions" class="navseclink" href="exceptions.xhtml#exceptions">Exceptions (try/catch/finally)</a><a id="nav_throwcatch" class="navsublink" href="exceptions.xhtml#throwcatch">Throwing and Catching</a><a id="nav_finally" class="navsublink" href="exceptions.xhtml#finally">finally</a><a id="nav_interop" class="navseclink" href="interop.xhtml#interop">Java Interoperability</a><a id="nav_interop1" class="navsublink" href="interop.xhtml#interop1"/><a id="nav_packagesandaccessmods" class="navseclink" href="packagesandaccessmods.xhtml#packagesandaccessmods">Packages and Access Modifiers</a><a id="nav_packages" class="navsublink" href="packagesandaccessmods.xhtml#packages">Packages</a><a id="nav_accessmods" class="navsublink" href="packagesandaccessmods.xhtml#accessmods">Access Modifier</a><a id="nav_guifeatures" class="navseclink" href="guifeatures.xhtml#guifeatures">GUI Features</a><a id="nav_keyvalue" class="navsublink" href="guifeatures.xhtml#keyvalue">KeyValue</a><a id="nav_keyframe" class="navsublink" href="guifeatures.xhtml#keyframe">KeyFrame</a><a id="nav_localizedstrings" class="navsublink" href="guifeatures.xhtml#localizedstrings">Localized Strings</a></div></div><div id="popups"><div id="pp-d39688e2982" class="tooltip">Variable bindings allow you to define variables that automatically assume the value of another variable or expression. It is not possible to modify a bound variable.</div><div id="pp-d39688e3060" class="tooltip"> Please note that the recalculation of a bound expression is lazy. If only one part of the expression changes, only this part will be recalculated. This is important for side-effects in more complicated bound expressions.</div><div id="pp-d39688e3123" class="tooltip">When binding functions, you need to differentiate between plain binding and binding with the <span class="idf">bound</span> keyword. In the former case, the function will be reevaluated if one of its argument changes. With the <span class="idf">bound</span> keyword, the function will also be reevaluated if any of the variables used in the function have changed.</div><div id="pp-d39688e3251" class="tooltip">You can use the <span class="idf">bind</span> operator to bind whole objects. Every time one of the arguments used to create the object changes, a new instance will be created.</div><div id="ttCloseBar" class="closeBar"><a href="#" onclick="return tlClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="topicCloseBar" class="closeBar"><a href="#" onclick="return tpcClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div></div></body></html>

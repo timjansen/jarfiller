@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:page="http://tjansen.de/refPage" xmlns:i="http://tjansen.de/internal"><head><title>JavaFX Script Reference</title><meta http-equiv="X-UA-Compatible" content="chrome=1"/><meta http-equiv="content-language" content="en"/><link rel="shortcut icon" href="../../images/favicon.png" type="image/png"/><link rel="stylesheet" type="text/css" href="../../style/style.css"/><script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-6791190-2']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+})();
+</script><script type="text/javascript" src="../../js/all.js"/></head><body id="body"><div id="visibleContent"><div id="top"><a href="/"><img src="../../images/titlebar.png" alt="Jarfiller.com"/></a></div><div id="titleArea"><h1>JavaFX Script Reference</h1><p id="titleIntro">JavaFX Script is a JavaScript-like language for the JavaVM with
+  		static typing and some special support for user interfaces. Written for JavaFX 1.3.</p></div><div id="main"><div id="bodycolumn"><div id="options">Options: <a href="#" onclick="return navToggle();">Table of Content</a>, <a href="basictypes.xhtml">Multi-Page Version</a></div><h2 id="sec_basictypes" class="sectionHead"><a name="basictypes">Basic Types</a></h2><div class="subSecRow1" id="sec_booleans"><div class="subSecHead" id="sechd_booleans"><a class="multipageHeadLink" href="basictypes.xhtml#booleans" name="booleans">Booleans and Comparisons</a><br/>(<a href="#" id="tl-d2703e27" class="dottedTooltip" onclick="return tlClick('tl-d2703e27','pp-d2703e32');" onmouseover="return tlOver('tl-d2703e27','pp-d2703e32');" onmouseout="return tlOut('tl-d2703e27','pp-d2703e32');">more</a>)
+		</div><div class="subSecContent" id="seccnt_booleans"><pre class="subSecCode"><code><strong class="warn">Warning: JavaFX has no <span class="idf">assert</span> support yet! This reference just acts as if it did. (<a href="#" id="tl-d2703e66" class="dottedTooltip" onclick="return tlClick('tl-d2703e66','pp-d2703e66');" onmouseover="return tlOver('tl-d2703e66','pp-d2703e66');" onmouseout="return tlOut('tl-d2703e66','pp-d2703e66');">more</a>)</strong>
+<em>assert</em>(true);            <span class="cmt">// assertions must be true</span>
+assert(<em>not</em> false);       <span class="cmt">// <strong class="warn">"not" instead of "!"</strong></span>
+<span class="strike">assert(!false);</span>          <span class="cmt">// "!" not defined</span>
+assert(true <em>and</em> true);   <span class="cmt">// logical <span class="idf">and</span>, like Java's <span class="idf">&amp;&amp;</span>	(<a href="#" id="tl-d2703e119" class="dottedTooltip" onclick="return tlClick('tl-d2703e119','pp-d2703e119');" onmouseover="return tlOver('tl-d2703e119','pp-d2703e119');" onmouseout="return tlOut('tl-d2703e119','pp-d2703e119');">more</a>)</span>
+assert(true <em>or</em> false);   <span class="cmt">// logical <span class="idf">or</span>, like Java's <span class="idf">||</span> (<a href="#" id="tl-d2703e148" class="dottedTooltip" onclick="return tlClick('tl-d2703e148','pp-d2703e148');" onmouseover="return tlOver('tl-d2703e148','pp-d2703e148');" onmouseout="return tlOut('tl-d2703e148','pp-d2703e148');">more</a>)</span>
+
+assert(true <em>instanceof java.lang.Boolean</em>);
+assert(false instanceof java.lang.Boolean);
+
+assert(1 <em>==</em> 1);          <span class="cmt">// equal</span>
+assert(1 <em>!=</em> 2);          <span class="cmt">// not equal</span>
+assert(2 <em>&gt;</em> 1);           <span class="cmt">// greater than</span>
+assert(2 <em>&gt;=</em> 1);          <span class="cmt">// greater or equal</span>
+assert(1 <em>&lt;</em> 2);           <span class="cmt">// less than</span>
+assert(1 <em>&lt;=</em> 2);          <span class="cmt">// less or equal</span>
+
+assert("foo" <em>==</em> "foo");  <span class="cmt">// == and != compare Strings (unlike Java) (<a href="#" id="tl-d2703e235" class="dottedTooltip" onclick="return tlClick('tl-d2703e235','pp-d2703e235');" onmouseover="return tlOver('tl-d2703e235','pp-d2703e235');" onmouseout="return tlOut('tl-d2703e235','pp-d2703e235');">more</a>)</span>
+assert("foo" <em>!=</em> "bar");
+</code></pre></div></div><div class="subSecRow2" id="sec_variables"><div class="subSecHead" id="sechd_variables"><a class="multipageHeadLink" href="basictypes.xhtml#variables" name="variables">Variables</a><br/>(<a href="#" id="tl-d2703e261" class="dottedTooltip" onclick="return tlClick('tl-d2703e261','pp-d2703e266');" onmouseover="return tlOver('tl-d2703e261','pp-d2703e266');" onmouseout="return tlOut('tl-d2703e261','pp-d2703e266');">more</a>)
+		</div><div class="subSecContent" id="seccnt_variables"><pre class="subSecCode"><code><em>def</em> a = 1; assert(a == 1);      <span class="cmt">// <span class="idf">def</span> defines variables that can not be overwritten</span>
+<span class="strike">a = 2;</span>                          <span class="cmt">// must not modify <span class="idf">def</span> variables</span>
+<em>var</em> b = 1; assert(b == 1);      <span class="cmt">// <span class="idf">var</span> declares a regular variable</span>
+b = 2; assert(b == 2);
+<span class="strike">var a, b;</span>                       <span class="cmt">// one <span class="idf">var</span> or <span class="idf">def</span> per variable allowed</span>
+
+var c = 1; <span class="strike">c = "foo";</span>           <span class="cmt">// c is Integer because of the initial assignment (<a href="#" id="tl-d2703e333" class="dottedTooltip" onclick="return tlClick('tl-d2703e333','pp-d2703e333');" onmouseover="return tlOver('tl-d2703e333','pp-d2703e333');" onmouseout="return tlOut('tl-d2703e333','pp-d2703e333');">more</a>)</span>
+var d<em> : Integer</em> = 1; d = 2;     <span class="cmt">// explicit type declaration</span>
+var e : Boolean = true; <span class="strike">e = 5;</span>  <span class="cmt">// incompatible type</span>
+var f : <em>Object</em> = 1; f = "foo";  <span class="cmt">// Object allows all values (<a href="#" id="tl-d2703e358" class="dottedTooltip" onclick="return tlClick('tl-d2703e358','pp-d2703e358');" onmouseover="return tlOver('tl-d2703e358','pp-d2703e358');" onmouseout="return tlOut('tl-d2703e358','pp-d2703e358');">more</a>)</span>
+def g : String = <em>null</em>;          <span class="cmt">// reference types can be null</span>
+<span class="strike">def h : Integer = null;</span>         <span class="cmt">// ..but not built-ins like Integer(<a href="#" id="tl-d2703e378" class="dottedTooltip" onclick="return tlClick('tl-d2703e378','pp-d2703e378');" onmouseover="return tlOver('tl-d2703e378','pp-d2703e378');" onmouseout="return tlOut('tl-d2703e378','pp-d2703e378');">more</a>)</span>
+
+var x = 0;
+var y = 2 <em>on replace { x++; };</em>  <span class="cmt">// <span class="idf">on replace</span> clause</span>
+assert(<em>x == 1</em>);                 <span class="cmt">// called on initial assignment</span>
+y = 0; assert(<em>x == 2</em>);          <span class="cmt">// and after additional assignments</span>
+</code></pre></div></div><div class="subSecRow1" id="sec_integers"><div class="subSecHead" id="sechd_integers"><a class="multipageHeadLink" href="basictypes.xhtml#integers" name="integers">Integers</a><br/>(<a href="#" id="tl-d2703e413" class="dottedTooltip" onclick="return tlClick('tl-d2703e413','pp-d2703e418');" onmouseover="return tlOver('tl-d2703e413','pp-d2703e418');" onmouseout="return tlOut('tl-d2703e413','pp-d2703e418');">more</a>)
+		</div><div class="subSecContent" id="seccnt_integers"><pre class="subSecCode"><code>assert(<em>5</em> &lt; 10);                               <span class="cmt">// decimal <span class="idf">Integer</span> literal</span>
+assert(26 == <em>0x1a</em>);                           <span class="cmt">// hexadecimal</span>
+assert(10 == <em>012</em>);                            <span class="cmt">// octal</span>
+assert(1 <em>instanceof Integer</em>);
+var x : Integer; assert(<em>x == 0</em>);              <span class="cmt">// default value 0</span>
+<span class="strike">var y : Integer = null;</span>                       <span class="cmt">// Integer can not be null</span>
+
+assert(1 <em>+</em> 2 == 3);                           <span class="cmt">// addition</span>
+assert(1 <em>-</em> 2 == -1);                          <span class="cmt">// subtraction</span>
+assert(6 <em>*</em> 7 == 42);                          <span class="cmt">// multiplication</span>
+assert(24 <em>/</em> 6 == 4);                          <span class="cmt">// division</span>
+assert(25 <em>/</em> 6 == 4);
+assert(25 <em>mod</em> 6 == 3);                        <span class="cmt">// reminder</span>
+assert(<em>-</em>(1+1) == -2);                         <span class="cmt">// negation</span>
+
+var a = 1; assert(<em>a++</em> == 1); assert(a == 2);  <span class="cmt">// Post-increment</span>
+var b = 1; assert(<em>++b</em> == 2); assert(b == 2);  <span class="cmt">// Pre-increment</span>
+var c = 1; assert(<em>c--</em> == 1); assert(c == 0);  <span class="cmt">// Post-decrement</span>
+var d = 1; assert(<em>--d</em> == 0); assert(d == 0);  <span class="cmt">// Pre-decrement</span>
+
+var e = 1; e <em>+=</em> 3; assert(e == 4);            <span class="cmt">// add then assign</span>
+var f = 2; f <em>-=</em> 1; assert(f == 1);            <span class="cmt">// subtract then assign</span>
+var g = 2; g <em>*=</em> 3; assert(g == 6);            <span class="cmt">// multiply then assign</span>
+var h = 8; h <em>/=</em> 2; assert(h == 4);            <span class="cmt">// divide then assign</span>
+</code></pre></div></div><div class="subSecRow2" id="sec_numbers"><div class="subSecHead" id="sechd_numbers"><a class="multipageHeadLink" href="basictypes.xhtml#numbers" name="numbers">Numbers (float)</a><br/>(<a href="#" id="tl-d2703e605" class="dottedTooltip" onclick="return tlClick('tl-d2703e605','pp-d2703e610');" onmouseover="return tlOver('tl-d2703e605','pp-d2703e610');" onmouseout="return tlOut('tl-d2703e605','pp-d2703e610');">more</a>)
+		</div><div class="subSecContent" id="seccnt_numbers"><pre class="subSecCode"><code>assert(<em>12.5</em> == 25.0/2.0);                           <span class="cmt">// <span class="idf">Number</span> / <span class="idf">float</span> literal</span>
+assert(0.75 == <em>.75</em>);                                <span class="cmt">// Omitting zero</span>
+assert(<em>1.25e2</em> == 125);                              <span class="cmt">// exponential notation</span>
+assert(<em>184e-2</em> == 0.184e1);
+assert(0.75 <em>instanceof java.lang.Number</em>);
+assert(0.75 <em>instanceof java.lang.Float</em>);
+var x : Number; assert(<em>x == 0.0</em>);                   <span class="cmt">// default value 0.0</span>
+<span class="strike">var y : Number = null;</span>                              <span class="cmt">// Number can not be null</span>
+
+assert(2.5 <em>+</em> 4.5 == 7.0);                           <span class="cmt">// addition</span>
+assert(0.75 <em>-</em> 2 == -1.25);                          <span class="cmt">// subtraction</span>
+assert(0.5 <em>*</em> 7.0 == 3.5);                           <span class="cmt">// multiplication</span>
+assert(12.0 <em>/</em> 8 == 1.5);                            <span class="cmt">// division</span>
+
+var a = 1.5; assert(<em>a++</em> == 1.5); assert(a == 2.5);  <span class="cmt">// Post-increment</span>
+var b = 1.5; assert(<em>++b</em> == 2.5); assert(b == 2.5);  <span class="cmt">// Pre-increment</span>
+var c = 1.5; assert(<em>c--</em> == 1.5); assert(c == 0.5);  <span class="cmt">// Post-decrement</span>
+var d = 1.5; assert(<em>--d</em> == 0.5); assert(d == 0.5);  <span class="cmt">// Pre-decrement</span>
+
+var e = 1.5; e <em>+=</em> 3.5; assert(e == 5.0);            <span class="cmt">// add then assign</span>
+var f = 2.5; f <em>-=</em> 1; assert(f == 1.5);              <span class="cmt">// subtract then assign</span>
+var g = 2.5; g <em>*=</em> 3.0; assert(g == 7.5);            <span class="cmt">// multiply then assign</span>
+var h = 8.6; h <em>/=</em> 2; assert(h == 4.3);              <span class="cmt">// divide then assign</span>
+
+assert(2.5 + 2 + 5.5 == 10);                        <span class="cmt">// type conversion Integer &lt;-&gt; Number</span>
+</code></pre></div></div><div class="subSecRow1" id="sec_strings"><div class="subSecHead" id="sechd_strings"><a class="multipageHeadLink" href="basictypes.xhtml#strings" name="strings">Strings</a><br/>(<a href="#" id="tl-d2703e800" class="dottedTooltip" onclick="return tlClick('tl-d2703e800','pp-d2703e805');" onmouseover="return tlOver('tl-d2703e800','pp-d2703e805');" onmouseout="return tlOut('tl-d2703e800','pp-d2703e805');">more</a>)
+		</div><div class="subSecContent" id="seccnt_strings"><pre class="subSecCode"><code>assert(<em>"foo"</em> == <em>'foo'</em>);                       <span class="cmt">// double-quote and single-quote are equivalent</span>
+assert(" ' " == ' <em>\'</em> ' and ' " ' == " <em>\"</em> ");  <span class="cmt">// back-slash escape</span>
+assert("<em>\n</em>".charAt(0) == 10);                 <span class="cmt">// back-slash newline (<a href="#" id="tl-d2703e841" class="dottedTooltip" onclick="return tlClick('tl-d2703e841','pp-d2703e841');" onmouseover="return tlOver('tl-d2703e841','pp-d2703e841');" onmouseout="return tlOut('tl-d2703e841','pp-d2703e841');">more</a>)</span>
+var x: String; assert(x == "");               <span class="cmt">// default empty string</span>
+assert(<em>"" == null</em>);                           <span class="cmt">// null is empty</span>
+assert("foo" <em>instanceof String</em>);
+
+assert("Number <em>{2+3}</em>." == "Number 5.");       <span class="cmt">// Embedded expression</span>
+def a = "foo"; def b = "bar"; assert("<em>{a}{b}</em>" == "foobar");
+<span class="strike">assert(a + b == "foobar");</span>                    <span class="cmt">// <strong class="warn">no + operator for Strings</strong></span>
+assert("foo {'bar'}" == "foo bar");
+assert("{"foo {"bar"}"}" == "foo bar");       <span class="cmt">// Nested expressions</span>
+</code></pre></div></div><div class="subSecRow2" id="sec_duration"><div class="subSecHead" id="sechd_duration"><a class="multipageHeadLink" href="basictypes.xhtml#duration" name="duration">Duration</a><br/>(<a href="#" id="tl-d2703e898" class="dottedTooltip" onclick="return tlClick('tl-d2703e898','pp-d2703e903');" onmouseover="return tlOver('tl-d2703e898','pp-d2703e903');" onmouseout="return tlOut('tl-d2703e898','pp-d2703e903');">more</a>)
+		</div><div class="subSecContent" id="seccnt_duration"><pre class="subSecCode"><code>assert(<em>1s</em> == <em>1000ms</em>);     <span class="cmt">// 1 second is 1000 milliseconds</span>
+assert(<em>1m</em> == <em>60s</em>);        <span class="cmt">// 1 minute is 60 seconds</span>
+assert(<em>1h</em> == <em>60m</em>);        <span class="cmt">// 1 hour is 60 minutes</span>
+assert(<em>3600000ms</em> == <em>1h</em>);  <span class="cmt">// 1 hour is 3600000 milliseconds</span>
+assert(1s <em>instanceof Duration</em>);
+
+assert(<em>0.5m</em> == 30s);      <span class="cmt">// non-integer duration units</span>
+assert(0.25h == 900s);
+
+assert(<em>1m + 30s</em> == 90s);  <span class="cmt">// duration arithmetic</span>
+assert(1m <em>-</em> 15s == 45 * 1000ms);
+assert(1h <em>/</em> 10m == 6);
+assert(1h <em>/</em> 10 == 6m);
+assert((1h - 50m - 500s - 9500ms)/2 == 45.25s);
+
+<span class="strike">assert(10h * 5m);</span>         <span class="cmt">// illegal multiplication</span>
+<span class="strike">assert(10s + 5);</span>          <span class="cmt">// illegal addition</span>
+</code></pre></div></div><h2 id="sec_sequences" class="sectionHead"><a name="sequences">Sequences</a></h2><div class="subSecRow1" id="sec_creatingseqs"><div class="subSecHead" id="sechd_creatingseqs"><a class="multipageHeadLink" href="sequences.xhtml#creatingseqs" name="creatingseqs">Creating sequences</a><br/>(<a href="#" id="tl-d2703e1028" class="dottedTooltip" onclick="return tlClick('tl-d2703e1028','pp-d2703e1033');" onmouseover="return tlOver('tl-d2703e1028','pp-d2703e1033');" onmouseout="return tlOut('tl-d2703e1028','pp-d2703e1033');">more</a>)
+		</div><div class="subSecContent" id="seccnt_creatingseqs"><pre class="subSecCode"><code>def a = <em>[10, 20, 30, 40, 50]</em>;                        <span class="cmt">// sequence of integers</span>
+def b = [35, 1.2, "foo", null, false];               <span class="cmt">// mixed types</span>
+def c : <em>String[]</em> = ["a", "b", "c"];                  <span class="cmt">// explicit type</span>
+def d : <em>Object[]</em> = [1, "a", null, 2.2, true];        <span class="cmt">// Object can contain everything</span>
+def e : Object[] = <em>null</em>; assert(e == <em>[]</em>);
+assert(<em>[] == null</em>);                                  <span class="cmt">// null is empty</span>
+assert(<em>sizeof a</em> == 5);                               <span class="cmt">// sequence length</span>
+assert(a == [<em>5+5</em>, 4*5, 60/2, 50-10, 10*5]);          <span class="cmt">// embedded expressions</span>
+assert(<em>[1, [2, 3, []], [4, 5]]</em> == [1, 2, 3, 4, 5]);  <span class="cmt">// flattening (<a href="#" id="tl-d2703e1108" class="dottedTooltip" onclick="return tlClick('tl-d2703e1108','pp-d2703e1108');" onmouseover="return tlOver('tl-d2703e1108','pp-d2703e1108');" onmouseout="return tlOut('tl-d2703e1108','pp-d2703e1108');">more</a>)</span>
+
+assert(<em>[1..3]</em> == [1, 2, 3]);                         <span class="cmt">// range</span>
+assert([1..6 <em>step 2</em>] == [1, 3, 5]);                  <span class="cmt">// range with step</span>
+assert([4..2 step <em>-1</em>] == [4, 3, 2]);                 <span class="cmt">// negative step</span>
+
+assert(<em>reverse</em> [1, 5, 10] == [10, 5, 1]);            <span class="cmt">// reverse a sequence</span>
+assert(reverse [1..3] == [3..1 step -1]);
+</code></pre></div></div><div class="subSecRow2" id="sec_seqreadbyslice"><div class="subSecHead" id="sechd_seqreadbyslice"><a class="multipageHeadLink" href="sequences.xhtml#seqreadbyslice" name="seqreadbyslice">Reading by index / slice</a><br/>(<a href="#" id="tl-d2703e1153" class="dottedTooltip" onclick="return tlClick('tl-d2703e1153','pp-d2703e1158');" onmouseover="return tlOver('tl-d2703e1153','pp-d2703e1158');" onmouseout="return tlOut('tl-d2703e1153','pp-d2703e1158');">more</a>)
+		</div><div class="subSecContent" id="seccnt_seqreadbyslice"><pre class="subSecCode"><code>def a = [10, 20, 30, 40, 50];
+assert(a<em>[1]</em> == 20);                  <span class="cmt">// read single element</span>
+assert(a[7] == <em>0</em>);                   <span class="cmt">// default value if index does not exist</span>
+assert(a<em>[1..3]</em> == [20, 30, 40]);     <span class="cmt">// slicing (inclusive)</span>
+assert(a[1<em>..&lt;</em>3] == [20, 30]);        <span class="cmt">// slicing (exclusive)</span>
+assert(a[<em>1..</em>] == [20, 30, 40, 50]);  <span class="cmt">// end is optional (inclusive)</span>
+assert(a[<em>1..&lt;</em>] == [20, 30, 40]);     <span class="cmt">// end is optional (exclusive)</span>
+assert(a == [ a[0..1], a[2..] ]);
+</code></pre></div></div><div class="subSecRow1" id="sec_seqwriteindexslice"><div class="subSecHead" id="sechd_seqwriteindexslice"><a class="multipageHeadLink" href="sequences.xhtml#seqwriteindexslice" name="seqwriteindexslice">Writing by index / slice</a><br/>(<a href="#" id="tl-d2703e1223" class="dottedTooltip" onclick="return tlClick('tl-d2703e1223','pp-d2703e1228');" onmouseover="return tlOver('tl-d2703e1223','pp-d2703e1228');" onmouseout="return tlOut('tl-d2703e1223','pp-d2703e1228');">more</a>)
+		</div><div class="subSecContent" id="seccnt_seqwriteindexslice"><pre class="subSecCode"><code>var a = ["a", "b", "c", "d"];
+a<em>[1]</em> = "BBB"; assert(a == ["a", "BBB", "c", "d"]);  <span class="cmt">// replace member</span>
+<em>a[4] = "d";</em> assert(a == ["a", "BBB", "c", "d"]);    <span class="cmt">// <strong class="warn">does nothing</strong> (index too large)</span>
+<span class="strike">a[4] = ["d"];</span>                                       <span class="cmt">// assigning a sequence not allowed</span>
+
+def b = ["a", "b", "c", "d"];
+b<em>[1..1]</em> = ["b1", "b2", "b3"];                       <span class="cmt">// replace slice</span>
+assert(b == ["a", "b1", "b2", "b3", "c", "d"]);
+
+def c = ["a", "b", "c", "d"];
+<em>c[0..&lt;2] = [];</em> assert(c == ["c", "d"]);             <span class="cmt">// delete slice</span>
+<em>c[-1..-1]</em> = ["a", "b"];  assert(c == ["c", "d"]);   <span class="cmt">// <strong class="warn">does nothing</strong></span>
+
+def d = ["c", "d"];
+d<em>[0..0]</em> = ["a", "b", d[0]];                         <span class="cmt">// better use <span class="idf">insert</span> statement</span>
+assert(d == ["a", "b", "c", "d"]);
+
+def e = ["a", "b", "c", "d"];
+e<em>[4..4]</em> = ["e"];                                    <span class="cmt">// append (better use <span class="idf">insert</span> statement)</span>
+assert(e == ["a", "b", "c", "d", "e"]);
+</code></pre></div></div><div class="subSecRow2" id="sec_seqselect"><div class="subSecHead" id="sechd_seqselect"><a class="multipageHeadLink" href="sequences.xhtml#seqselect" name="seqselect">Sequence Select Clause</a><br/>(<a href="#" id="tl-d2703e1338" class="dottedTooltip" onclick="return tlClick('tl-d2703e1338','pp-d2703e1343');" onmouseover="return tlOver('tl-d2703e1338','pp-d2703e1343');" onmouseout="return tlOut('tl-d2703e1338','pp-d2703e1343');">more</a>)
+		</div><div class="subSecContent" id="seccnt_seqselect"><pre class="subSecCode"><code>def a = [12, -2, 0, 21, -100, 3];
+assert(a<em>[x | x &gt;= 0]</em> == [12, 0, 21, 3]);               <span class="cmt">// select clause to filter sequences</span>
+assert(a[c | c &lt; -10 or c &gt; 10] == [12, 21, -100]);
+assert(a[c | <em>indexof c</em> mod 2 == 0] == [12, 0, -100]);  <span class="cmt">// <span class="idf">indexof</span> is the current index</span>
+</code></pre></div></div><div class="subSecRow1" id="sec_seqinsert"><div class="subSecHead" id="sechd_seqinsert"><a class="multipageHeadLink" href="sequences.xhtml#seqinsert" name="seqinsert">Insert / Delete</a><br/>(<a href="#" id="tl-d2703e1375" class="dottedTooltip" onclick="return tlClick('tl-d2703e1375','pp-d2703e1380');" onmouseover="return tlOver('tl-d2703e1375','pp-d2703e1380');" onmouseout="return tlOut('tl-d2703e1375','pp-d2703e1380');">more</a>)
+		</div><div class="subSecContent" id="seccnt_seqinsert"><pre class="subSecCode"><code>var a = ["a", "b", "c"];
+<em>insert</em> "d" <em>into</em> a; assert(a == ["a", "b", "c", "d"]);                   <span class="cmt">// appends elements</span>
+insert <em>["e", "f"]</em> into a; assert(a == ["a", "b", "c", "d", "e", "f"]);  <span class="cmt">// append sequence</span>
+
+var b = [1, 2, 3];
+insert 34 <em>before</em> b[2]; assert(b == [1, 2, 34, 3]);                      <span class="cmt">// <span class="idf">insert before</span></span>
+insert [-1, 0] <em>before</em> b[0]; assert(b == [-1, 0, 1, 2, 34, 3]);
+
+var c = [1, 2, 3];
+insert 34 <em>after</em> c[2]; assert(c == [1, 2, 3, 34]);                       <span class="cmt">// <span class="idf">insert after</span></span>
+insert [22, 23] <em>after</em> c[0]; assert(c == [1, 22, 23, 2, 3, 34]);
+
+var d = [1, 2, 3, 4, 5, 6];
+<em>delete</em> d[1]; assert(d == [1, 3, 4, 5, 6]);                              <span class="cmt">// delete single element</span>
+delete <em>d[1..3]</em>; assert(d == [1, 6]);                                    <span class="cmt">// delete slice</span>
+<em>delete d;</em> assert(d == []);                                              <span class="cmt">// delete all elements</span>
+
+var e = [1, 3, 1, 4, 2, 2, 1];
+delete <em>1 from e</em>; assert(e == [3, 4, 2, 2]);                             <span class="cmt">// delete by value</span>
+</code></pre></div></div><h2 id="sec_conditionalsandloops" class="sectionHead"><a name="conditionalsandloops">Conditionals and Loops</a></h2><div class="subSecRow2" id="sec_ifthenelse"><div class="subSecHead" id="sechd_ifthenelse"><a class="multipageHeadLink" href="conditionalsandloops.xhtml#ifthenelse" name="ifthenelse">if then else</a><br/>(<a href="#" id="tl-d2703e1508" class="dottedTooltip" onclick="return tlClick('tl-d2703e1508','pp-d2703e1513');" onmouseover="return tlOver('tl-d2703e1508','pp-d2703e1513');" onmouseout="return tlOut('tl-d2703e1508','pp-d2703e1513');">more</a>)
+		</div><div class="subSecContent" id="seccnt_ifthenelse"><pre class="subSecCode"><code>def a = 5;
+<em>if</em> (a &gt; 0) <em>then</em> assert(true);
+if (a &gt; 0) assert(true);               <span class="cmt">// <span class="idf">then</span> is optional</span>
+if (a &gt; 0) assert(true) <em>else</em> assert(false);
+var b;
+if (a &gt; 0) {                           <span class="cmt">// with block (curly braces)</span>
+    b = 1;
+}
+else {
+    b = -1;
+}
+assert(b == 1);
+
+var c <em>= if (b == 1) "foo" else "bar"</em>;  <span class="cmt">// <span class="idf">if/else</span> returns value</span>
+def d = if (b == 1) {
+    println("b is 1.");
+    <em>"foo";</em>                             <span class="cmt">// last expression in block will be returned</span>
+}
+else {
+    println("b is not 1;");
+    <em>"bar";</em>
+};
+assert(d == "foo");
+</code></pre></div></div><div class="subSecRow1" id="sec_for"><div class="subSecHead" id="sechd_for"><a class="multipageHeadLink" href="conditionalsandloops.xhtml#for" name="for">for</a><br/>(<a href="#" id="tl-d2703e1626" class="dottedTooltip" onclick="return tlClick('tl-d2703e1626','pp-d2703e1631');" onmouseover="return tlOver('tl-d2703e1626','pp-d2703e1631');" onmouseout="return tlOut('tl-d2703e1626','pp-d2703e1631');">more</a>)
+		</div><div class="subSecContent" id="seccnt_for"><pre class="subSecCode"><code>var sum = 0;
+<em>for</em> (i in [1..4])                                    <span class="cmt">// iterates through a sequence</span>
+    sum += i;
+assert(sum == 10);
+
+def a <em>= for (i in [1..3]) i * i</em>;                     <span class="cmt">// returns a new sequence</span>
+assert(a == [1, 4, 9]);
+
+def b = for (i in [1..7] <em>where</em> i mod 2 != 0) i * i;  <span class="cmt">// restricts sequence</span>
+assert(b == [1, 9, 25, 49]);
+
+def c = for (i in [5..7]<em>, j in [1..3]</em>) i - j;        <span class="cmt">// two sequences in one loop (<a href="#" id="tl-d2703e1723" class="dottedTooltip" onclick="return tlClick('tl-d2703e1723','pp-d2703e1723');" onmouseover="return tlOver('tl-d2703e1723','pp-d2703e1723');" onmouseout="return tlOut('tl-d2703e1723','pp-d2703e1723');">more</a>)</span>
+assert(c == [4, 3, 2, 5, 4, 3, 6, 5, 4]);
+
+def d = for (i in [1..5] where i mod 2 != 0, j in [1..5] where i &lt;= j) i * j;
+assert(d == [1, 2, 3, 4, 5, 9, 12, 15, 25]);
+
+var i = 0;
+for (<em>i</em> in [1..5])                                    <span class="cmt">// <strong class="warn">creates new variable named <span class="idf">i</span></strong></span>
+    sum += i;
+assert(i == 0);                                      <span class="cmt">// <strong class="warn"><span class="idf">i</span> did not change</strong></span>
+</code></pre></div></div><div class="subSecRow2" id="sec_while"><div class="subSecHead" id="sechd_while"><a class="multipageHeadLink" href="conditionalsandloops.xhtml#while" name="while">while</a><br/>(<a href="#" id="tl-d2703e1773" class="dottedTooltip" onclick="return tlClick('tl-d2703e1773','pp-d2703e1778');" onmouseover="return tlOver('tl-d2703e1773','pp-d2703e1778');" onmouseout="return tlOut('tl-d2703e1773','pp-d2703e1778');">more</a>)
+		</div><div class="subSecContent" id="seccnt_while"><pre class="subSecCode"><code>var a = 0; var b = 3;
+<em>while</em> (b &gt; 0)               <span class="cmt">// repeats a block while condition is true</span>
+    a = a + (b--);
+assert(a == 6);
+
+<span class="strike">def b = while (a &gt; 0) a--;</span>  <span class="cmt">// <span class="idf">while</span> returns <span class="idf">Void</span></span>
+</code></pre></div></div><div class="subSecRow1" id="sec_break"><div class="subSecHead" id="sechd_break"><a class="multipageHeadLink" href="conditionalsandloops.xhtml#break" name="break">break</a><br/>(<a href="#" id="tl-d2703e1827" class="dottedTooltip" onclick="return tlClick('tl-d2703e1827','pp-d2703e1832');" onmouseover="return tlOver('tl-d2703e1827','pp-d2703e1832');" onmouseout="return tlOut('tl-d2703e1827','pp-d2703e1832');">more</a>)
+		</div><div class="subSecContent" id="seccnt_break"><pre class="subSecCode"><code>var a = ""; var b = ["abc", "d", "efg", "hij", "k", "lmnop", "qrs"];
+for (i in b) {
+    a = "{a}{i}";
+    if (a.length() &gt;= 10)
+        <em>break</em>;  <span class="cmt">// aborts the loop</span>
+}
+assert(a == "abcdefghij");
+
+var c = 0; var d = 0;
+while (c &lt;= 10) {
+    d += c * c;
+    if (d &gt; 100)
+        <em>break</em>;  <span class="cmt">// aborts the loop</span>
+    c++;
+}
+assert(d == 140);
+</code></pre></div></div><div class="subSecRow2" id="sec_continue"><div class="subSecHead" id="sechd_continue"><a class="multipageHeadLink" href="conditionalsandloops.xhtml#continue" name="continue">continue</a><br/>(<a href="#" id="tl-d2703e1907" class="dottedTooltip" onclick="return tlClick('tl-d2703e1907','pp-d2703e1912');" onmouseover="return tlOver('tl-d2703e1907','pp-d2703e1912');" onmouseout="return tlOut('tl-d2703e1907','pp-d2703e1912');">more</a>)
+		</div><div class="subSecContent" id="seccnt_continue"><pre class="subSecCode"><code>var a = ""; var b = ["abc", "d", "efg", "hij", "k", "lmnop", "qrs"];
+for (i in b) {
+    if (a.length() &gt;= 10)
+        <em>continue</em>;  <span class="cmt">// skips the rest of the current iteration</span>
+    a = "{a}{i}";
+}
+assert(a == "abcdefghij");
+
+var c = 0; var d = 0;
+while (c &lt;= 10) {
+    c++;
+    if (d &gt; 100)
+        <em>continue</em>;  <span class="cmt">// skips the rest of the current iteration</span>
+    d += c * c;
+}
+assert(d == 140);
+</code></pre></div></div><div class="subSecRow1" id="sec_indexof"><div class="subSecHead" id="sechd_indexof"><a class="multipageHeadLink" href="conditionalsandloops.xhtml#indexof" name="indexof">indexof</a><br/>(<a href="#" id="tl-d2703e1986" class="dottedTooltip" onclick="return tlClick('tl-d2703e1986','pp-d2703e1991');" onmouseover="return tlOver('tl-d2703e1986','pp-d2703e1991');" onmouseout="return tlOut('tl-d2703e1986','pp-d2703e1991');">more</a>)
+		</div><div class="subSecContent" id="seccnt_indexof"><pre class="subSecCode"><code>var a = [];
+for (i in ["a", "b", "c"])
+    insert "{i}{<em>indexof i</em>}" into a;
+assert(a == ["a0", "b1", "c2"]);
+</code></pre></div></div><h2 id="sec_functions" class="sectionHead"><a name="functions">Functions</a></h2><div class="subSecRow2" id="sec_funcdefinition"><div class="subSecHead" id="sechd_funcdefinition"><a class="multipageHeadLink" href="functions.xhtml#funcdefinition" name="funcdefinition">Defining and Calling</a><br/>(<a href="#" id="tl-d2703e2024" class="dottedTooltip" onclick="return tlClick('tl-d2703e2024','pp-d2703e2029');" onmouseover="return tlOver('tl-d2703e2024','pp-d2703e2029');" onmouseout="return tlOut('tl-d2703e2024','pp-d2703e2029');">more</a>)
+		</div><div class="subSecContent" id="seccnt_funcdefinition"><pre class="subSecCode"><code><em>function</em> isEqual(a, b) {     <span class="cmt">// defining a <span class="idf">function</span></span>
+    <em>return</em> a == b;
+}
+assert(isEqual("a", "a"));   <span class="cmt">// calling the <span class="idf">function</span></span>
+assert(not isEqual("a", "b"));
+assert(isEqual(1, 1));       <span class="cmt">// Can be called with any type</span>
+
+function isEqual2(a, b) {
+    <em>a == b</em>                   <span class="cmt">// <span class="idf">return</span> is optional!</span>
+}
+assert(isEqual2("a", "a"));
+
+function isEqual3(a<em>: Integer</em>, b<em>: Integer</em>)<em> : Boolean</em> {
+    a == b                   <span class="cmt">// explicitly typed function</span>
+}
+assert(isEqual3(5, 5));
+<span class="strike">assert(isEqual3("a", "a"));</span>  <span class="cmt">// incompatible types</span>
+</code></pre></div></div><div class="subSecRow1" id="sec_closures"><div class="subSecHead" id="sechd_closures"><a class="multipageHeadLink" href="functions.xhtml#closures" name="closures">Closures and Anonymous Functions</a><br/>(<a href="#" id="tl-d2703e2130" class="dottedTooltip" onclick="return tlClick('tl-d2703e2130','pp-d2703e2135');" onmouseover="return tlOver('tl-d2703e2130','pp-d2703e2135');" onmouseout="return tlOut('tl-d2703e2130','pp-d2703e2135');">more</a>)
+		</div><div class="subSecContent" id="seccnt_closures"><pre class="subSecCode"><code>def f = <em>function(a) { a * a }</em>;                              <span class="cmt">// inline function</span>
+assert(f(2) == 4);                                          <span class="cmt">// called like any other function</span>
+
+function forEach(seq : Integer[], <em>f: function(:Integer)</em>) {  <span class="cmt">// declaration</span>
+    for (i in seq)
+        f(i);
+}
+var sum = 0;
+forEach([1, 2, 3], <em>function(a: Integer) : Void { sum += a}</em>);
+assert(sum == 6);
+</code></pre></div></div><h2 id="sec_classes" class="sectionHead"><a name="classes">Classes</a></h2><div class="subSecRow2" id="sec_classdef"><div class="subSecHead" id="sechd_classdef"><a class="multipageHeadLink" href="classes.xhtml#classdef" name="classdef">Definition and Instantiating</a><br/>(<a href="#" id="tl-d2703e2196" class="dottedTooltip" onclick="return tlClick('tl-d2703e2196','pp-d2703e2201');" onmouseover="return tlOver('tl-d2703e2196','pp-d2703e2201');" onmouseout="return tlOut('tl-d2703e2196','pp-d2703e2201');">more</a>)
+		</div><div class="subSecContent" id="seccnt_classdef"><pre class="subSecCode"><code><em>class</em> Person {                           <span class="cmt">// declaring a class</span>
+    var lastName : String;               <span class="cmt">// instance variables</span>
+    var firstName : String = "unknown";  <span class="cmt">// default value</span>
+
+    function toFullName() {              <span class="cmt">// instance function</span>
+        return "{firstName} {lastName}";
+    }
+}
+
+def a <em>= Person {</em>                         <span class="cmt">// creating new Person (<a href="#" id="tl-d2703e2250" class="dottedTooltip" onclick="return tlClick('tl-d2703e2250','pp-d2703e2250');" onmouseover="return tlOver('tl-d2703e2250','pp-d2703e2250');" onmouseout="return tlOut('tl-d2703e2250','pp-d2703e2250');">more</a>)</span>
+    firstName: "John"                    <span class="cmt">// <strong class="warn">no comma or semicolon needed</strong></span>
+    lastName: "Doe"
+<em>}</em>;
+assert(<em>a.firstName</em> == "John");           <span class="cmt">// property access</span>
+assert(<em>a.toFullName()</em> == "John Doe");    <span class="cmt">// calling a function</span>
+
+<em>a.firstName =</em> "George";
+assert(a.firstName == "George");
+
+def b <em>= Person{}</em>;                        <span class="cmt">// Omitting properties</span>
+assert(b.lastName == "");                <span class="cmt">// uninitialized default</span>
+assert(b.firstName == "unknown");
+
+def c = <em>new Person()</em>;                    <span class="cmt">// Java constructor syntax</span>
+assert(c.lastName == "");                <span class="cmt">// uninitialized default</span>
+assert(c.firstName == "unknown");
+</code></pre></div></div><div class="subSecRow1" id="sec_objectinit"><div class="subSecHead" id="sechd_objectinit"><a class="multipageHeadLink" href="classes.xhtml#objectinit" name="objectinit">Object Initialization</a><br/>(<a href="#" id="tl-d2703e2344" class="dottedTooltip" onclick="return tlClick('tl-d2703e2344','pp-d2703e2349');" onmouseover="return tlOver('tl-d2703e2344','pp-d2703e2349');" onmouseout="return tlOut('tl-d2703e2344','pp-d2703e2349');">more</a>)
+		</div><div class="subSecContent" id="seccnt_objectinit"><pre class="subSecCode"><code>var r: String = "start";
+class InitTester {
+    var a = "vardefault" on replace { r = "{r}-{a}" };
+    <em>init</em> { r = "{r}-init" }          <span class="cmt">// <span class="idf">init</span> block called after variable initialization</span>
+    <em>postinit</em> { r = "{r}-postinit" }  <span class="cmt">// <span class="idf">postinit</span> is called after <span class="idf">init</span></span>
+}
+var test = InitTester { a: "varinit" };
+assert(r == "start-varinit-init-postinit");
+</code></pre></div></div><div class="subSecRow2" id="sec_complextrees"><div class="subSecHead" id="sechd_complextrees"><a class="multipageHeadLink" href="classes.xhtml#complextrees" name="complextrees">Complex Object Trees</a><br/>(<a href="#" id="tl-d2703e2415" class="dottedTooltip" onclick="return tlClick('tl-d2703e2415','pp-d2703e2420');" onmouseover="return tlOver('tl-d2703e2415','pp-d2703e2420');" onmouseout="return tlOut('tl-d2703e2415','pp-d2703e2420');">more</a>)
+		</div><div class="subSecContent" id="seccnt_complextrees"><pre class="subSecCode"><code>import java.lang.Math;  <span class="cmt">// import Java's Math class</span>
+class Point {
+    var x : Integer; var y : Integer;
+}
+class Shape {
+    var name : String;
+    var points : Point[];
+}
+class ShapeCollection {
+    var name : String;
+    var shapes : Shape[];
+}
+
+def myShapes = ShapeCollection {
+    name: "My Shapes"
+    shapes: [           <span class="cmt">// sequence as value</span>
+        Shape {
+            name: "Triangle"
+            points: [ Point { x: 0.5 y: 0.5}, Point { x: 1.5 y: 1.5},
+                      Point { x: 0.5 y: 2.5} ]
+        },
+        Shape {
+            name: "Square"
+            points: [ Point { x: 5 y: 5}, Point { x: 10 y: 5},
+                      Point { x: 10 y: 10}, Point { x: 5 y: 10} ]
+        },
+        Shape {
+            name: "Near-Circle"
+            points: for (i in [0..&lt;360])
+                       Point { x: 5 + 5 * Math.cos(2.0 * Math.PI * i / 360.0)
+                               y: 15 + 5 * Math.sin(2.0 * Math.PI * i / 360.0) }
+        }
+    ]
+};
+</code></pre></div></div><div class="subSecRow1" id="sec_objecteq"><div class="subSecHead" id="sechd_objecteq"><a class="multipageHeadLink" href="classes.xhtml#objecteq" name="objecteq">Object Equality</a><br/>(<a href="#" id="tl-d2703e2537" class="dottedTooltip" onclick="return tlClick('tl-d2703e2537','pp-d2703e2542');" onmouseover="return tlOver('tl-d2703e2537','pp-d2703e2542');" onmouseout="return tlOut('tl-d2703e2537','pp-d2703e2542');">more</a>)
+		</div><div class="subSecContent" id="seccnt_objecteq"><pre class="subSecCode"><code>class A { var x; var y; }
+def a = A { x: 12, y: 12};
+def b = A { x: 12, y: 12};
+assert(a != b);                <span class="cmt">// <strong class="warn">Equality not defined!</strong> =&gt; no 2 objects are equal</span>
+assert(a == a);                <span class="cmt">// Same instance =&gt; equal</span>
+
+class B { 
+    var x; var y; 
+    <em>override function equals(o: Object) : Boolean</em> {
+        if (o instanceof B) {  <span class="cmt">// implementing equality</span>
+            def b2 = o as B;
+	    (x == b2.x) and (y == b2.y)
+	}
+        else
+            false;
+    }
+}
+def d = B { x: 12, y: 12};
+def e = B { x: 12, y: 12};
+def f = B { x: 5, y: 12};
+assert(d == e);
+assert(d != f);
+</code></pre></div></div><div class="subSecRow2" id="sec_inheritance"><div class="subSecHead" id="sechd_inheritance"><a class="multipageHeadLink" href="classes.xhtml#inheritance" name="inheritance">Inheritance</a><br/>(<a href="#" id="tl-d2703e2643" class="dottedTooltip" onclick="return tlClick('tl-d2703e2643','pp-d2703e2648');" onmouseover="return tlOver('tl-d2703e2643','pp-d2703e2648');" onmouseout="return tlOut('tl-d2703e2643','pp-d2703e2648');">more</a>)
+		</div><div class="subSecContent" id="seccnt_inheritance"><pre class="subSecCode"><code>class Customer <em>extends Person</em> {
+    var customerNumber : Integer;                <span class="cmt">// adds a new variable</span>
+    <em>override</em> var firstName = "Bob";              <span class="cmt">// <span class="idf">override</span> to change default</span>
+                                                 <span class="cmt">// or provide a different <span class="idf">on replace</span></span>
+
+    <em>override</em> function toFullName() {             <span class="cmt">// <span class="idf">override</span> to modify behaviour</span>
+                                                 <span class="cmt">// calls super implementation:</span>
+        "{<em>Person.toFullName()</em>} (customer {customerNumber})"
+    }
+}
+
+def myCustomer = Customer {
+    firstName: "Tom" lastName: "Miller" customerNumber: 3437
+};
+
+def a : Person = myCustomer;
+assert(a <em>instanceof</em> Person);                     <span class="cmt">// checks class of reference</span>
+assert(a <em>instanceof</em> Customer);                   <span class="cmt">// checks class of reference</span>
+<span class="strike">assert(a.customerNumber == 3437);</span>                <span class="cmt">// <span class="idf">a</span> declared Person, not Customer</span>
+assert((a <em>as Customer</em>).customerNumber == 3437);  <span class="cmt">// casting</span>
+
+var r2: String = "start";
+class InitTesterA {
+    var a = "vardefault" on replace { r2 = "{r2}-{a}" };
+    init { r2 = "{r2}-initA" }
+    postinit { r2 = "{r2}-postinitA" }
+}
+class InitTesterB extends InitTesterA {
+    var b = "vardefault" on replace { r2 = "{r2}-{b}" };
+    init { r2 = "{r2}-initB" }
+    postinit { r2 = "{r2}-postinitB" }
+}
+var test2 = InitTesterB { a: "varinitA", b: "varinitB" };
+assert(r2 == "start-varinitA-varinitB-initA-initB-postinitA-postinitB");
+</code></pre></div></div><div class="subSecRow1" id="sec_mixins"><div class="subSecHead" id="sechd_mixins"><a class="multipageHeadLink" href="classes.xhtml#mixins" name="mixins">Mixins</a><br/>(<a href="#" id="tl-d2703e2804" class="dottedTooltip" onclick="return tlClick('tl-d2703e2804','pp-d2703e2809');" onmouseover="return tlOver('tl-d2703e2804','pp-d2703e2809');" onmouseout="return tlOut('tl-d2703e2804','pp-d2703e2809');">more</a>)
+		</div><div class="subSecContent" id="seccnt_mixins"><pre class="subSecCode"><code><em>mixin</em> class Counter {                             <span class="cmt">// defining a <span class="idf">mixin</span></span>
+    var counter: Integer;
+    function countUp() { counter++; }
+}
+
+<em>mixin</em> class Greeter {                             <span class="cmt">// defining a second <span class="idf">mixin</span></span>
+    function greet(name: String): String { "Hello {name}!" }
+}
+
+class GreetingCounter <em>extends Counter, Greeter</em> {  <span class="cmt">// extending both mixins</span>
+    function countAndGreet(name: String) {
+        "{greet(name)} You are visitor number {countUp()}."
+    }
+}
+
+def a : GreetingCounter = GreetingCounter{counter: 2};
+assert(a.countAndGreet("Tim") == "Hello Tim! You are visitor number 2.");
+
+<span class="strike">def b = Counter{counter: 5};</span>                      <span class="cmt">// Mixins can not be instantiated</span>
+</code></pre></div></div><div class="subSecRow2" id="sec_abstract"><div class="subSecHead" id="sechd_abstract"><a class="multipageHeadLink" href="classes.xhtml#abstract" name="abstract">Abstract</a><br/>(<a href="#" id="tl-d2703e2894" class="dottedTooltip" onclick="return tlClick('tl-d2703e2894','pp-d2703e2899');" onmouseover="return tlOver('tl-d2703e2894','pp-d2703e2899');" onmouseout="return tlOut('tl-d2703e2894','pp-d2703e2899');">more</a>)
+		</div><div class="subSecContent" id="seccnt_abstract"><pre class="subSecCode"><code><em>abstract</em> class A {                   <span class="cmt">// <span class="idf">abstract</span> class</span>
+    <em>abstract</em> function foo() : Void;  <span class="cmt">// <span class="idf">abstract</span> function</span>
+}
+class B extends A {                  <span class="cmt">// concrete sub-class</span>
+    <em>override</em> function foo() : Void { println("Hello"); }
+}
+
+<span class="strike">var a = A{};</span>                         <span class="cmt">// <span class="idf">abstract</span> classes can't be created</span>
+var b = B{};
+</code></pre></div></div><h2 id="sec_bindings" class="sectionHead"><a name="bindings">Bindings</a></h2><div class="subSecRow1" id="sec_varbindings"><div class="subSecHead" id="sechd_varbindings"><a class="multipageHeadLink" href="bindings.xhtml#varbindings" name="varbindings">Variable Bindings</a><br/>(<a href="#" id="tl-d2703e2977" class="dottedTooltip" onclick="return tlClick('tl-d2703e2977','pp-d2703e2982');" onmouseover="return tlOver('tl-d2703e2977','pp-d2703e2982');" onmouseout="return tlOut('tl-d2703e2977','pp-d2703e2982');">more</a>)
+		</div><div class="subSecContent" id="seccnt_varbindings"><pre class="subSecCode"><code>var a = 5;
+var b = <em>bind</em> a;      <span class="cmt">// <span class="idf">b</span> has now the value of<span class="idf">a</span></span>
+assert(b == 5);
+a = 2;
+assert(<em>b == 2</em>);      <span class="cmt">// changes of <span class="idf">a</span> appear in <span class="idf">b</span></span>
+<span class="strike">b = 1;</span>               <span class="cmt">// direct modification not allowed</span>
+var c = 3;
+<span class="strike">b = bind c;</span>          <span class="cmt">// binding only in initialization</span>
+<em>def</em> d = bind a;      <span class="cmt">// <span class="idf">def</span> and <span class="idf">var</span> are equivalent for <span class="idf">bind</span></span>
+
+def e = <em>bind a + c</em>;  <span class="cmt">// binding to an expression (<a href="#" id="tl-d2703e3060" class="dottedTooltip" onclick="return tlClick('tl-d2703e3060','pp-d2703e3060');" onmouseover="return tlOver('tl-d2703e3060','pp-d2703e3060');" onmouseout="return tlOut('tl-d2703e3060','pp-d2703e3060');">more</a>)</span>
+assert(e == 5);
+a = 5;
+assert(e == 8);
+c = 10;
+assert(e == 15);
+
+def f = bind {       <span class="cmt">// <span class="idf">bind</span> block</span>
+    def x = if (a &gt; 0) then 10 else -10;
+    <span class="strike">c = 10</span>           <span class="cmt">// no side-effects allowed</span>
+    <span class="strike">var y = 1;</span>       <span class="cmt">// no variables allowed</span>
+    x * 10;
+};
+assert(f == 100);
+</code></pre></div></div><div class="subSecRow2" id="sec_funcbound"><div class="subSecHead" id="sechd_funcbound"><a class="multipageHeadLink" href="bindings.xhtml#funcbound" name="funcbound">Functions / bound</a><br/>(<a href="#" id="tl-d2703e3118" class="dottedTooltip" onclick="return tlClick('tl-d2703e3118','pp-d2703e3123');" onmouseover="return tlOver('tl-d2703e3118','pp-d2703e3123');" onmouseout="return tlOut('tl-d2703e3118','pp-d2703e3123');">more</a>)
+		</div><div class="subSecContent" id="seccnt_funcbound"><pre class="subSecCode"><code>var v = 2;
+var multiplicator = 10;
+function mul(x) {                   <span class="cmt">// regular function</span>
+    x * multiplicator
+}
+<em>bound</em> function mulBound(x) {        <span class="cmt">// <span class="idf">bound</span> function</span>
+    x * multiplicator
+}
+
+def a = <em>bind mul(v)</em>;
+def b = <em>bind mulBound(v)</em>;
+assert(a == 20 and b == 20);
+v = 3;                              <span class="cmt">// after argument changes all functions recalculate</span>
+assert(a == 30 and b == 30);
+multiplicator = 5;                  <span class="cmt">// only the <span class="idf">bound</span> function changes</span>
+assert(a == 30 and <em>b == 15</em>);
+
+v = 3; multiplicator = 5;
+def c = <em>bind mul(v) + mulBound(v)</em>;  <span class="cmt">// <span class="idf">bound</span> function in expression</span>
+assert(c == 30);
+v = 4;
+assert(c == 40);
+multiplicator = 10;
+assert(c == 60);                    <span class="cmt">// only the <span class="idf">bound</span> function recalculates</span>
+</code></pre></div></div><div class="subSecRow1" id="sec_bindobjs"><div class="subSecHead" id="sechd_bindobjs"><a class="multipageHeadLink" href="bindings.xhtml#bindobjs" name="bindobjs">Objects</a><br/>(<a href="#" id="tl-d2703e3246" class="dottedTooltip" onclick="return tlClick('tl-d2703e3246','pp-d2703e3251');" onmouseover="return tlOver('tl-d2703e3246','pp-d2703e3251');" onmouseout="return tlOut('tl-d2703e3246','pp-d2703e3251');">more</a>)
+		</div><div class="subSecContent" id="seccnt_bindobjs"><pre class="subSecCode"><code>class Point {
+    var x : Integer; var y : Integer;
+}
+var a = 5;
+def p1 = <em>bind Point{x: a y: 2}</em>;       <span class="cmt">// <span class="idf">bind</span> object</span>
+assert(p1.x == 5);
+def p1Old = p1;
+a = 17;
+assert(p1.x == 17);                   <span class="cmt">// whole object changed</span>
+assert(<em>not isSameObject(p1, p1Old)</em>);  <span class="cmt">// new instance created</span>
+
+def p2 = Point{x: <em>bind a</em> y: 2};       <span class="cmt">// <span class="idf">bind</span> property</span>
+assert(p2.x == 17);
+def p2Old = p2;
+a = 25;
+assert(p2.x == 25);                   <span class="cmt">// property changed</span>
+assert(<em>isSameObject(p2, p2Old)</em>);      <span class="cmt">// same old instance</span>
+</code></pre></div></div><h2 id="sec_exceptions" class="sectionHead"><a name="exceptions">Exceptions (try/catch/finally)</a></h2><div class="subSecRow2" id="sec_throwcatch"><div class="subSecHead" id="sechd_throwcatch"><a class="multipageHeadLink" href="exceptions.xhtml#throwcatch" name="throwcatch">Throwing and Catching</a><br/>(<a href="#" id="tl-d2703e3347" class="dottedTooltip" onclick="return tlClick('tl-d2703e3347','pp-d2703e3352');" onmouseover="return tlOver('tl-d2703e3347','pp-d2703e3352');" onmouseout="return tlOut('tl-d2703e3347','pp-d2703e3352');">more</a>)
+		</div><div class="subSecContent" id="seccnt_throwcatch"><pre class="subSecCode"><code>import java.lang.Exception;            <span class="cmt">// JavaFX uses Java's Exception</span>
+class MyException <em>extends Exception</em> {  <span class="cmt">// must extend <span class="idf">Exception</span> (<a href="#" id="tl-d2703e3387" class="dottedTooltip" onclick="return tlClick('tl-d2703e3387','pp-d2703e3387');" onmouseover="return tlOver('tl-d2703e3387','pp-d2703e3387');" onmouseout="return tlOut('tl-d2703e3387','pp-d2703e3387');">more</a>)</span>
+    var msg : String
+}
+
+function testException() {             <span class="cmt">// no exception declaration needed</span>
+    <em>throw</em> MyException{ msg: "got a problem" };
+    <span class="strike">assert(false);</span>                     <span class="cmt">// never reached</span>
+}
+
+var gotException = false;
+<em>try</em> {
+    testException();
+    <span class="strike">assert(false);</span>                     <span class="cmt">// never reached!</span>
+}
+<em>catch (e : MyException) {</em>              <span class="cmt">// catches only <span class="idf">MyException</span></span>
+    gotException = true;
+    assert(e.msg == "got a problem");
+}
+catch (e : java.lang.RuntimeException) {
+    <span class="strike">assert(false);</span>                     <span class="cmt">// never reached</span>
+}
+assert(gotException);
+
+gotException = false;
+try {
+    throw MyException{ msg: "got another problem" };
+    <span class="strike">assert(false);</span>                     <span class="cmt">// never reached!</span>
+}
+catch (<em>e</em>) {                            <span class="cmt">// catch all <span class="idf">Throwable</span></span>
+    gotException = true;
+    assert((e as MyException).msg == "got another problem");
+}
+assert(gotException);
+</code></pre></div></div><div class="subSecRow1" id="sec_finally"><div class="subSecHead" id="sechd_finally"><a class="multipageHeadLink" href="exceptions.xhtml#finally" name="finally">finally</a><br/>(<a href="#" id="tl-d2703e3531" class="dottedTooltip" onclick="return tlClick('tl-d2703e3531','pp-d2703e3536');" onmouseover="return tlOver('tl-d2703e3531','pp-d2703e3536');" onmouseout="return tlOut('tl-d2703e3531','pp-d2703e3536');">more</a>)
+		</div><div class="subSecContent" id="seccnt_finally"><pre class="subSecCode"><code>var finallyCounter = 0;
+function testFinally(a: Integer) : Boolean {
+    try {
+        if (a &lt; 0)
+            throw new java.lang.Exception("a was negative");
+        if (a == 0)
+            return false;
+    }
+    <em>finally</em> {
+        finallyCounter++;  <span class="cmt">// always invoked after leaving <span class="idf">try</span></span>
+    }
+    return true;
+}
+
+testFinally(1);
+testFinally(0);
+try { testFinally(-1); } catch (e) { /* ignore exception */ }
+assert(finallyCounter == 3);
+</code></pre></div></div><h2 id="sec_interop" class="sectionHead"><a name="interop">Java Interoperability</a></h2><div class="subSecRow2" id="sec_interop1"><div class="subSecHead" id="sechd_interop1"><a class="multipageHeadLink" href="interop.xhtml#interop1" name="interop1"/></div><div class="subSecContent" id="seccnt_interop1"><p class="subSecExplanation">JavaFX has full access to all Java code. You can instantiate, extend and use all Java classes from JavaFX.</p><pre class="subSecCode"><code>import <em>java.util.ArrayList</em>;                   <span class="cmt">// import Java class</span>
+def list = <em>new</em> ArrayList(3);                  <span class="cmt">// create new instance using <span class="idf">new</span></span>
+list.add("a"); list.add("b"); list.add("c");  <span class="cmt">// call methods</span>
+var r;
+for (i in <em>list</em>)                               <span class="cmt">// <span class="idf">for</span> can use any <span class="idf">Iterable</span></span>
+    r = "{r}{i}";
+assert(r == "abc");
+
+def t = new java.util.Date();                 <span class="cmt">// without import</span>
+<span class="strike">def ms = t.time;</span>                              <span class="cmt">// <span class="idf">getTime</span> is no property</span>
+def ms = t.getTime();
+
+def f = new java.io.File("example.dat");
+f.<em>&lt;&lt;delete&gt;&gt;</em>();                               <span class="cmt">// escape syntax for keywords (<a href="#" id="tl-d2703e3712" class="dottedTooltip" onclick="return tlClick('tl-d2703e3712','pp-d2703e3712');" onmouseover="return tlOver('tl-d2703e3712','pp-d2703e3712');" onmouseout="return tlOut('tl-d2703e3712','pp-d2703e3712');">more</a>)</span>
+</code></pre><p class="subSecExplanation">There is currently no direct support for creating and using JavaFX classes from Java. You can start a JavaFX script from Java using the <a href="http://java.sun.com/javase/6/docs/technotes/guides/scripting/programmer_guide/index.html">Scripting API</a> though. If you need to call JavaFX code from Java, you should write an interface in Java and implement it in JavaFX.<br/> </p></div></div><h2 id="sec_packagesandaccessmods" class="sectionHead"><a name="packagesandaccessmods">Packages and Access Modifiers</a></h2><div class="subSecRow1" id="sec_packages"><div class="subSecHead" id="sechd_packages"><a class="multipageHeadLink" href="packagesandaccessmods.xhtml#packages" name="packages">Packages</a></div><div class="subSecContent" id="seccnt_packages"><p class="subSecExplanation">Packages allow you to structure your JavaFX files (.fx). You can put one or more source files in a directory, and then declare them to be part of a <span class="idf">package</span>. The directory name must be the name of the declared package.<br/> By default, all variables, classes and class members can not be accessed from other scripts. You need to use access modifiers like <span class="idf">public</span> to publish them to other scripts and packages. The following script <span class="idf">animals/bird.fx</span> defines a package and a public class with a public property:</p><pre class="subSecCode"><code><em>package</em> animals;               <span class="cmt">// declaring <span class="idf">package</span></span>
+
+<em>public</em> class Bird {            <span class="cmt">// <span class="idf">public</span> class</span>
+    <em>public</em> var name : String;  <span class="cmt">// <span class="idf">public</span> property</span>
+}
+</code></pre><p class="subSecExplanation">To access the <span class="idf">Bird</span> class from outside the package, you need to specify the full name:</p><pre class="subSecCode"><code>def myBird : <em>animals.Bird</em> = <em>animals.Bird</em> { name: "Big Bird" };
+</code></pre><p class="subSecExplanation">Alternatively, you must import the name at the beginning of the script and can then use the short name:</p><pre class="subSecCode"><code><em>import animals.Bird;</em>
+def myBird : <em>Bird</em> = <em>Bird</em> { name: "Big Bird" };
+</code></pre><p class="subSecExplanation">If you need several declarations from a package, you can also import them all. However, that makes it more difficult to find out where a declaration is coming from:</p><pre class="subSecCode"><code><em>import animals.*;</em>
+def myBird : <em>Bird</em> = <em>Bird</em> { name: "Big Bird" };
+</code></pre></div></div><div class="subSecRow2" id="sec_accessmods"><div class="subSecHead" id="sechd_accessmods"><a class="multipageHeadLink" href="packagesandaccessmods.xhtml#accessmods" name="accessmods">Access Modifier</a></div><div class="subSecContent" id="seccnt_accessmods"><p class="subSecExplanation">An access modifier can be put in front of a variable, function or class to make them available outside of the current script. By default, only the current script can access them. To give other scripts additional access, the following access modifiers are available:</p><pre class="subSecCode"><code><em>package</em> var a;                <span class="cmt">// all scripts in the same package have full access</span>
+<em>protected</em> var b;              <span class="cmt">// subclasses and scripts in the same package have full access</span>
+<em>public</em> var c;                 <span class="cmt">// every script has full access</span>
+<em>public-read</em> var d;            <span class="cmt">// all scripts can read, only the current script can write</span>
+<em>package public-read</em> var e;    <span class="cmt">// all scripts can read, </span>
+                              <span class="cmt">// only scripts in the same package can write</span>
+<em>protected public-read</em> var f;  <span class="cmt">// all scripts can read, </span>
+                              <span class="cmt">// only the current script can write</span>
+<em>public-init</em> var g;            <span class="cmt">// all script can read, all can set it in object initializer,</span>
+                              <span class="cmt">// only scripts in the same package and subclasses can write</span>
+<em>package public-init</em> var h;    <span class="cmt">// all script can read, </span>
+                              <span class="cmt">// all can set it in object initializer, </span>
+                              <span class="cmt">// only scripts in the same package can write</span>
+<em>protected public-init</em> var i;  <span class="cmt">// all script can read, </span>
+                              <span class="cmt">// all can set it in object initializer, </span>
+                              <span class="cmt">// only scripts in the same package and subclasses can write</span>
+</code></pre></div></div><h2 id="sec_guifeatures" class="sectionHead"><a name="guifeatures">GUI Features</a></h2><div class="subSecRow1" id="sec_keyvalue"><div class="subSecHead" id="sechd_keyvalue"><a class="multipageHeadLink" href="guifeatures.xhtml#keyvalue" name="keyvalue">KeyValue</a><br/>(<a href="#" id="tl-d2703e3960" class="dottedTooltip" onclick="return tlClick('tl-d2703e3960','pp-d2703e3965');" onmouseover="return tlOver('tl-d2703e3960','pp-d2703e3965');" onmouseout="return tlOut('tl-d2703e3960','pp-d2703e3965');">more</a>)
+		</div><div class="subSecContent" id="seccnt_keyvalue"><pre class="subSecCode"><code>import javafx.animation.*;
+var a = 0.0; var b = 5.0;
+def kv1  = <em>a =&gt; 100.0</em>;                             <span class="cmt">// creates a KeyValue</span>
+assert(kv1 instanceof KeyValue);
+assert(kv1.interpolate == Interpolator.LINEAR);    <span class="cmt">// default <span class="idf">Interpolator</span></span>
+
+def kv2  = b =&gt; 50.0 <em>tween Interpolator.EASEBOTH</em>;  <span class="cmt">// sets <span class="idf">Interpolator</span></span>
+assert(kv2 instanceof KeyValue);
+assert(kv2.interpolate == Interpolator.EASEBOTH);
+</code></pre></div></div><div class="subSecRow2" id="sec_keyframe"><div class="subSecHead" id="sechd_keyframe"><a class="multipageHeadLink" href="guifeatures.xhtml#keyframe" name="keyframe">KeyFrame</a><br/>(<a href="#" id="tl-d2703e4024" class="dottedTooltip" onclick="return tlClick('tl-d2703e4024','pp-d2703e4029');" onmouseover="return tlOver('tl-d2703e4024','pp-d2703e4029');" onmouseout="return tlOut('tl-d2703e4024','pp-d2703e4029');">more</a>)
+		</div><div class="subSecContent" id="seccnt_keyframe"><pre class="subSecCode"><code>import javafx.animation.*;
+var x = 0;
+def kf1 = <em>at(0s) { x =&gt; 0 }</em>;
+assert(kf1 instanceof KeyFrame);
+assert(kf1.time == 0s);
+assert(sizeof kf1.values == 1);         <span class="cmt">// contains <span class="idf">x =&gt; 0</span></span>
+
+var y = 10; var z = 5;
+def kf2 = <em>at(10s) { y =&gt; 0; z =&gt; 10 }</em>;  <span class="cmt">// <span class="idf">KeyFrame</span> with two <span class="idf">KeyValues</span></span>
+assert(kf2 instanceof KeyFrame);
+assert(kf2.time == 10s);
+assert(sizeof kf2.values == 2);         <span class="cmt">// contains <span class="idf">[y =&gt; 0, z =&gt; 10]</span></span>
+</code></pre></div></div><div class="subSecRow1" id="sec_localizedstrings"><div class="subSecHead" id="sechd_localizedstrings"><a class="multipageHeadLink" href="guifeatures.xhtml#localizedstrings" name="localizedstrings">Localized Strings</a></div><div class="subSecContent" id="seccnt_localizedstrings"><p class="subSecExplanation">JavaFX allows the localization of Strings in the source code. It will automatically look up translations of all localized strings. For this you need to provide a property file with translation for every supported language and every script file. For example, if you store your script in a file called <span class="idf">myscript.fx</span>, and you want to provide French (international 2-letter-code 'fr') and German ('de') translations, you also need two files <span class="idf">myscript_fr.fxproperties</span> and <span class="idf">myscript_de.fxproperties</span>. The format of the file is shown below.</p><pre class="subSecCode"><code>def greetingMorning = <em>##</em>"Good Morning";                <span class="cmt">// <span class="idf">##</span> marks string as localized</span>
+def greetingEvening = ##<em>[greetEvening]</em>"Good Evening";  <span class="cmt">// string named 'greetEvening'</span>
+
+<em>Content of myscript_de.properties:</em>
+"Good Morning" = "Guten Morgen"
+"greetEvening" = "Guten Abend"
+</code></pre></div></div></div><div id="sidecolumn">
+  	<div><h3>Useful Links</h3><div class="sidecolumnSubTitleLine"/>
+  			<a href="http://www.javafx.com">JavaFX.com</a><br/>
+  			<a href="http://openjfx.java.sun.com/current-build/doc/reference/JavaFXReference.html">JavaFX Reference</a><br/>
+  			<a href="http://java.sun.com/javafx/1.2/docs/api/">JavaFX 1.2 APIs</a><br/>
+  			<a href="http://java.sun.com/javafx/reference/">Sun JavaFX Documentation</a><br/>
+  			<a href="http://learnjavafx.typepad.com/">James Weaver's JavaFX Blog</a><br/>
+  		</div>
+  </div></div></div><div id="footer"><div id="footer-content"><div id="footer-left"><div class="footerLine"><a href="/">Home</a> - <a href="/about">About Jarfiller</a> - <a href="/imprint.xhtml">Imprint</a></div><div class="footerLine">Please send feedback and corrections to <a href="mailto:tim@tjansen.de">tim@<span style="display: none">got you</span>tjansen.de</a>.</div><div class="footerLine"><a href="http://www.twitter.com/timjansen">Follow</a> me on Twitter.</div><div class="copyrightLine">© 2010 Tim Jansen; content licensed under <a href="http://creativecommons.org/licenses/by/3.0/us/">cc-by</a>; example source code is public domain
+				</div></div><div id="footer-right"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="../../images/ext/cc-by-88x31.png"/></a></div></div></div><div id="navbar" onclick="return navToggle();" onmouseover="document.getElementById('navbar').className='mouseover';" onmouseout="document.getElementById('navbar').className='';"/><div id="navcontainer"><div id="navlinks"><div id="navclosebar"><a href="#" onclick="return navClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="navpositionbar" class="navpositionbar"/><h2 id="navtitle">JavaFX Script Reference</h2><a id="nav_basictypes" class="navseclink" href="#basictypes" onclick="if (event.button == 0) return goTo('#basictypes', true); else return true;">Basic Types</a><a id="nav_booleans" class="navsublink" href="#booleans" onclick="if (event.button == 0) return goTo('#booleans', true); else return true;">Booleans and Comparisons</a><a id="nav_variables" class="navsublink" href="#variables" onclick="if (event.button == 0) return goTo('#variables', true); else return true;">Variables</a><a id="nav_integers" class="navsublink" href="#integers" onclick="if (event.button == 0) return goTo('#integers', true); else return true;">Integers</a><a id="nav_numbers" class="navsublink" href="#numbers" onclick="if (event.button == 0) return goTo('#numbers', true); else return true;">Numbers (float)</a><a id="nav_strings" class="navsublink" href="#strings" onclick="if (event.button == 0) return goTo('#strings', true); else return true;">Strings</a><a id="nav_duration" class="navsublink" href="#duration" onclick="if (event.button == 0) return goTo('#duration', true); else return true;">Duration</a><a id="nav_sequences" class="navseclink" href="#sequences" onclick="if (event.button == 0) return goTo('#sequences', true); else return true;">Sequences</a><a id="nav_creatingseqs" class="navsublink" href="#creatingseqs" onclick="if (event.button == 0) return goTo('#creatingseqs', true); else return true;">Creating sequences</a><a id="nav_seqreadbyslice" class="navsublink" href="#seqreadbyslice" onclick="if (event.button == 0) return goTo('#seqreadbyslice', true); else return true;">Reading by index / slice</a><a id="nav_seqwriteindexslice" class="navsublink" href="#seqwriteindexslice" onclick="if (event.button == 0) return goTo('#seqwriteindexslice', true); else return true;">Writing by index / slice</a><a id="nav_seqselect" class="navsublink" href="#seqselect" onclick="if (event.button == 0) return goTo('#seqselect', true); else return true;">Sequence Select Clause</a><a id="nav_seqinsert" class="navsublink" href="#seqinsert" onclick="if (event.button == 0) return goTo('#seqinsert', true); else return true;">Insert / Delete</a><a id="nav_conditionalsandloops" class="navseclink" href="#conditionalsandloops" onclick="if (event.button == 0) return goTo('#conditionalsandloops', true); else return true;">Conditionals and Loops</a><a id="nav_ifthenelse" class="navsublink" href="#ifthenelse" onclick="if (event.button == 0) return goTo('#ifthenelse', true); else return true;">if then else</a><a id="nav_for" class="navsublink" href="#for" onclick="if (event.button == 0) return goTo('#for', true); else return true;">for</a><a id="nav_while" class="navsublink" href="#while" onclick="if (event.button == 0) return goTo('#while', true); else return true;">while</a><a id="nav_break" class="navsublink" href="#break" onclick="if (event.button == 0) return goTo('#break', true); else return true;">break</a><a id="nav_continue" class="navsublink" href="#continue" onclick="if (event.button == 0) return goTo('#continue', true); else return true;">continue</a><a id="nav_indexof" class="navsublink" href="#indexof" onclick="if (event.button == 0) return goTo('#indexof', true); else return true;">indexof</a><a id="nav_functions" class="navseclink" href="#functions" onclick="if (event.button == 0) return goTo('#functions', true); else return true;">Functions</a><a id="nav_funcdefinition" class="navsublink" href="#funcdefinition" onclick="if (event.button == 0) return goTo('#funcdefinition', true); else return true;">Defining and Calling</a><a id="nav_closures" class="navsublink" href="#closures" onclick="if (event.button == 0) return goTo('#closures', true); else return true;">Closures and Anonymous Functions</a><a id="nav_classes" class="navseclink" href="#classes" onclick="if (event.button == 0) return goTo('#classes', true); else return true;">Classes</a><a id="nav_classdef" class="navsublink" href="#classdef" onclick="if (event.button == 0) return goTo('#classdef', true); else return true;">Definition and Instantiating</a><a id="nav_objectinit" class="navsublink" href="#objectinit" onclick="if (event.button == 0) return goTo('#objectinit', true); else return true;">Object Initialization</a><a id="nav_complextrees" class="navsublink" href="#complextrees" onclick="if (event.button == 0) return goTo('#complextrees', true); else return true;">Complex Object Trees</a><a id="nav_objecteq" class="navsublink" href="#objecteq" onclick="if (event.button == 0) return goTo('#objecteq', true); else return true;">Object Equality</a><a id="nav_inheritance" class="navsublink" href="#inheritance" onclick="if (event.button == 0) return goTo('#inheritance', true); else return true;">Inheritance</a><a id="nav_mixins" class="navsublink" href="#mixins" onclick="if (event.button == 0) return goTo('#mixins', true); else return true;">Mixins</a><a id="nav_abstract" class="navsublink" href="#abstract" onclick="if (event.button == 0) return goTo('#abstract', true); else return true;">Abstract</a><a id="nav_bindings" class="navseclink" href="#bindings" onclick="if (event.button == 0) return goTo('#bindings', true); else return true;">Bindings</a><a id="nav_varbindings" class="navsublink" href="#varbindings" onclick="if (event.button == 0) return goTo('#varbindings', true); else return true;">Variable Bindings</a><a id="nav_funcbound" class="navsublink" href="#funcbound" onclick="if (event.button == 0) return goTo('#funcbound', true); else return true;">Functions / bound</a><a id="nav_bindobjs" class="navsublink" href="#bindobjs" onclick="if (event.button == 0) return goTo('#bindobjs', true); else return true;">Objects</a><a id="nav_exceptions" class="navseclink" href="#exceptions" onclick="if (event.button == 0) return goTo('#exceptions', true); else return true;">Exceptions (try/catch/finally)</a><a id="nav_throwcatch" class="navsublink" href="#throwcatch" onclick="if (event.button == 0) return goTo('#throwcatch', true); else return true;">Throwing and Catching</a><a id="nav_finally" class="navsublink" href="#finally" onclick="if (event.button == 0) return goTo('#finally', true); else return true;">finally</a><a id="nav_interop" class="navseclink" href="#interop" onclick="if (event.button == 0) return goTo('#interop', true); else return true;">Java Interoperability</a><a id="nav_interop1" class="navsublink" href="#interop1" onclick="if (event.button == 0) return goTo('#interop1', true); else return true;"/><a id="nav_packagesandaccessmods" class="navseclink" href="#packagesandaccessmods" onclick="if (event.button == 0) return goTo('#packagesandaccessmods', true); else return true;">Packages and Access Modifiers</a><a id="nav_packages" class="navsublink" href="#packages" onclick="if (event.button == 0) return goTo('#packages', true); else return true;">Packages</a><a id="nav_accessmods" class="navsublink" href="#accessmods" onclick="if (event.button == 0) return goTo('#accessmods', true); else return true;">Access Modifier</a><a id="nav_guifeatures" class="navseclink" href="#guifeatures" onclick="if (event.button == 0) return goTo('#guifeatures', true); else return true;">GUI Features</a><a id="nav_keyvalue" class="navsublink" href="#keyvalue" onclick="if (event.button == 0) return goTo('#keyvalue', true); else return true;">KeyValue</a><a id="nav_keyframe" class="navsublink" href="#keyframe" onclick="if (event.button == 0) return goTo('#keyframe', true); else return true;">KeyFrame</a><a id="nav_localizedstrings" class="navsublink" href="#localizedstrings" onclick="if (event.button == 0) return goTo('#localizedstrings', true); else return true;">Localized Strings</a></div></div><div id="popups"><div id="pp-d2703e32" class="tooltip"><span class="idf">true</span> and <span class="idf">false</span> are literals for boolean values. Boolean variables can not be <span class="idf">null</span>.<br/> JavaFX uses the typical C/Java equality and relational operators, like <span class="idf">==</span>, <span class="idf">!=</span>, <span class="idf">&gt;=</span> etc. However, unlike Java, the <span class="idf">==</span> operator always tests equality, never identity. To check identity, use the built-in function isSameObject(:Object, :Object).</div><div id="pp-d2703e66" class="tooltip">This reference is based on an imaginary method called <span class="idf">assert()</span>. In this reference, <span class="idf">assert()</span> is always called with an argument that is <span class="idf">true</span>. Please note that <span class="idf">assert()</span> does not exist in JavaFX, and can not be implemented, since <span class="idf">assert</span> is a reserved keyword in JavaFX.</div><div id="pp-d2703e119" class="tooltip">The <span class="idf">and</span> operator works like Java's <span class="idf">&amp;&amp;</span>: the second expression will only be evaluated if the first one was <span class="idf">true</span>. Otherwise it returns <span class="idf">false</span> immediately.</div><div id="pp-d2703e148" class="tooltip">The <span class="idf">or</span> operator works like Java's <span class="idf">||</span>: the second expression will only be evaluated if the first one was <span class="idf">false</span>. Otherwise it returns <span class="idf">true</span> immediately.</div><div id="pp-d2703e235" class="tooltip">Actually the <span class="idf">==</span> and <span class="idf">!=</span> operators call the method <span class="idf">equals</span> on the object. Thus they work on all classes that implement them. If class does not implement <span class="idf">equals</span>, the default implementation is taken. It only returns <span class="idf">true</span> of both expressions refer to the same object.</div><div id="pp-d2703e266" class="tooltip">JavaFX supports two types of variable definitions: <span class="idf">def</span> defines a variable that can not be modified after initialization (like <span class="idf">final</span> in Java). <span class="idf">var</span> is a normal modifiable variable.<br/> The type of variables does not need to be declared. If not set, JavaFX tries to guess the type from the initialization.</div><div id="pp-d2703e333" class="tooltip">JavaFX Script uses type inference for all variables that do not specify a type. This means that the variable has the type of the value that you initialized it with, and can only store variables that are compatible to that type. If you want to store other types in a variable, you have to define it differently.</div><div id="pp-d2703e358" class="tooltip">If you want to be able to store different types of values or objects in a variable, you most declare it as a common super type of the values. <span class="idf">Object</span> is the root type and super class of all values and objects.</div><div id="pp-d2703e378" class="tooltip">The built-in types like Integer, Number and Boolean must not be null. String and all regular objects can be null. </div><div id="pp-d2703e418" class="tooltip"><span class="idf">Integer</span> is the typical 32 bit signed integer value, like Java's <span class="idf">int</span>.</div><div id="pp-d2703e610" class="tooltip"><span class="idf">Number</span> is a floating point number. Since JavaFX 1.1 it uses Java's <span class="idf">float</span> (earlier versions use <span class="idf">double</span>).</div><div id="pp-d2703e805" class="tooltip"><span class="idf">String</span> is a unicode string. Null and empty strings are the same.</div><div id="pp-d2703e841" class="tooltip">JavaFX supports the usual backslash escapes known from Java and C in both single- and double-quoted strings, like \n, \r, \t, \\... In addition to them, \{ and \} are used to escape curly braces.</div><div id="pp-d2703e903" class="tooltip"><span class="idf">Duration</span> represents an amount of time. Its literals allow to specify in milliseconds, seconds, minutes or hours. </div><div id="pp-d2703e1033" class="tooltip">Sequences are basically variable-length arrays. Null is the same as an empty sequence.</div><div id="pp-d2703e1108" class="tooltip">It is not possible to have a sequence containing other sequences. Sequences are flattened, inner sequences will be merged into the outer sequence.</div><div id="pp-d2703e1158" class="tooltip">Elements of sequences can be accessed using square brackets, like arrays in Java and C. However, using the <span class="idf">..</span> notation you can also create a slice of the original sequence.</div><div id="pp-d2703e1228" class="tooltip">Writing to sequence elements uses the same syntax as reading. You can set single elements as well as replace whole slices of the original sequence.</div><div id="pp-d2703e1343" class="tooltip">The select clause allows you to create a new sequence by filtering an existing one.</div><div id="pp-d2703e1380" class="tooltip"><span class="idf">insert</span> and <span class="idf">delete</span> are convenience statements for the manipulation of sequences. <span class="idf">insert</span> allows you to add single elements or sequences, and <span class="idf">delete</span> can remove them.</div><div id="pp-d2703e1513" class="tooltip"><span class="idf">if/then/else</span> work almost like in any other language. However, unlike in Java, if you have an <span class="idf">else</span> it also returns a value. This replaces Java's ternary operator (<span class="idf">a ? b : c</span>).</div><div id="pp-d2703e1631" class="tooltip"><span class="idf">for</span> iterates over a sequence or a Java <span class="idf">Iterable</span>. The iteration variable (before <span class="idf">in</span>) is automatically declared for the scope of the <span class="idf">for</span> loop (variables of the same name outside the <span class="idf">for</span> scope will not be modified). The code block following the <span class="idf">for</span> will be executed once for each element of the sequence or <span class="idf">Iterable</span>.<br/> In JavaFX, <span class="idf">for</span> is not a stand-alone statement, but an expression that returns a sequence containing the return values of the executed blocks.<br/> The execution of a <span class="idf">for</span> loop can be interrupted using <span class="idf">break</span>.</div><div id="pp-d2703e1723" class="tooltip">if there are two or more <span class="idf">in</span>-clauses in a <span class="idf">for</span> loop, the right-most clause is the inner loop.</div><div id="pp-d2703e1778" class="tooltip"><span class="idf">while</span> in JavaFX works like in most other languages: first the boolean argument given in parentheses is evaluated. If it is true, the following code block is executed and afterwards it starts all over again. As soon as the argument is false, <span class="idf">while</span> skips the rest of the block and the program continues with the following statement.<br/> The execution of a <span class="idf">for</span> loop can be interrupted using <span class="idf">break</span>.</div><div id="pp-d2703e1832" class="tooltip"><span class="idf">break</span> can be used to abort the execution of the innermost <span class="idf">for</span> or <span class="idf">while</span> loop.</div><div id="pp-d2703e1912" class="tooltip"><span class="idf">continue</span> can be used to skip the remaining code of the innermost <span class="idf">for</span> or <span class="idf">while</span> loop, and to start the next iteration.</div><div id="pp-d2703e1991" class="tooltip"><span class="idf">indexof</span> is a special operator that only works with the iteration variable of <span class="idf">for</span> loops and the sequence select clause. It is returns the current index (the first index is 0).</div><div id="pp-d2703e2029" class="tooltip">The <span class="idf">function</span> statement allows defining functions both at the script level as well as in classes. Functions can define any number input arguments, but can return only one value and have no output or reference parameters.<br/> A function returns the value of the last executed statement. Alternatively, you can also use the <span class="idf">return</span> statement to specify the return value explicitly or end the function at any time.</div><div id="pp-d2703e2135" class="tooltip">Using the <span class="idf">function</span> keyword you can define a function in any expression. The function is a real closure, and thus can use and modify all variables that were defined at the scope of its declaration.</div><div id="pp-d2703e2201" class="tooltip">Classes can have variables and functions, just like you can define at the top-level of your script.<br/> Unlike Java and many other languages, there is no constructors in JavaFX. Instead JavaFX allows you to set the properties of the new object during the initialization.</div><div id="pp-d2703e2250" class="tooltip">This syntax creates a new object of the given class and provides values for the specified properties. It is also called <em>object literal</em>.<br/>The equivalent using the traditional constructor syntax is:<br/> <span class="plainCode">
+   def a = new Person();
+   a.firstName = "John";
+   a.lastName = "Doe";
+				</span><br/></div><div id="pp-d2703e2349" class="tooltip">JavaFX does not have constructors, but its classes can have two special blocks called <span class="idf">init</span> and <span class="idf">postinit</span> that will be called after the initialization of the object's variables.<br/> In a class hierarchy, the <span class="idf">init</span> blocks are executed first, starting with the top-most class. After all <span class="idf">init</span> blocks are done, the <span class="idf">postinit</span> blocks will be executed in the same order. </div><div id="pp-d2703e2420" class="tooltip">An essential part of JavaFX's charm is that JavaFX makes it really easy to create complex object trees by combining object literal and sequence logic.</div><div id="pp-d2703e2542" class="tooltip">In order to use the <span class="idf">==</span> operator to compare two objects, you need to implement the <span class="idf">equals</span> method, just like in Java.<br/> If the <span class="idf">equals</span> method is not defined, the <span class="idf">==</span> operator returns only true of both sides point to the same object.</div><div id="pp-d2703e2648" class="tooltip">A JavaFX class can extend from exactly one Java or JavaFX classes, as well as any number of mixins and Java interfaces. A class can override the methods and variables of the its super-classes.</div><div id="pp-d2703e2809" class="tooltip">A mixin is a class that can be extended to add functionality to another class. A class can extend more than one mixin (but not more than one regular class). <br/> You can think of mixins as a Java-like interface, only with default implementations and the ability to add variables. Mixins can only be extended (or, rather mixed into other classes), but not instantiated on their own.</div><div id="pp-d2703e2899" class="tooltip">An <span class="idf">abstract</span> method is a method that has only a signature defined, but no body. The body must be defined in a sub-class that overrides the abstract class.<br/> Classes that contain <span class="idf">abstract</span> methods must be declared as <span class="idf">abstract</span> (any other class can be <span class="idf">abstract</span> as well). Abstract classes can not be instantiated directly, only their sub-classes.</div><div id="pp-d2703e2982" class="tooltip">Variable bindings allow you to define variables that automatically assume the value of another variable or expression. It is not possible to modify a bound variable.</div><div id="pp-d2703e3060" class="tooltip"> Please note that the recalculation of a bound expression is lazy. If only one part of the expression changes, only this part will be recalculated. This is important for side-effects in more complicated bound expressions.</div><div id="pp-d2703e3123" class="tooltip">When binding functions, you need to differentiate between plain binding and binding with the <span class="idf">bound</span> keyword. In the former case, the function will be reevaluated if one of its argument changes. With the <span class="idf">bound</span> keyword, the function will also be reevaluated if any of the variables used in the function have changed.</div><div id="pp-d2703e3251" class="tooltip">You can use the <span class="idf">bind</span> operator to bind whole objects. Every time one of the arguments used to create the object changes, a new instance will be created.</div><div id="pp-d2703e3352" class="tooltip">Exception in JavaFX work exactly like in Java, with one exception: all exceptions are unchecked, thus you don't need to declare them in methods. The <span class="idf">throw</span> and <span class="idf">try</span>/<span class="idf">catch</span>/<span class="idf">finally</span> statements exist in JavaFX as well. Like in Java, every exception must be a <span class="idf">Throwable</span>.</div><div id="pp-d2703e3387" class="tooltip">You can define your own exceptions in JavaFX. All your classes need to do is extend from Java's <span class="idf">java.lang.Throwable</span> or one of its subclasses, such as <span class="idf">java.lang.Exception</span>.</div><div id="pp-d2703e3536" class="tooltip"><span class="idf">finally</span> in a <span class="idf">try</span> statement defines a code block that will always be executed after the <span class="idf">try</span> statement has left, no matter how it has been left. Even if the <span class="idf">try</span> block throws an exception or <span class="idf">return</span>s from the function, the <span class="idf">finally</span> will always run.</div><div id="pp-d2703e3712" class="tooltip"><span class="idf">delete</span> is a keyword in JavaFX and thus it is not possible to easily call a method called <span class="idf">delete</span>. In order to be able to use all Java methods and fields, even if they use JavaFX keywords, this syntax can be used to escape those words.</div><div id="pp-d2703e3965" class="tooltip">The <span class="idf">KeyValue</span> object is used in JavaFX animations to specify a value for a variable at a certain time, as well as the kind of interpolation used for the transition. <span class="idf">KeyValue</span>s are almost always part of a <span class="idf">KeyFrame</span>.</div><div id="pp-d2703e4029" class="tooltip">The <span class="idf">KeyFrame</span> object is used in JavaFX animations to specify <span class="idf">KeyValue</span>s at the specified time of an animation. <span class="idf">KeyFrame</span>s are usually part of a <span class="idf">Timeline</span> which will interpolate the values between the frames.</div><div id="ttCloseBar" class="closeBar"><a href="#" onclick="return tlClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div><div id="topicCloseBar" class="closeBar"><a href="#" onclick="return tpcClose();"><img src="../../images/close.png" height="16" width="16" alt="close"/></a></div></div></body></html>
